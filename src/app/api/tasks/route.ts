@@ -18,13 +18,3 @@ export async function POST(request: Request) {
   const newTask = await prisma.task.create({ data });
   return NextResponse.json(newTask);
 }
-
-export async function DELETE(request: Request) {
-  const { id } = await request.json();
-  const task = await prisma.task.delete({
-    where: {
-      id,
-    },
-  });
-  return NextResponse.json(task);
-}

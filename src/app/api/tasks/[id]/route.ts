@@ -33,3 +33,15 @@ export async function PATCH(
   });
   return NextResponse.json(editedTask);
 }
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: number } }
+) {
+  const task = await prisma.task.delete({
+    where: {
+      id: Number(params.id),
+    },
+  });
+  return NextResponse.json(task);
+}

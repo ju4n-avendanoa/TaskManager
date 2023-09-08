@@ -1,8 +1,7 @@
 "use client";
 
-import { axiosInstance } from "@/app/layout";
 import { useState, useEffect } from "react";
-import { AxiosResponse } from "axios";
+
 import {
   TrashIcon,
   PencilSquareIcon,
@@ -30,9 +29,9 @@ function TasksList() {
   const router = useRouter();
 
   useEffect(() => {
-    axiosInstance
-      .get("/")
-      .then((response: AxiosResponse<Tasks[]>) => setTasks(response.data));
+    fetch("http://localhost:3000/api/tasks")
+      .then((response) => response.json())
+      .then((response) => setTasks(response));
   }, []);
 
   useEffect(() => {
@@ -40,9 +39,10 @@ function TasksList() {
   }, [favorites]);
 
   const handleDelete = async (id: number) => {
-    await axiosInstance.delete("/", {
-      data: {
-        id,
+    await fetch(`http://localhost:3000/api/tasks/${id}`, {
+      method: "DELETE", // Método HTTP DELETE
+      headers: {
+        "Content-Type": "application/json",
       },
     });
     setFavorites((prevFavorites) =>

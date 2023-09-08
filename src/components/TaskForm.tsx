@@ -1,6 +1,5 @@
 "use client";
 
-import { axiosInstance } from "@/app/layout";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -26,23 +25,21 @@ function TaskForm({ title, description, setDescription, setTitle, id }: Props) {
 
     try {
       if (id) {
-        await axiosInstance.patch(`/${id}`, {
-          title,
-          description,
+        await fetch(`http://localhost:3000/api/tasks/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title, description }),
         });
       } else {
-        await axiosInstance.post(
-          "/",
-          {
-            title,
-            description,
+        await fetch("http://localhost:3000/api/tasks", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+          body: JSON.stringify({ title, description }),
+        });
       }
     } catch (error) {
       console.log(error);
