@@ -12,11 +12,11 @@ function CreateTask({ params }: { params: { id: number } }) {
 
   useEffect(() => {
     if (!params.id) return;
-    axiosInstance
-      .get("/" + params.id)
-      .then((response: AxiosResponse<Tasks>) => {
-        setDescription(response.data.description);
-        setTitle(response.data.title);
+    fetch(`https://todolist-drab-ten.vercel.app/api/tasks/${params.id}`)
+      .then((response) => response.json())
+      .then((response) => {
+        setDescription(response.description);
+        setTitle(response.title);
       });
   }, [params.id]);
 

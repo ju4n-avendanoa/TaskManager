@@ -29,9 +29,13 @@ function TasksList() {
   const router = useRouter();
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/tasks")
-      .then((response) => response.json())
-      .then((response) => setTasks(response));
+    try {
+      fetch("https://todolist-drab-ten.vercel.app/api/tasks")
+        .then((response) => response.json())
+        .then((response) => setTasks(response));
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   useEffect(() => {
@@ -39,16 +43,20 @@ function TasksList() {
   }, [favorites]);
 
   const handleDelete = async (id: number) => {
-    await fetch(`http://localhost:3000/api/tasks/${id}`, {
-      method: "DELETE", // Método HTTP DELETE
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    setFavorites((prevFavorites) =>
-      prevFavorites.filter((favId) => id !== favId)
-    );
-    setTasks((prev) => prev.filter((task) => task.id !== id));
+    try {
+      await fetch(`https://todolist-drab-ten.vercel.app/api/tasks/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setFavorites((prevFavorites) =>
+        prevFavorites.filter((favId) => id !== favId)
+      );
+      setTasks((prev) => prev.filter((task) => task.id !== id));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleFav = (taskId: number) => {
@@ -73,11 +81,7 @@ function TasksList() {
         tasks.map((task) => (
           <div
             key={task.id}
-            className={
-              favorites.includes(task.id)
-                ? "bg-sky-950 rounded-lg text-white border border-white w-auto break-all whitespace-normal relative outline outline-2 outline-yellow-400 shadow-md shadow-yellow-400"
-                : "bg-sky-950 rounded-lg text-white border border-white w-auto break-all whitespace-normal relative"
-            }
+            className={favorites.includes(task.id) ? "fav" : "card"}
           >
             {favorites.includes(task.id) ? (
               <StarIcon
