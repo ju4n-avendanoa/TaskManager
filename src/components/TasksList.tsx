@@ -20,9 +20,11 @@ export interface Tasks {
 function TasksList() {
   const [tasks, setTasks] = useState<Tasks[]>([]);
   const [favorites, setFavorites] = useState<number[]>(() => {
-    const localValue = localStorage.getItem("favorites");
-    if (localValue == null) return [];
-    return JSON.parse(localValue);
+    if (typeof window !== "undefined") {
+      const localValue = localStorage.getItem("favorites");
+      if (localValue == null) return [];
+      return JSON.parse(localValue);
+    }
   });
 
   const router = useRouter();
