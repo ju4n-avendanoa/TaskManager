@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+  @apply bg-blue-300 rounded-full w-max py-2 px-4;
+}
+
+.fav {
+}
+
+.card {
+  @apply bg-slate-900 rounded-lg text-white border border-white w-auto break-all whitespace-normal relative;
+}
