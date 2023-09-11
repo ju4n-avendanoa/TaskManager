@@ -2,9 +2,6 @@
 
 import TaskForm from "@/components/TaskForm";
 import React, { useState, useEffect } from "react";
-import { axiosInstance } from "../layout";
-import { AxiosResponse } from "axios";
-import { Tasks } from "@/components/TasksList";
 
 function CreateTask({ params }: { params: { id: number } }) {
   const [description, setDescription] = useState<string>("");
