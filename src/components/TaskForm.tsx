@@ -1,31 +1,34 @@
 "use client";
 
+import { useTaskStore } from "@/store/taskStore";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 interface Props {
   title: string;
   description: string;
-  setDescription: React.Dispatch<React.SetStateAction<string>>;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
   id: number | null;
 }
 
-function TaskForm({ title, description, setDescription, setTitle, id }: Props) {
+function TaskForm({ title, description, id }: Props) {
   const router = useRouter();
+  const { setDescription, setTitle } = useTaskStore();
 
-  const handleChange =
-    (setState: React.Dispatch<React.SetStateAction<string>>) =>
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setState(event.target.value);
-    };
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setDescription(event.target.value);
+  };
 
   const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
       if (id) {
-        await fetch(`https://todolist-drab-ten.vercel.app/api/tasks/${id}`, {
+        await fetch(`https://my-task-organizer.vercel.app/api/tasks/${id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -33,7 +36,7 @@ function TaskForm({ title, description, setDescription, setTitle, id }: Props) {
           body: JSON.stringify({ title, description }),
         });
       } else {
-        await fetch("https://todolist-drab-ten.vercel.app/api/tasks", {
+        await fetch("https://my-task-organizer.vercel.app/api/tasks", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -60,7 +63,7 @@ function TaskForm({ title, description, setDescription, setTitle, id }: Props) {
           name="title"
           id="title"
           value={title}
-          onChange={handleChange(setTitle)}
+          onChange={handleTitleChange}
           placeholder=" title"
           required
         />
@@ -73,7 +76,7 @@ function TaskForm({ title, description, setDescription, setTitle, id }: Props) {
           id="description"
           rows={5}
           value={description}
-          onChange={handleChange(setDescription)}
+          onChange={handleDescriptionChange}
           required
         ></textarea>
         <div className="flex justify-center">
@@ -86,6 +89,8 @@ function TaskForm({ title, description, setDescription, setTitle, id }: Props) {
         className="btn "
         onClick={() => {
           router.push("/");
+          setTitle("");
+          setDescription("");
         }}
       >
         go back

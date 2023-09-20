@@ -7,9 +7,21 @@
 }
 
 .fav {
-  @apply bg-slate-900 rounded-lg text-white border border-yellow-400 w-auto break-all whitespace-normal relative outline outline-2 outline-yellow-400 shadow-md shadow-yellow-400;
+  @apply bg-slate-900 rounded-lg text-white border border-yellow-400 w-auto break-all whitespace-normal outline outline-2 outline-yellow-400 shadow-md shadow-yellow-400;
 }
 
 .card {
-  @apply bg-slate-900 rounded-lg text-white border border-white w-auto break-all whitespace-normal relative;
+  @apply bg-slate-900 rounded-lg text-white border border-white w-auto break-all whitespace-normal;
+}
+
+.star {
+  @apply absolute w-5 top-0 right-1 h-auto rounded-full cursor-pointer;
+}
+
+.edit {
+  @apply absolute w-5 bottom-0 right-7 h-auto bg-blue-500 rounded-full cursor-pointer;
+}
+
+.trash {
+  @apply absolute w-5 bottom-0 right-1 h-auto bg-red-500 rounded-full cursor-pointer;
 }
