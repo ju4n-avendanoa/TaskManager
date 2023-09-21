@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { TaskState, Tasks } from "../app/interfaces/taskInterfaces";
+import { resolve } from "path";
 
 export const useTaskStore = create<TaskState>((set) => {
   let initialFavorites: number[] = [];
