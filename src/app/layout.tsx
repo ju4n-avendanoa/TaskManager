@@ -15,8 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} bg-gray-800`}>
-        <header className="h-1/5 p-5 bg-slate-900 w-full">
+      <body
+        className={`${roboto.className} flex flex-col bg-gray-800 h-screen w-screen`}
+      >
+        <header className="h-auto p-5 bg-slate-900 w-full">
           <NavBar />
         </header>
         {children}

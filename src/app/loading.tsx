@@ -1,7 +1,11 @@
 import React from "react";
 
-function loading() {
-  return <div>loading</div>;
+function Loading() {
+  return (
+    <div className="flex h-screen justify-center items-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-300"></div>
+    </div>
+  );
 }
 
-export default loading;
+export default Loading;

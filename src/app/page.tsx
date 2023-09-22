@@ -1,6 +1,5 @@
 import TasksList from "@/components/TasksList";
 import "../styles/Global.css";
-import NavBar from "@/components/NavBar";
 
 export const revalidate = 0;
 
