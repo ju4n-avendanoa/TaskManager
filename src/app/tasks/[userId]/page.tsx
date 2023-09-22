@@ -1,32 +1,42 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
+import Loading from "@/app/loading";
+import { useTaskStore } from "@/store/taskStore";
+import Task from "@/components/Task";
 
-import TasksList from "@/components/TasksList";
-import { useRouter } from "next/navigation";
-import "../../styles/Global.css";
-import LoadingTasks from "./loading";
+export default function HomePage({ params }: { params: { userId: string } }) {
+  const { tasks, favorites } = useTaskStore((state) => ({
+    tasks: state.tasks,
+    favorites: state.favorites,
+  }));
+  const { getTasks } = useTaskStore();
 
-export default function HomePage() {
-  const router = useRouter();
+  useEffect(() => {
+    getTasks(params.userId);
+  }, [getTasks, params.userId]);
 
-  const handleClick = () => {
-    router.push("/newtask");
-  };
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
   return (
     <>
-      <header className="h-1/5 flex flex-col items-center justify-around gap-4 p-5 bg-slate-900">
-        <h1 className="text-white text-4xl font-bold">Task List</h1>
-        <button onClick={handleClick} className="btn">
-          add new task
-        </button>
-      </header>
-      <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 ">
-        <Suspense fallback={<LoadingTasks />}>
-          <TasksList />
+      {tasks.length === 0 ? (
+        <h2 className="text-white font-bold text-7xl col-span-full text-center">
+          No Tasks Pending
+        </h2>
+      ) : (
+        <Suspense fallback={<Loading />}>
+          <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 ">
+            {tasks.map((task) => (
+              <article key={task.id}>
+                <Task task={task} favorites={favorites} />
+              </article>
+            ))}
+          </main>
         </Suspense>
-      </main>
+      )}
     </>
   );
 }

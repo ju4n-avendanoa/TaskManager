@@ -19,14 +19,16 @@ function Login() {
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await fetch("http://localhost:3000/api/users/login", {
+    const response = await fetch("http://localhost:3000/api/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
     });
-    router.push("/");
+    const data = await response.json();
+    console.log(data.id);
+    router.push(`/tasks/${data.id}`);
     setEmail("");
     setPassword("");
   };

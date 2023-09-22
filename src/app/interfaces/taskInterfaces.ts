@@ -19,7 +19,7 @@ export interface TaskState {
   title: string;
   setDescription: (description: string) => void;
   setTitle: (title: string) => void;
-  getTasks: () => Promise<void>;
+  getTasks: (userId: string) => Promise<void>;
   addFavorite: (id: number) => void;
   deleteFavorites: (id: number) => void;
   deleteTask: (id: number) => void;

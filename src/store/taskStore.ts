@@ -17,11 +17,9 @@ export const useTaskStore = create<TaskState>()((set) => {
     title: "",
     setDescription: (description) => set({ description }),
     setTitle: (title) => set({ title }),
-    getTasks: async () => {
+    getTasks: async (userId) => {
       try {
-        const res = await fetch(
-          "https://my-task-organizer.vercel.app/api/tasks"
-        );
+        const res = await fetch(`http://localhost:3000/api/tasks/${userId}`);
         const tasks = await res.json();
         set((state) => ({
           ...state,
