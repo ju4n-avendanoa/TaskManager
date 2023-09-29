@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { TaskState, UserState } from "../app/interfaces/taskInterfaces";
+import { TaskState } from "@/app/interfaces/taskInterfaces";
+import useLoadingStore from "./loadinStore";
 
 export const useTaskStore = create<TaskState>()((set) => {
   let initialFavorites: number[] = [];
@@ -73,14 +74,3 @@ export const useTaskStore = create<TaskState>()((set) => {
     },
   };
 });
-
-export const useUsersStore = create<UserState>()((set) => ({
-  id: "",
-  name: "",
-  email: "",
-  password: "",
-  setId: (id) => set({ id }),
-  setName: (name) => set({ name }),
-  setEmail: (email) => set({ email }),
-  setPassword: (password) => set({ password }),
-}));

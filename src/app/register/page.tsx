@@ -1,13 +1,12 @@
 "use client";
 
-import { useUsersStore } from "@/store/taskStore";
+import { useUsersStore } from "@/store/userStore";
 import { useRouter } from "next/navigation";
-import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 
 function Register() {
-  const { id, email, password, name } = useUsersStore();
-  const { setId, setName, setEmail, setPassword } = useUsersStore();
+  const { email, password, name } = useUsersStore();
+  const { setName, setEmail, setPassword } = useUsersStore();
 
   const router = useRouter();
 
@@ -23,13 +22,13 @@ function Register() {
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setId(uuidv4());
+
     await fetch("http://localhost:3000/api/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id, name, email, password }),
+      body: JSON.stringify({ name, email, password }),
     });
     router.push("/");
     setName("");

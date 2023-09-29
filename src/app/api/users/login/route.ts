@@ -3,12 +3,12 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-import { User } from "@/app/interfaces/taskInterfaces";
+import { User } from "@/app/interfaces/userInterfaces";
 
 const prisma = new PrismaClient();
 export async function POST(request: Request) {
   const data: User = await request.json();
-  const user = await prisma.users.findFirst({
+  const user = await prisma.users.findUnique({
     where: {
       email: data.email,
     },
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
   );
   const response = NextResponse.json({
     token,
-    id: user.id,
+    user: user,
   });
 
   response.cookies.set({

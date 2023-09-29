@@ -1,14 +1,8 @@
-import jwt from "jsonwebtoken";
+import { jwtVerify } from "jose";
 
-function validateToken(token: string) {
-  const user = jwt.verify(
-    token,
-    process.env.JWT_SECRET as string,
-    (err, user) => {
-      if (err) throw new Error();
-      return user;
-    }
-  );
+async function validateToken(token: string) {
+  const secret = new TextEncoder().encode(process.env.JWT_SECRET as string);
+  const user = await jwtVerify(token, secret);
   return user;
 }
 

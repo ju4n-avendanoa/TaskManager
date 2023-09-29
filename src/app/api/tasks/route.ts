@@ -13,8 +13,8 @@ export async function GET() {
   return NextResponse.json(tasks);
 }
 
-export async function POST(request: Request) {
-  const data: Task = await request.json();
-  const newTask = await prisma.task.create({ data });
-  return NextResponse.json(newTask);
-}
+// export async function POST(request: Request) {
+//   const data: Task = await request.json();
+//   const newTask = await prisma.task.create({ data });
+//   return NextResponse.json(newTask);
+// }

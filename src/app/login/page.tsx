@@ -1,12 +1,14 @@
 "use client";
 
-import { useUsersStore } from "@/store/taskStore";
+import { useUsersStore } from "@/store/userStore";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 function Login() {
   const { email, password } = useUsersStore();
   const { setEmail, setPassword } = useUsersStore();
+
   const router = useRouter();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,16 +21,15 @@ function Login() {
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:3000/api/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
+    const data = {
+      email,
+      password,
+    };
+    const user = await signIn("credentials", {
+      ...data,
+      redirect: false,
     });
-    const data = await response.json();
-    console.log(data.id);
-    router.push(`/tasks/${data.id}`);
+    router.push(`/login`);
     setEmail("");
     setPassword("");
   };

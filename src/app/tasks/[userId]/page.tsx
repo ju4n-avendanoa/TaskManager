@@ -1,9 +1,9 @@
 "use client";
 
 import { Suspense, useEffect } from "react";
-import Loading from "@/app/loading";
 import { useTaskStore } from "@/store/taskStore";
 import Task from "@/components/Task";
+import Loading from "@/app/loading";
 
 export default function HomePage({ params }: { params: { userId: string } }) {
   const { tasks, favorites } = useTaskStore((state) => ({
@@ -22,12 +22,8 @@ export default function HomePage({ params }: { params: { userId: string } }) {
 
   return (
     <>
-      {tasks.length === 0 ? (
-        <h2 className="text-white font-bold text-7xl col-span-full text-center">
-          No Tasks Pending
-        </h2>
-      ) : (
-        <Suspense fallback={<Loading />}>
+      <Suspense fallback={<Loading />}>
+        {
           <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 ">
             {tasks.map((task) => (
               <article key={task.id}>
@@ -35,8 +31,8 @@ export default function HomePage({ params }: { params: { userId: string } }) {
               </article>
             ))}
           </main>
-        </Suspense>
-      )}
+        }
+      </Suspense>
     </>
   );
 }

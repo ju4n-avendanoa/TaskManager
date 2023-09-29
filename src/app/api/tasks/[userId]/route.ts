@@ -17,7 +17,6 @@ export async function GET(
       userId: params.userId,
     },
   });
-  console.log(tasks);
   return NextResponse.json(tasks);
 }
 
