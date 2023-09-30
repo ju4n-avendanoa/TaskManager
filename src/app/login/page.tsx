@@ -25,11 +25,11 @@ function Login() {
       email,
       password,
     };
-    const user = await signIn("credentials", {
+    await signIn("credentials", {
       ...data,
       redirect: false,
     });
-    router.push(`/login`);
+    router.push("/tasks");
     setEmail("");
     setPassword("");
   };

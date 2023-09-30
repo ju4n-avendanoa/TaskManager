@@ -10,7 +10,6 @@ function NavBar() {
   const { data: session } = useSession();
   const handleLogOut = async () => {
     signOut({ callbackUrl: "/" });
-    router.push("/");
   };
   return (
     <nav className="flex items-center justify-between">
@@ -29,7 +28,7 @@ function NavBar() {
       </div>
       {session && (
         <ul className="flex gap-5 text-white">
-          <Link href={`/tasks/${session!.user!.id}`}>
+          <Link href={`/tasks/${session!.user?.id}`}>
             <li className="border border-white py-2 px-4 hover:bg-blue-800">
               My tasks
             </li>

@@ -22,11 +22,12 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const user = await prisma.users.findFirst({
+        const user = await prisma.users.findUnique({
           where: {
             email: credentials!.email,
           },
         });
+
         if (!user) return null;
         const passOk = await bcrypt.compare(
           credentials!.password,
@@ -37,13 +38,8 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
-  secret: process.env.JWT_SECRET as string,
-  debug: process.env.NODE_ENV === "development",
   callbacks: {
-    async jwt({ session, token, user }) {
+    async jwt({ token, user, session }) {
       if (user) {
         return {
           ...token,
@@ -57,11 +53,16 @@ export const authOptions: AuthOptions = {
         ...session,
         user: {
           ...session.user,
-          id: token.id,
+          id: token?.id,
         },
       };
     },
   },
+  secret: process.env.JWT_SECRET as string,
+  session: {
+    strategy: "jwt",
+  },
+  debug: process.env.NODE_ENV === "development",
 };
 
 const handler = NextAuth(authOptions);
