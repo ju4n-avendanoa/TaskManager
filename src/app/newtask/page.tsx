@@ -9,7 +9,7 @@ function CreateTask({ params }: { params: { id: number } }) {
 
   useEffect(() => {
     if (!params.id) return;
-    fetch(`https://my-task-organizer.vercel.app/api/tasks/${params.id}`)
+    fetch(`https://localhost:3000/api/tasks/${params.id}`)
       .then((response) => response.json())
       .then((response) => {
         setDescription(response.description);

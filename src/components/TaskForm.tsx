@@ -80,13 +80,16 @@ function TaskForm({ title, description, id }: Props) {
           required
         ></textarea>
         <div className="flex justify-center">
-          <button type="submit" className="btn">
+          <button
+            type="submit"
+            className="bg-blue-300 rounded-lg w-full py-2 px-4 mt-2"
+          >
             add task
           </button>
         </div>
       </form>
       <button
-        className="btn "
+        className="bg-blue-300 rounded-lg w-full py-2 px-4 my-2"
         onClick={() => {
           router.push("/");
           setTitle("");

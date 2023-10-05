@@ -4,6 +4,7 @@ import { Suspense, useEffect } from "react";
 import { useTaskStore } from "@/store/taskStore";
 import Task from "@/components/Task";
 import Loading from "@/app/loading";
+import { useSession } from "next-auth/react";
 
 export default function HomePage({ params }: { params: { userId: string } }) {
   const { tasks, favorites } = useTaskStore((state) => ({
@@ -12,13 +13,12 @@ export default function HomePage({ params }: { params: { userId: string } }) {
   }));
   const { getTasks } = useTaskStore();
 
-  useEffect(() => {
-    getTasks(params.userId);
-  }, [getTasks, params.userId]);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
+    console.log(status);
+    getTasks(params.userId);
+  }, [getTasks, params.userId, status]);
 
   return (
     <>

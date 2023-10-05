@@ -3,10 +3,14 @@
 import { useUsersStore } from "@/store/userStore";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useErrorStore } from "@/store/errorStore";
+import { useEffect } from "react";
 
 function Register() {
   const { email, password, name } = useUsersStore();
   const { setName, setEmail, setPassword } = useUsersStore();
+  const { error, errorMessage } = useErrorStore();
+  const { setErrorMessage, setError } = useErrorStore();
 
   const router = useRouter();
 
@@ -23,18 +27,30 @@ function Register() {
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await fetch("http://localhost:3000/api/users/register", {
+    const res = await fetch("http://localhost:3000/api/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name, email, password }),
     });
-    router.push("/");
+    const response = await res.json();
+    if (res.status === 409) {
+      setError(true);
+      setErrorMessage(response.error);
+      router.refresh();
+    } else {
+      setError(false);
+      router.push("/");
+    }
     setName("");
     setEmail("");
     setPassword("");
   };
+
+  useEffect(() => {
+    setError(false);
+  }, [setError]);
 
   return (
     <div className="flex grow flex-col gap-6 items-center justify-center">
@@ -91,6 +107,11 @@ function Register() {
           </p>
         </div>
       </form>
+      {error && (
+        <div className="bg-red-500 rounded-2xl p-4">
+          <p className="text-white">{errorMessage}</p>
+        </div>
+      )}
     </div>
   );
 }

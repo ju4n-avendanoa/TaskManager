@@ -4,10 +4,13 @@ import { useUsersStore } from "@/store/userStore";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { useErrorStore } from "@/store/errorStore";
 
 function Login() {
   const { email, password } = useUsersStore();
   const { setEmail, setPassword } = useUsersStore();
+  const { error, errorMessage } = useErrorStore();
+  const { setErrorMessage, setError } = useErrorStore();
 
   const router = useRouter();
 
@@ -25,15 +28,20 @@ function Login() {
       email,
       password,
     };
-    await signIn("credentials", {
+    const res = await signIn("credentials", {
       ...data,
       redirect: false,
     });
-    router.push("/tasks");
+    if (res?.error) {
+      setError(true);
+      router.refresh();
+    } else {
+      setError(false);
+      router.push("/");
+    }
     setEmail("");
     setPassword("");
   };
-
   return (
     <div className="flex grow flex-col gap-6 items-center justify-center">
       <h2 className="text-white font-bold text-4xl">Log In</h2>
@@ -47,7 +55,7 @@ function Login() {
         <input
           type="email"
           id="email"
-          className="rounded-lg h-8"
+          className="h-10 bg-transparent border border-white text-white"
           onChange={handleEmailChange}
           value={email}
         />
@@ -57,7 +65,7 @@ function Login() {
         <input
           type="password"
           id="'password"
-          className="rounded-lg h-8"
+          className="h-10 bg-transparent border border-white text-white"
           onChange={handlePasswordChange}
           value={password}
         />
@@ -76,6 +84,11 @@ function Login() {
           </p>
         </div>
       </form>
+      {error && (
+        <div className="bg-red-500 rounded-2xl p-4">
+          <p className="text-white">User credentials are invalid</p>
+        </div>
+      )}
     </div>
   );
 }
