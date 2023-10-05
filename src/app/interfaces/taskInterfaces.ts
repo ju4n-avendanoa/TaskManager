@@ -1,5 +1,5 @@
 export interface Tasks {
-  id: number;
+  id: string;
   title: string;
   description: string;
   createdAt: Date;
@@ -12,7 +12,7 @@ export interface TaskState {
   title: string;
   setDescription: (description: string) => void;
   setTitle: (title: string) => void;
-  getTasks: (userId: string) => Promise<void>;
+  getTasks: (userId: string | undefined) => Promise<void>;
   addFavorite: (id: number) => void;
   deleteFavorites: (id: number) => void;
   deleteTask: (id: number) => void;

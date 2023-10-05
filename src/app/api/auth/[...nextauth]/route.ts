@@ -19,7 +19,11 @@ export const authOptions: AuthOptions = {
       name: "credentials",
       credentials: {
         email: { label: "Email", type: "email", placeholder: "your@email.com" },
-        password: { label: "Password", type: "password" },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "********",
+        },
       },
       async authorize(credentials) {
         const user = await prisma.users.findUnique({

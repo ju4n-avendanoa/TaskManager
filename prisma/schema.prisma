@@ -3,28 +3,23 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
-// datasource db {
-//   provider  = "postgresql"
-//   url       = env("POSTGRES_PRISMA_URL")
-//   directUrl = env("POSTGRES_URL_NON_POOLING")
-// }
 
 model Task {
-  id          String      @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String
-  favorite    Boolean
-  done        Boolean
+  favorite    Boolean @default(false)
+  done        Boolean @default(false)
   createdAt   DateTime @default(now())
   userId      String
   user        Users    @relation(fields: [userId], references: [id])
 }
 
 model Users {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   email     String   @unique
   name      String
   password  String

@@ -2,18 +2,19 @@
 
 import { useTaskStore } from "@/store/taskStore";
 import { useRouter } from "next/navigation";
-import React from "react";
+import { useSession } from "next-auth/react";
 
 interface Props {
   title: string;
   description: string;
-  id: number | null;
+  taskId: string | null;
+  userId: string | undefined;
 }
 
-function TaskForm({ title, description, id }: Props) {
+function TaskForm({ title, description, taskId, userId }: Props) {
   const router = useRouter();
   const { setDescription, setTitle } = useTaskStore();
-
+  const { data: session } = useSession();
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
@@ -27,8 +28,8 @@ function TaskForm({ title, description, id }: Props) {
     event.preventDefault();
 
     try {
-      if (id) {
-        await fetch(`https://my-task-organizer.vercel.app/api/tasks/${id}`, {
+      if (taskId) {
+        await fetch(`http://localhost:3000/api/tasks/${userId}/${taskId}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -36,7 +37,7 @@ function TaskForm({ title, description, id }: Props) {
           body: JSON.stringify({ title, description }),
         });
       } else {
-        await fetch("https://my-task-organizer.vercel.app/api/tasks", {
+        await fetch(`http://localhost:3000/api/tasks/${userId}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -45,7 +46,7 @@ function TaskForm({ title, description, id }: Props) {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log("error");
     }
     router.push("/");
     setTitle("");
@@ -91,7 +92,7 @@ function TaskForm({ title, description, id }: Props) {
       <button
         className="bg-blue-300 rounded-lg w-full py-2 px-4 my-2"
         onClick={() => {
-          router.push("/");
+          router.push(`/tasks/${session?.user.id}`);
           setTitle("");
           setDescription("");
         }}

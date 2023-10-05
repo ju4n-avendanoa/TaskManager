@@ -1,12 +1,8 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { Tasks } from "@/app/interfaces/taskInterfaces";
 
 const prisma = new PrismaClient();
-
-interface Task {
-  title: string;
-  description: string;
-}
 
 export async function GET(
   request: Request,
@@ -20,28 +16,17 @@ export async function GET(
   return NextResponse.json(tasks);
 }
 
-// export async function PATCH(
-//   request: Request,
-//   { params }: { params: { userId: string } }
-// ) {
-//   const data: Task = await request.json();
-//   const editedTask = await prisma.task.update({
-//     where: {
-//       userId: params.userId,
-//     },
-//     data: data,
-//   });
-//   return NextResponse.json(editedTask);
-// }
-
-// export async function DELETE(
-//   request: Request,
-//   { params }: { params: { userId: string } }
-// ) {
-//   const task = await prisma.task.delete({
-//     where: {
-//       userId: params.userId,
-//     },
-//   });
-//   return NextResponse.json(task);
-// }
+export async function POST(
+  request: Request,
+  { params }: { params: { userId: string } }
+) {
+  const data: Tasks = await request.json();
+  const newTask = await prisma.task.create({
+    data: {
+      userId: params.userId,
+      title: data.title,
+      description: data.description,
+    },
+  });
+  return NextResponse.json(newTask);
+}

@@ -1,10 +1,10 @@
 "use client";
 
 import { useUsersStore } from "@/store/userStore";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useErrorStore } from "@/store/errorStore";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Link from "next/link";
 
 function Register() {
   const { email, password, name } = useUsersStore();

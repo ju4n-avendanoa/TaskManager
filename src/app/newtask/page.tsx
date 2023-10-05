@@ -1,25 +1,35 @@
 "use client";
 
-import TaskForm from "@/components/TaskForm";
 import { useTaskStore } from "@/store/taskStore";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import TaskForm from "@/components/TaskForm";
 
-function CreateTask({ params }: { params: { id: number } }) {
+function CreateTask({ params }: { params: { taskId: string } }) {
   const { title, description, setDescription, setTitle } = useTaskStore();
 
+  const { data: session } = useSession();
+
   useEffect(() => {
-    if (!params.id) return;
-    fetch(`https://localhost:3000/api/tasks/${params.id}`)
+    if (!params.taskId) return;
+    fetch(
+      `https://localhost:3000/api/tasks/${session?.user.id}/${params.taskId}}`
+    )
       .then((response) => response.json())
       .then((response) => {
         setDescription(response.description);
         setTitle(response.title);
       });
-  }, [params.id, setDescription, setTitle]);
+  }, [setDescription, setTitle, params.taskId, session?.user.id]);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
-      <TaskForm description={description} title={title} id={params.id} />
+      <TaskForm
+        description={description}
+        title={title}
+        taskId={params.taskId}
+        userId={session?.user.id}
+      />
     </div>
   );
 }
