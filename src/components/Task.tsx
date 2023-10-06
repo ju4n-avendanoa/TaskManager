@@ -12,19 +12,26 @@ interface Props {
 }
 
 function Task({ task }: Props) {
-  const { deleteTask, deleteFavorites, addFavorite } = useTaskStore();
+  const { deleteTask, deleteFavorites, addFavorite, favorites } =
+    useTaskStore();
   const router = useRouter();
 
   const handleDelete = async (id: string) => {
     deleteTask(task.id);
   };
 
-  const handleFav = (taskId: string) => {};
+  const handleFav = (taskId: string) => {
+    if (favorites.includes(taskId)) {
+      deleteFavorites(taskId);
+    } else {
+      addFavorite(task.id);
+    }
+  };
 
   const handleEdit = (taskId: string) => {
     router.push(`/tasks/edit/${taskId}`);
   };
-
+  console.log(favorites);
   return (
     <div className={"card relative"}>
       <StarIcon className="star" onClick={() => handleFav(task.id)} />

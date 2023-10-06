@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { TaskState } from "@/app/interfaces/taskInterfaces";
 
 export const useTaskStore = create<TaskState>()((set) => {
-  let initialFavorites: number[] = [];
+  let initialFavorites: string[] = [];
   if (typeof window !== "undefined") {
     const localValue = localStorage.getItem("favorite");
     if (localValue !== null) {
@@ -31,27 +31,51 @@ export const useTaskStore = create<TaskState>()((set) => {
         console.log(error);
       }
     },
-    addFavorite: (id) => {
-      // set((state) => {
-      //   const updatedFavorites = [...state.favorites, id];
-      //   localStorage.setItem("favorite", JSON.stringify(updatedFavorites));
-      //   return {
-      //     ...state,
-      //     favorites: updatedFavorites,
-      //   };
-      // });
+    addFavorite: async (taskId) => {
+      try {
+        await fetch(`http://localhost:3000/api/tasks/favorite/${taskId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ favorite: true }),
+        });
+
+        set((state) => {
+          const updatedFavorites = [...state.favorites, taskId];
+          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+          return {
+            favorites: updatedFavorites,
+          };
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
-    deleteFavorites: (id) => {
-      // set((state) => {
-      //   const updatedFavorites = state.favorites.filter(
-      //     (favId) => id !== favId
-      //   );
-      //   localStorage.setItem("favorite", JSON.stringify(updatedFavorites));
-      //   return {
-      //     ...state,
-      //     favorites: updatedFavorites,
-      //   };
-      // });
+
+    deleteFavorites: async (taskId) => {
+      try {
+        await fetch(`http://localhost:3000/api/tasks/favorite/${taskId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ favorite: false }),
+        });
+
+        set((state) => {
+          const updatedFavorites = state.favorites.filter(
+            (favId) => favId !== taskId
+          );
+          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+          return {
+            ...state,
+            favorites: updatedFavorites,
+          };
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
     deleteTask: async (taskId) => {
       try {

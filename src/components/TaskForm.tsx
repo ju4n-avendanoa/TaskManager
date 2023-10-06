@@ -37,7 +37,7 @@ function TaskForm({ title, description, taskId, userId }: Props) {
           body: JSON.stringify({ title, description }),
         });
       } else {
-        await fetch(`http://localhost:3000/api/tasks/${userId}`, {
+        await fetch(`http://localhost:3000/api/user-tasks/${userId}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

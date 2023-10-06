@@ -7,13 +7,13 @@ export interface Tasks {
 
 export interface TaskState {
   tasks: Tasks[];
-  favorites: number[];
+  favorites: string[];
   description: string;
   title: string;
   setDescription: (description: string) => void;
   setTitle: (title: string) => void;
   getTasks: (userId: string | undefined) => Promise<void>;
-  addFavorite: (id: string) => void;
-  deleteFavorites: (id: string) => void;
-  deleteTask: (id: string) => void;
+  addFavorite: (id: string) => Promise<void>;
+  deleteFavorites: (id: string) => Promise<void>;
+  deleteTask: (id: string) => Promise<void>;
 }

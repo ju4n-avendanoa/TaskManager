@@ -18,6 +18,14 @@ export default function HomePage() {
     getTasks(session?.user.id);
   }, [getTasks, session?.user.id]);
 
+  useEffect(() => {
+    fetch("http://localhost:3000/api/tasks/favorite")
+      .then((res) => res.json())
+      .then((data) => {
+        localStorage.setItem("favorites", JSON.stringify(data));
+      });
+  }, []);
+
   return (
     <>
       <Suspense fallback={<Loading />}>
