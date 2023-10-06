@@ -15,7 +15,9 @@ function Task({ task }: Props) {
   const { deleteTask, deleteFavorites, addFavorite } = useTaskStore();
   const router = useRouter();
 
-  const handleDelete = async (id: string) => {};
+  const handleDelete = async (id: string) => {
+    deleteTask(task.id);
+  };
 
   const handleFav = (taskId: string) => {};
 

@@ -30,14 +30,14 @@ export async function PATCH(
   return NextResponse.json(editedTask);
 }
 
-// export async function DELETE(
-//   request: Request,
-//   { params }: { params: { userId: string } }
-// ) {
-//   const task = await prisma.task.delete({
-//     where: {
-//       userId: params.userId,
-//     },
-//   });
-//   return NextResponse.json(task);
-// }
+export async function DELETE(
+  request: Request,
+  { params }: { params: { taskId: string } }
+) {
+  const task = await prisma.task.delete({
+    where: {
+      id: params.taskId,
+    },
+  });
+  return NextResponse.json(task);
+}

@@ -53,17 +53,17 @@ export const useTaskStore = create<TaskState>()((set) => {
       //   };
       // });
     },
-    deleteTask: async (id) => {
+    deleteTask: async (taskId) => {
       try {
-        await fetch(`https://my-task-organizer.vercel.app/api/tasks/${id}`, {
+        await fetch(`http://localhost:3000/api/tasks/${taskId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
         });
         set((state) => {
-          const updatedTasks = state.tasks.filter((task) => task.id !== id);
-          state.deleteFavorites(id);
+          const updatedTasks = state.tasks.filter((task) => task.id !== taskId);
+          state.deleteFavorites(taskId);
           return {
             ...state,
             tasks: updatedTasks,
