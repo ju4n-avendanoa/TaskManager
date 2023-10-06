@@ -88,10 +88,15 @@ export const useTaskStore = create<TaskState>()((set) => {
         });
         set((state) => {
           const updatedTasks = state.tasks.filter((task) => task.id !== taskId);
-          state.deleteFavorites(taskId);
+          const updatedFavorites = state.favorites.filter(
+            (favId) => favId !== taskId
+          );
+          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+
           return {
             ...state,
             tasks: updatedTasks,
+            favorites: updatedFavorites,
           };
         });
       } catch (error) {
