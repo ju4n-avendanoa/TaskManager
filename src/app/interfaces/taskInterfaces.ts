@@ -13,7 +13,7 @@ export interface TaskState {
   setDescription: (description: string) => void;
   setTitle: (title: string) => void;
   getTasks: (userId: string | undefined) => Promise<void>;
-  addFavorite: (id: number) => void;
-  deleteFavorites: (id: number) => void;
-  deleteTask: (id: number) => void;
+  addFavorite: (id: string) => void;
+  deleteFavorites: (id: string) => void;
+  deleteTask: (id: string) => void;
 }

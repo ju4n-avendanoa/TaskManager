@@ -9,45 +9,23 @@ import { Tasks } from "@/app/interfaces/taskInterfaces";
 
 interface Props {
   task: Tasks;
-  favorites: number[];
 }
 
-function Task({ task, favorites }: Props) {
+function Task({ task }: Props) {
   const { deleteTask, deleteFavorites, addFavorite } = useTaskStore();
   const router = useRouter();
 
-  const handleDelete = async (id: number) => {
-    deleteTask(id);
-  };
+  const handleDelete = async (id: string) => {};
 
-  const handleFav = (taskId: number) => {
-    if (favorites.includes(taskId)) {
-      deleteFavorites(taskId);
-    } else {
-      addFavorite(taskId);
-    }
-  };
+  const handleFav = (taskId: string) => {};
 
-  const handleEdit = (id: number) => {
-    router.push(`/tasks/edit/${id}`);
+  const handleEdit = (taskId: string) => {
+    router.push(`/tasks/edit/${taskId}`);
   };
 
   return (
-    <div
-      className={
-        favorites?.includes(task.id) ? "fav relative" : "card relative"
-      }
-    >
-      {favorites?.includes(task.id) ? (
-        <StarIcon
-          className="star"
-          fill="yellow"
-          color="yellow"
-          onClick={() => handleFav(task.id)}
-        />
-      ) : (
-        <StarIcon className="star" onClick={() => handleFav(task.id)} />
-      )}
+    <div className={"card relative"}>
+      <StarIcon className="star" onClick={() => handleFav(task.id)} />
 
       <TrashIcon
         className="trash"

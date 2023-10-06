@@ -29,7 +29,7 @@ function TaskForm({ title, description, taskId, userId }: Props) {
 
     try {
       if (taskId) {
-        await fetch(`http://localhost:3000/api/tasks/${userId}/${taskId}`, {
+        await fetch(`http://localhost:3000/api/tasks/${taskId}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -48,7 +48,7 @@ function TaskForm({ title, description, taskId, userId }: Props) {
     } catch (error) {
       console.log("error");
     }
-    router.push("/");
+    router.push(`/tasks/${session?.user.id}`);
     setTitle("");
     setDescription("");
   };

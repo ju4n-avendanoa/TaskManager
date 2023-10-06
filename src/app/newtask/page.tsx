@@ -12,15 +12,13 @@ function CreateTask({ params }: { params: { taskId: string } }) {
 
   useEffect(() => {
     if (!params.taskId) return;
-    fetch(
-      `https://localhost:3000/api/tasks/${session?.user.id}/${params.taskId}}`
-    )
+    fetch(`http://localhost:3000/api/tasks/${params.taskId}`)
       .then((response) => response.json())
       .then((response) => {
         setDescription(response.description);
         setTitle(response.title);
       });
-  }, [setDescription, setTitle, params.taskId, session?.user.id]);
+  }, [setDescription, setTitle, params.taskId]);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">

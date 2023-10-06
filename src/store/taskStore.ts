@@ -19,7 +19,9 @@ export const useTaskStore = create<TaskState>()((set) => {
     setTitle: (title) => set({ title }),
     getTasks: async (userId) => {
       try {
-        const res = await fetch(`http://localhost:3000/api/tasks/${userId}`);
+        const res = await fetch(
+          `http://localhost:3000/api/user-tasks/${userId}`
+        );
         const tasks = await res.json();
         set((state) => ({
           ...state,
@@ -30,26 +32,26 @@ export const useTaskStore = create<TaskState>()((set) => {
       }
     },
     addFavorite: (id) => {
-      set((state) => {
-        const updatedFavorites = [...state.favorites, id];
-        localStorage.setItem("favorite", JSON.stringify(updatedFavorites));
-        return {
-          ...state,
-          favorites: updatedFavorites,
-        };
-      });
+      // set((state) => {
+      //   const updatedFavorites = [...state.favorites, id];
+      //   localStorage.setItem("favorite", JSON.stringify(updatedFavorites));
+      //   return {
+      //     ...state,
+      //     favorites: updatedFavorites,
+      //   };
+      // });
     },
     deleteFavorites: (id) => {
-      set((state) => {
-        const updatedFavorites = state.favorites.filter(
-          (favId) => id !== favId
-        );
-        localStorage.setItem("favorite", JSON.stringify(updatedFavorites));
-        return {
-          ...state,
-          favorites: updatedFavorites,
-        };
-      });
+      // set((state) => {
+      //   const updatedFavorites = state.favorites.filter(
+      //     (favId) => id !== favId
+      //   );
+      //   localStorage.setItem("favorite", JSON.stringify(updatedFavorites));
+      //   return {
+      //     ...state,
+      //     favorites: updatedFavorites,
+      //   };
+      // });
     },
     deleteTask: async (id) => {
       try {

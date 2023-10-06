@@ -6,29 +6,29 @@ const prisma = new PrismaClient();
 
 export async function GET(
   request: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: { taskId: string } }
 ) {
-  const tasks = await prisma.task.findMany({
+  const task = await prisma.task.findUnique({
     where: {
-      userId: params.userId,
+      id: params.taskId,
     },
   });
-  return NextResponse.json(tasks);
+  return NextResponse.json(task);
 }
 
-// export async function PATCH(
-//   request: Request,
-//   { params }: { params: { userId: string } }
-// ) {
-//   const data: Task = await request.json();
-//   const editedTask = await prisma.task.update({
-//     where: {
-//       userId: params.userId,
-//     },
-//     data: data,
-//   });
-//   return NextResponse.json(editedTask);
-// }
+export async function PATCH(
+  request: Request,
+  { params }: { params: { taskId: string } }
+) {
+  const data: Tasks = await request.json();
+  const editedTask = await prisma.task.update({
+    where: {
+      id: params.taskId,
+    },
+    data: data,
+  });
+  return NextResponse.json(editedTask);
+}
 
 // export async function DELETE(
 //   request: Request,
