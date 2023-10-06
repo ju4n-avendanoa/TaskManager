@@ -10,7 +10,7 @@ export default function HomePage() {
   const { tasks } = useTaskStore((state) => ({
     tasks: state.tasks,
   }));
-  const { getTasks } = useTaskStore();
+  const { getTasks, setFavorites } = useTaskStore();
 
   const { data: session } = useSession();
 
@@ -23,8 +23,9 @@ export default function HomePage() {
       .then((res) => res.json())
       .then((data) => {
         localStorage.setItem("favorites", JSON.stringify(data));
+        setFavorites(data);
       });
-  }, []);
+  }, [setFavorites]);
 
   return (
     <>

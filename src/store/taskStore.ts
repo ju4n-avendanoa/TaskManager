@@ -4,7 +4,7 @@ import { TaskState } from "@/app/interfaces/taskInterfaces";
 export const useTaskStore = create<TaskState>()((set) => {
   let initialFavorites: string[] = [];
   if (typeof window !== "undefined") {
-    const localValue = localStorage.getItem("favorite");
+    const localValue = localStorage.getItem("favorites");
     if (localValue !== null) {
       initialFavorites = JSON.parse(localValue);
     }
@@ -17,6 +17,7 @@ export const useTaskStore = create<TaskState>()((set) => {
     title: "",
     setDescription: (description) => set({ description }),
     setTitle: (title) => set({ title }),
+    setFavorites: (favorites) => set({ favorites }),
     getTasks: async (userId) => {
       try {
         const res = await fetch(

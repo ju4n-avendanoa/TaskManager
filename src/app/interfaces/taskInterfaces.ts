@@ -10,6 +10,7 @@ export interface TaskState {
   favorites: string[];
   description: string;
   title: string;
+  setFavorites: (favorites: string[] | undefined) => void;
   setDescription: (description: string) => void;
   setTitle: (title: string) => void;
   getTasks: (userId: string | undefined) => Promise<void>;

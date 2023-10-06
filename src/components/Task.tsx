@@ -17,24 +17,36 @@ function Task({ task }: Props) {
   const router = useRouter();
 
   const handleDelete = async (id: string) => {
-    deleteTask(task.id);
+    deleteTask(id);
   };
 
   const handleFav = (taskId: string) => {
     if (favorites.includes(taskId)) {
       deleteFavorites(taskId);
     } else {
-      addFavorite(task.id);
+      addFavorite(taskId);
     }
   };
 
   const handleEdit = (taskId: string) => {
     router.push(`/tasks/edit/${taskId}`);
   };
-  console.log(favorites);
   return (
-    <div className={"card relative"}>
-      <StarIcon className="star" onClick={() => handleFav(task.id)} />
+    <div
+      className={
+        favorites?.includes(task.id) ? "fav relative" : "card relative"
+      }
+    >
+      {favorites.includes(task.id) ? (
+        <StarIcon
+          className="star"
+          fill="yellow"
+          color="yellow"
+          onClick={() => handleFav(task.id)}
+        />
+      ) : (
+        <StarIcon className="star" onClick={() => handleFav(task.id)} />
+      )}
 
       <TrashIcon
         className="trash"
