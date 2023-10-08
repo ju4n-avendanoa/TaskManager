@@ -1,18 +1,11 @@
 import { create } from "zustand";
 import { TaskState } from "@/app/interfaces/taskInterfaces";
+import { useErrorStore } from "./errorStore";
 
 export const useTaskStore = create<TaskState>()((set) => {
-  let initialFavorites: string[] = [];
-  if (typeof window !== "undefined") {
-    const localValue = localStorage.getItem("favorites");
-    if (localValue !== null) {
-      initialFavorites = JSON.parse(localValue);
-    }
-  }
-
   return {
     tasks: [],
-    favorites: initialFavorites,
+    favorites: [],
     description: "",
     title: "",
     setDescription: (description) => set({ description }),
@@ -20,16 +13,21 @@ export const useTaskStore = create<TaskState>()((set) => {
     setFavorites: (favorites) => set({ favorites }),
     getTasks: async (userId) => {
       try {
-        const res = await fetch(
-          `http://localhost:3000/api/user-tasks/${userId}`
-        );
-        const tasks = await res.json();
-        set((state) => ({
-          ...state,
-          tasks,
-        }));
-      } catch (error) {
-        console.log(error);
+        if (userId) {
+          const res = await fetch(
+            `http://localhost:3000/api/user-tasks/${userId}`
+          );
+          if (!res.ok) {
+            throw new Error("Error en la solicitud al servidor");
+          }
+          const tasks = await res.json();
+          set((state) => ({
+            ...state,
+            tasks,
+          }));
+        }
+      } catch (error: any) {
+        console.error(error);
       }
     },
     addFavorite: async (taskId) => {
@@ -46,6 +44,7 @@ export const useTaskStore = create<TaskState>()((set) => {
           const updatedFavorites = [...state.favorites, taskId];
           localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
           return {
+            ...state,
             favorites: updatedFavorites,
           };
         });

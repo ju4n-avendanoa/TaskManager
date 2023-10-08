@@ -7,7 +7,6 @@ import TaskForm from "@/components/TaskForm";
 
 function CreateTask({ params }: { params: { taskId: string } }) {
   const { title, description, setDescription, setTitle } = useTaskStore();
-
   const { data: session } = useSession();
 
   useEffect(() => {

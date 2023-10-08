@@ -7,19 +7,14 @@ import { signIn } from "next-auth/react";
 import { useErrorStore } from "@/store/errorStore";
 
 function Login() {
-  const { email, password } = useUsersStore();
-  const { setEmail, setPassword } = useUsersStore();
-  const { error, errorMessage } = useErrorStore();
-  const { setErrorMessage, setError } = useErrorStore();
-
+  const { email, password, setEmail, setPassword } = useUsersStore();
+  const { error, setError } = useErrorStore();
   const router = useRouter();
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    if (name === "email") setEmail(value);
+    else if (name === "password") setPassword(value);
   };
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -28,20 +23,28 @@ function Login() {
       email,
       password,
     };
-    const res = await signIn("credentials", {
-      ...data,
-      redirect: false,
-    });
-    if (res?.error) {
-      setError(true);
-      router.refresh();
-    } else {
-      setError(false);
-      router.push("/");
+
+    try {
+      const res = await signIn("credentials", {
+        ...data,
+        redirect: false,
+      });
+
+      if (res?.error) {
+        setError(true);
+        router.refresh();
+      } else {
+        setError(false);
+        router.push("/");
+      }
+
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      console.error(error);
     }
-    setEmail("");
-    setPassword("");
   };
+
   return (
     <div className="flex grow flex-col gap-6 items-center justify-center">
       <h2 className="text-white font-bold text-4xl">Log In</h2>
@@ -56,17 +59,17 @@ function Login() {
           type="email"
           id="email"
           className="h-10 bg-transparent border border-white text-white"
-          onChange={handleEmailChange}
+          onChange={handleInputChange}
           value={email}
         />
         <label htmlFor="password" className="text-white">
-          Passowrd
+          Password
         </label>
         <input
           type="password"
           id="'password"
           className="h-10 bg-transparent border border-white text-white"
-          onChange={handlePasswordChange}
+          onChange={handleInputChange}
           value={password}
         />
         <div className="flex flex-col items-center justify-center">

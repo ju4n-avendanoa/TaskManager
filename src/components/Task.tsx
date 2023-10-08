@@ -15,48 +15,44 @@ function Task({ task }: Props) {
   const { deleteTask, deleteFavorites, addFavorite, favorites } =
     useTaskStore();
   const router = useRouter();
-
-  const handleDelete = async (taskId: string) => {
-    deleteTask(taskId);
+  const formattedDate = task.createdAt.split("T")[0];
+  const handleDelete = () => {
+    deleteTask(task.id);
   };
-  const handleFav = (taskId: string) => {
-    if (favorites.includes(taskId)) {
-      deleteFavorites(taskId);
+
+  const handleToggleFavorite = () => {
+    if (favorites.includes(task.id)) {
+      deleteFavorites(task.id);
     } else {
-      addFavorite(taskId);
+      addFavorite(task.id);
     }
   };
 
-  const handleEdit = (taskId: string) => {
-    router.push(`/tasks/edit/${taskId}`);
+  const handleEdit = () => {
+    router.push(`/tasks/edit/${task.id}`);
   };
+
+  const isFavorite = favorites.includes(task.id);
+
   return (
     <div
       className={
         favorites?.includes(task.id) ? "fav relative" : "card relative"
       }
     >
-      {favorites.includes(task.id) ? (
-        <StarIcon
-          className="star"
-          fill="yellow"
-          color="yellow"
-          onClick={() => handleFav(task.id)}
-        />
-      ) : (
-        <StarIcon className="star" onClick={() => handleFav(task.id)} />
-      )}
-
-      <TrashIcon
-        className="trash"
-        onClick={() => {
-          handleDelete(task.id);
-        }}
+      <StarIcon
+        className={`star${isFavorite ? " star-favorite" : ""}`}
+        onClick={handleToggleFavorite}
+        fill={isFavorite ? "yellow" : "none"}
+        color={isFavorite ? "yellow" : "none"}
       />
-      <PencilSquareIcon className="edit" onClick={() => handleEdit(task.id)} />
-      <div className="p-6 divide-y-2">
+
+      <TrashIcon className="trash" onClick={handleDelete} />
+      <PencilSquareIcon className="edit" onClick={handleEdit} />
+      <div className="p-6">
         <h3 className="mb-3 text-xl text-blue-300">{task.title}</h3>
         <p className="text-md">{task.description}</p>
+        <p className="text-md">{formattedDate}</p>
       </div>
     </div>
   );

@@ -12,12 +12,14 @@ interface Props {
 }
 
 function TaskForm({ title, description, taskId, userId }: Props) {
-  const router = useRouter();
   const { setDescription, setTitle } = useTaskStore();
   const { data: session } = useSession();
+  const router = useRouter();
+
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
+
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -28,25 +30,19 @@ function TaskForm({ title, description, taskId, userId }: Props) {
     event.preventDefault();
 
     try {
-      if (taskId) {
-        await fetch(`http://localhost:3000/api/tasks/${taskId}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ title, description }),
-        });
-      } else {
-        await fetch(`http://localhost:3000/api/user-tasks/${userId}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ title, description }),
-        });
-      }
+      const apiUrl = taskId
+        ? `http://localhost:3000/api/tasks/${taskId}`
+        : `http://localhost:3000/api/user-tasks/${userId}`;
+
+      await fetch(apiUrl, {
+        method: taskId ? "PATCH" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, description }),
+      });
     } catch (error) {
-      console.log("error");
+      console.error(error);
     }
     router.push(`/tasks/${session?.user.id}`);
     setTitle("");

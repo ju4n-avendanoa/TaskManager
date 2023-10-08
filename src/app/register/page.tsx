@@ -7,21 +7,17 @@ import { useEffect } from "react";
 import Link from "next/link";
 
 function Register() {
-  const { email, password, name } = useUsersStore();
-  const { setName, setEmail, setPassword } = useUsersStore();
-  const { error, errorMessage } = useErrorStore();
-  const { setErrorMessage, setError } = useErrorStore();
+  const { email, password, name, setEmail, setPassword, setName } =
+    useUsersStore();
+  const { error, errorMessage, setError, setErrorMessage } = useErrorStore();
 
   const router = useRouter();
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    if (name === "name") setName(value);
+    else if (name === "email") setEmail(value);
+    else if (name === "password") setPassword(value);
   };
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -66,7 +62,7 @@ function Register() {
           type="text"
           id="name"
           className="h-10 bg-transparent border border-white text-white"
-          onChange={handleNameChange}
+          onChange={handleInputChange}
           value={name}
           required
         />
@@ -77,7 +73,7 @@ function Register() {
           type="email"
           id="email"
           className="h-10 bg-transparent border border-white text-white"
-          onChange={handleEmailChange}
+          onChange={handleInputChange}
           value={email}
           required
         />
@@ -88,7 +84,7 @@ function Register() {
           type="password"
           id="'password"
           className="h-10 bg-transparent border border-white text-white"
-          onChange={handlePasswordChange}
+          onChange={handleInputChange}
           value={password}
           required
         />

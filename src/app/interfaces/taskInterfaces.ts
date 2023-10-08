@@ -2,7 +2,7 @@ export interface Tasks {
   id: string;
   title: string;
   description: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export interface TaskState {
