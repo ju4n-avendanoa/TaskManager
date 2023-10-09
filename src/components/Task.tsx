@@ -5,6 +5,7 @@ import {
   PencilSquareIcon,
   StarIcon,
 } from "@heroicons/react/24/outline";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { Tasks } from "@/app/interfaces/taskInterfaces";
 
 interface Props {
@@ -12,8 +13,15 @@ interface Props {
 }
 
 function Task({ task }: Props) {
-  const { deleteTask, deleteFavorites, addFavorite, favorites } =
-    useTaskStore();
+  const {
+    deleteTask,
+    deleteFavorites,
+    addFavorite,
+    favorites,
+    checked,
+    addChecked,
+    deleteChecked,
+  } = useTaskStore();
   const router = useRouter();
   const formattedDate = task.createdAt.split("T")[0];
   const handleDelete = () => {
@@ -27,24 +35,45 @@ function Task({ task }: Props) {
       addFavorite(task.id);
     }
   };
+  const handleToggleChecked = () => {
+    if (checked.includes(task.id)) {
+      deleteChecked(task.id);
+    } else {
+      addChecked(task.id);
+    }
+  };
 
   const handleEdit = () => {
     router.push(`/tasks/edit/${task.id}`);
   };
 
   const isFavorite = favorites.includes(task.id);
+  const isChecked = checked.includes(task.id);
+  const isFavAndChecked =
+    favorites.includes(task.id) && checked.includes(task.id);
 
   return (
     <div
       className={
-        favorites?.includes(task.id) ? "fav relative" : "card relative"
+        isFavAndChecked
+          ? "card checked-fav relative"
+          : isFavorite
+          ? "card fav relative"
+          : isChecked
+          ? "card checked relative"
+          : "card relative"
       }
     >
       <StarIcon
-        className={`star${isFavorite ? " star-favorite" : ""}`}
+        className={"star"}
         onClick={handleToggleFavorite}
         fill={isFavorite ? "yellow" : "none"}
         color={isFavorite ? "yellow" : "none"}
+      />
+      <CheckCircleIcon
+        className={"check"}
+        onClick={handleToggleChecked}
+        color={isChecked ? "blue" : "none"}
       />
 
       <TrashIcon className="trash" onClick={handleDelete} />

@@ -9,7 +9,7 @@ export default function HomePage() {
   const { tasks } = useTaskStore((state) => ({
     tasks: state.tasks,
   }));
-  const { getTasks, setFavorites } = useTaskStore();
+  const { getTasks, setFavorites, setChecked } = useTaskStore();
 
   const { data: session } = useSession();
 
@@ -25,6 +25,15 @@ export default function HomePage() {
         setFavorites(data);
       });
   }, [setFavorites]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/tasks/checked")
+      .then((res) => res.json())
+      .then((data) => {
+        localStorage.setItem("checked", JSON.stringify(data));
+        setChecked(data);
+      });
+  }, [setChecked]);
 
   return (
     <>
