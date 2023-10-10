@@ -62,14 +62,14 @@ export default function HomePage() {
   }, [setChecked]);
 
   const showFavorites = () => {
-    const favoriteTasks = allTasks.current.filter((task) =>
+    const favoriteTasks = allTasks.current?.filter((task) =>
       favorites.includes(task.id)
     );
     setTasks(favoriteTasks);
   };
 
   const showDone = () => {
-    const doneTasks = allTasks.current.filter((task) =>
+    const doneTasks = allTasks.current?.filter((task) =>
       checked.includes(task.id)
     );
     setTasks(doneTasks);
@@ -82,32 +82,36 @@ export default function HomePage() {
   return (
     <>
       <main>
-        <section className="flex justify-center gap-4 my-4">
-          <button
-            onClick={showDone}
-            className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
-          >
-            done tasks
-          </button>
-          <button
-            onClick={showFavorites}
-            className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
-          >
-            favorite tasks
-          </button>
-          <button
-            onClick={showAllTasks}
-            className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
-          >
-            show all tasks
-          </button>
-        </section>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 ">
-          {tasks?.map((task) => (
-            <article key={task.id}>
-              <Task task={task} />
-            </article>
-          ))}
+        <div className="flex justify-around m-4">
+          <div>
+            <section className="flex flex-col justify-center gap-4 my-4">
+              <button
+                onClick={showDone}
+                className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
+              >
+                done tasks
+              </button>
+              <button
+                onClick={showFavorites}
+                className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
+              >
+                favorite tasks
+              </button>
+              <button
+                onClick={showAllTasks}
+                className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
+              >
+                show all tasks
+              </button>
+            </section>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 ">
+            {tasks?.map((task) => (
+              <article key={task.id}>
+                <Task task={task} />
+              </article>
+            ))}
+          </div>
         </div>
       </main>
     </>
