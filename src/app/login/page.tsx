@@ -1,14 +1,14 @@
-"use client";
-
-import { useUsersStore } from "@/store/userStore";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { useUsersStore } from "@/store/userStore";
 import { useErrorStore } from "@/store/errorStore";
 
 function Login() {
-  const { email, password, setEmail, setPassword } = useUsersStore();
-  const { error, setError } = useErrorStore();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
   const router = useRouter();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +58,7 @@ function Login() {
         <input
           type="email"
           id="email"
+          name="email"
           className="h-10 bg-transparent border border-white text-white"
           onChange={handleInputChange}
           value={email}
@@ -68,6 +69,7 @@ function Login() {
         <input
           type="password"
           id="'password"
+          name="password"
           className="h-10 bg-transparent border border-white text-white"
           onChange={handleInputChange}
           value={password}

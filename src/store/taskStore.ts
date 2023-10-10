@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { TaskState } from "@/app/interfaces/taskInterfaces";
+import { TaskState, Tasks } from "@/app/interfaces/taskInterfaces";
 
 export const useTaskStore = create<TaskState>()((set) => {
   return {
@@ -8,6 +8,7 @@ export const useTaskStore = create<TaskState>()((set) => {
     checked: [],
     description: "",
     title: "",
+    setTasks: (tasks) => set({ tasks }),
     setDescription: (description) => set({ description }),
     setTitle: (title) => set({ title }),
     setFavorites: (favorites) => set({ favorites }),
@@ -26,9 +27,11 @@ export const useTaskStore = create<TaskState>()((set) => {
             ...state,
             tasks,
           }));
+          return tasks;
         }
       } catch (error: any) {
         console.error(error);
+        return [];
       }
     },
     addFavorite: async (taskId) => {

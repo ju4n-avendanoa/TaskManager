@@ -3,6 +3,8 @@ export interface Tasks {
   title: string;
   description: string;
   createdAt: string;
+  favorite: boolean;
+  done: boolean;
 }
 
 export interface TaskState {
@@ -11,6 +13,7 @@ export interface TaskState {
   checked: string[];
   description: string;
   title: string;
+  setTasks: (tasks: Tasks[] | undefined) => void;
   setFavorites: (favorites: string[] | undefined) => void;
   setChecked: (checked: string[] | undefined) => void;
   setDescription: (description: string) => void;

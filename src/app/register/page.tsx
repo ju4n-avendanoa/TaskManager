@@ -1,10 +1,8 @@
-"use client";
-
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useUsersStore } from "@/store/userStore";
 import { useErrorStore } from "@/store/errorStore";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import Link from "next/link";
 
 function Register() {
   const { email, password, name, setEmail, setPassword, setName } =
@@ -78,11 +76,11 @@ function Register() {
           required
         />
         <label htmlFor="password" className="text-white">
-          Passowrd
+          Password
         </label>
         <input
           type="password"
-          id="'password"
+          id="password"
           className="h-10 bg-transparent border border-white text-white"
           onChange={handleInputChange}
           value={password}
@@ -96,7 +94,7 @@ function Register() {
             Sign up
           </button>
           <p className="text-white">
-            Already have an acocunt?{" "}
+            Already have an account?{" "}
             <Link href={"/login"} className="text-blue-300">
               log in here
             </Link>
