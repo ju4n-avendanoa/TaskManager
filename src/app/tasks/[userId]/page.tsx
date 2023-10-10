@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { useTaskStore } from "@/store/taskStore";
 import { useSession } from "next-auth/react";
 import Task from "@/components/Task";
-import { Tasks } from "@/app/interfaces/taskInterfaces";
 
 export default function HomePage() {
   const { tasks } = useTaskStore((state) => ({

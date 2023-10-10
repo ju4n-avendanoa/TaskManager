@@ -18,7 +18,7 @@ export interface TaskState {
   setChecked: (checked: string[] | undefined) => void;
   setDescription: (description: string) => void;
   setTitle: (title: string) => void;
-  getTasks: (userId: string | undefined) => Promise<void>;
+  getTasks: (userId: string | undefined) => Promise<Tasks[]>;
   addFavorite: (id: string) => Promise<void>;
   deleteFavorites: (id: string) => Promise<void>;
   addChecked: (id: string) => Promise<void>;
