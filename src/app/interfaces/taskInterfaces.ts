@@ -13,6 +13,8 @@ export interface TaskState {
   checked: string[];
   description: string;
   title: string;
+  sort: boolean;
+  setSort: () => void;
   setTasks: (tasks: Tasks[] | undefined) => void;
   setFavorites: (favorites: string[] | undefined) => void;
   setChecked: (checked: string[] | undefined) => void;

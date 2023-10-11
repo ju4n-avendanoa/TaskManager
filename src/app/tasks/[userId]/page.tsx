@@ -1,16 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTaskStore } from "@/store/taskStore";
 import { useSession } from "next-auth/react";
 import Task from "@/components/Task";
+import Filters from "@/components/Filters";
 
 export default function HomePage() {
-  const { tasks } = useTaskStore((state) => ({
-    tasks: state.tasks,
-  }));
-  const { getTasks, setFavorites, setChecked, setTasks, favorites, checked } =
-    useTaskStore();
+  const { sort, getTasks, setFavorites, setChecked, tasks } = useTaskStore();
   const allTasks = useRef(tasks);
 
   const { data: session } = useSession();
@@ -20,14 +17,13 @@ export default function HomePage() {
       try {
         const tasks = await getTasks(session?.user.id);
         allTasks.current = tasks;
-        console.log(allTasks.current);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchTasks();
-  }, [getTasks, session?.user.id, setFavorites, setChecked]);
+  }, [getTasks, session?.user.id]);
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -61,56 +57,27 @@ export default function HomePage() {
     fetchChecked();
   }, [setChecked]);
 
-  const showFavorites = () => {
-    const favoriteTasks = allTasks.current?.filter((task) =>
-      favorites.includes(task.id)
-    );
-    setTasks(favoriteTasks);
-  };
-
-  const showDone = () => {
-    const doneTasks = allTasks.current?.filter((task) =>
-      checked.includes(task.id)
-    );
-    setTasks(doneTasks);
-  };
-
-  const showAllTasks = () => {
-    setTasks(allTasks.current);
-  };
+  const orderByDate = useMemo(() => {
+    return sort
+      ? [...tasks].sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+      : tasks;
+  }, [sort, tasks]);
 
   return (
     <>
-      <main>
-        <div className="flex justify-around m-4">
-          <div>
-            <section className="flex flex-col justify-center gap-4 my-4">
-              <button
-                onClick={showDone}
-                className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
-              >
-                done tasks
-              </button>
-              <button
-                onClick={showFavorites}
-                className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
-              >
-                favorite tasks
-              </button>
-              <button
-                onClick={showAllTasks}
-                className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
-              >
-                show all tasks
-              </button>
-            </section>
+      <main className="h-full">
+        <div className="flex h-full">
+          <div className="w-1/5 bg-slate-500 h-">
+            <Filters allTasks={allTasks.current} />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 ">
-            {tasks?.map((task) => (
-              <article key={task.id}>
-                <Task task={task} />
-              </article>
-            ))}
+          <div className="w-4/5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 ">
+              {orderByDate?.map((task) => (
+                <article key={task.id}>
+                  <Task task={task} />
+                </article>
+              ))}
+            </div>
           </div>
         </div>
       </main>

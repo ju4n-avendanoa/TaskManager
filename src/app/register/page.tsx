@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -59,6 +61,7 @@ function Register() {
         <input
           type="text"
           id="name"
+          name="name"
           className="h-10 bg-transparent border border-white text-white"
           onChange={handleInputChange}
           value={name}
@@ -70,6 +73,7 @@ function Register() {
         <input
           type="email"
           id="email"
+          name="email"
           className="h-10 bg-transparent border border-white text-white"
           onChange={handleInputChange}
           value={email}
@@ -81,6 +85,7 @@ function Register() {
         <input
           type="password"
           id="password"
+          name="password"
           className="h-10 bg-transparent border border-white text-white"
           onChange={handleInputChange}
           value={password}

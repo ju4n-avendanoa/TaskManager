@@ -7,14 +7,14 @@
 }
 
 .fav {
-  @apply border border-yellow-400 outline outline-2 outline-yellow-400 shadow-md shadow-yellow-400;
+  @apply border border-red-400 outline outline-2 outline-red-400 shadow-md shadow-red-400;
 }
 .checked {
   @apply border border-blue-400 outline outline-2 outline-blue-400 shadow-md shadow-blue-400;
 }
 
 .card {
-  @apply bg-slate-900 rounded-lg text-white border w-auto break-all whitespace-normal;
+  @apply bg-slate-900 rounded-lg text-white border w-auto break-keep whitespace-normal;
 }
 
 .checked-fav {

@@ -22,7 +22,7 @@ export default function RootLayout({
         <body
           className={`${roboto.className} flex flex-col bg-gray-800 h-screen w-screen`}
         >
-          <header className="h-auto p-5 bg-slate-900 w-full">
+          <header className="p-5 bg-slate-900">
             <NavBar />
           </header>
           {children}

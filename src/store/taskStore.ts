@@ -8,6 +8,8 @@ export const useTaskStore = create<TaskState>()((set) => {
     checked: [],
     description: "",
     title: "",
+    sort: false,
+    setSort: () => set((state) => ({ sort: !state.sort })),
     setTasks: (tasks) => set({ tasks }),
     setDescription: (description) => set({ description }),
     setTitle: (title) => set({ title }),

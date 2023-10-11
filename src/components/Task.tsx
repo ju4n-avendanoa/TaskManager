@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import {
   TrashIcon,
   PencilSquareIcon,
-  StarIcon,
+  ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { Tasks } from "@/app/interfaces/taskInterfaces";
@@ -54,21 +54,20 @@ function Task({ task }: Props) {
 
   return (
     <div
-      className={
+      className={`card relative ${
         isFavAndChecked
-          ? "card checked-fav relative"
+          ? "checked-fav "
           : isFavorite
-          ? "card fav relative"
+          ? "fav"
           : isChecked
-          ? "card checked relative"
-          : "card relative"
-      }
+          ? "checked "
+          : ""
+      }`}
     >
-      <StarIcon
+      <ExclamationTriangleIcon
         className={"star"}
         onClick={handleToggleFavorite}
-        fill={isFavorite ? "yellow" : "none"}
-        color={isFavorite ? "yellow" : "none"}
+        fill={isFavorite ? "red" : "none"}
       />
       <CheckCircleIcon
         className={"check"}
@@ -81,6 +80,7 @@ function Task({ task }: Props) {
       <div className="p-6">
         <h3 className="mb-3 text-xl text-blue-300">{task.title}</h3>
         <p className="text-md">{task.description}</p>
+        <br />
         <p className="text-md">{formattedDate}</p>
       </div>
     </div>
