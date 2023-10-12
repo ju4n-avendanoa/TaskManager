@@ -18,12 +18,12 @@ function NavBar() {
     return (
       <ul className="flex gap-5 text-white">
         <Link href={`/tasks/${session?.user.id}`}>
-          <li className="border border-white py-2 px-4 hover:bg-blue-800">
+          <li className="border border-white py-2 px-4 hover:bg-blue-800 btn">
             My tasks
           </li>
         </Link>
         <Link href="/newtask">
-          <li className="border border-white py-2 px-4 hover:bg-blue-800">
+          <li className="border border-white py-2 px-4 hover:bg-blue-800 btn">
             Create new task
           </li>
         </Link>
@@ -32,36 +32,43 @@ function NavBar() {
   };
 
   const renderAuthenticationButtons = () => {
-    return session ? (
-      <div className="flex items-center gap-4">
-        <span className="text-white">{session.user.email}</span>
-        <button
-          className="border border-blue-300 text-blue-300 py-2 px-4 hover:bg-blue-800 hover:text-white"
-          onClick={handleLogOut}
-        >
-          Log out
-        </button>
-      </div>
-    ) : (
-      <div className="flex gap-5">
-        <button
-          className="border border-blue-300 text-blue-300 py-2 px-4 hover:bg-blue-800 hover:text-white"
-          onClick={() => {
-            router.push("/register");
-          }}
-        >
-          Sign up
-        </button>
-        <button
-          className="border border-blue-300 text-blue-300 py-2 px-4 hover:bg-blue-800 hover:text-white"
-          onClick={() => {
-            router.push("/login");
-          }}
-        >
-          Log in
-        </button>
-      </div>
-    );
+    if (typeof session === "undefined") {
+      // Espera a que la sesión se cargue
+      return <div className="text-white">Loading session...</div>;
+    } else if (session) {
+      return (
+        <div className="flex items-center gap-4">
+          <span className="text-white">{session.user.email}</span>
+          <button
+            className="border border-blue-300 text-blue-300 py-2 px-4 hover:bg-blue-800 hover:text-white"
+            onClick={handleLogOut}
+          >
+            Log out
+          </button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="flex gap-5">
+          <button
+            className="border border-blue-300 text-blue-300 py-2 px-4 hover:bg-blue-800 hover:text-white"
+            onClick={() => {
+              router.push("/register");
+            }}
+          >
+            Sign up
+          </button>
+          <button
+            className="border border-blue-300 text-blue-300 py-2 px-4 hover:bg-blue-800 hover:text-white"
+            onClick={() => {
+              router.push("/login");
+            }}
+          >
+            Log in
+          </button>
+        </div>
+      );
+    }
   };
 
   return (

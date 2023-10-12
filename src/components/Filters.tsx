@@ -36,32 +36,32 @@ function Filters({ allTasks }: Props) {
       <div className="w-max flex flex-col gap-6">
         <button
           onClick={showDone}
-          className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
+          className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900 btn"
         >
           done tasks
         </button>
         <button
           onClick={showFavorites}
-          className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
+          className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900 btn"
         >
           priority tasks
         </button>
         <button
           onClick={showPending}
-          className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
+          className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900 btn"
         >
           pending tasks
         </button>
         <button
           onClick={showAllTasks}
-          className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
+          className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900 btn"
         >
           all tasks
         </button>
         <div className="flex gap-4 items-center">
           <button
             onClick={toggleOrder}
-            className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900"
+            className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900 btn"
           >
             sort by date
           </button>

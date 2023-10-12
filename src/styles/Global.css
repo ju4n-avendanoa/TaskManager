@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .btn {
-  @apply bg-blue-300 rounded-full w-max py-2 px-4;
+  @apply active:bg-blue-600;
 }
 
 .fav {

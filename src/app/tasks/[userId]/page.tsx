@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useTaskStore } from "@/store/taskStore";
 import { useSession } from "next-auth/react";
 import Task from "@/components/Task";
@@ -71,13 +71,21 @@ export default function HomePage() {
             <Filters allTasks={allTasks.current} />
           </div>
           <div className="w-4/5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 ">
-              {orderByDate?.map((task) => (
-                <article key={task.id}>
-                  <Task task={task} />
-                </article>
-              ))}
-            </div>
+            {tasks.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 ">
+                {orderByDate?.map((task) => (
+                  <article key={task.id}>
+                    <Task task={task} />
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-full">
+                <h2 className="text-6xl text-white font-bold">
+                  No Tasks Pending
+                </h2>
+              </div>
+            )}
           </div>
         </div>
       </main>
