@@ -9,9 +9,7 @@ function Filters({ allTasks }: Props) {
   const { setTasks, favorites, sort, setSort, checked } = useTaskStore();
 
   const showFavorites = () => {
-    const favoriteTasks = allTasks.filter((task) =>
-      favorites.includes(task.id)
-    );
+    const favoriteTasks = allTasks.filter((task) => favorites.includes(task));
     setTasks(favoriteTasks);
   };
 

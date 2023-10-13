@@ -17,7 +17,7 @@ export async function GET(request: Request) {
   let favorites = [];
   if (tasks.length > 0) {
     for (let i = 0; i < tasks.length; i++) {
-      favorites.push(tasks[i]?.id);
+      favorites.push(tasks[i]);
     }
   }
   return NextResponse.json(favorites);

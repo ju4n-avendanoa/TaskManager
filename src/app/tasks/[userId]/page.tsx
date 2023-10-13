@@ -1,22 +1,23 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTaskStore } from "@/store/taskStore";
 import { useSession } from "next-auth/react";
 import Task from "@/components/Task";
 import Filters from "@/components/Filters";
 
 export default function HomePage() {
-  const { sort, getTasks, setFavorites, setChecked, tasks } = useTaskStore();
+  const { sort, getTasks, setFavorites, setChecked, tasks, favorites } =
+    useTaskStore();
   const allTasks = useRef(tasks);
-
+  const [showFavorites, setShowFavorites] = useState(false);
   const { data: session } = useSession();
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const tasks = await getTasks(session?.user.id);
-        allTasks.current = tasks;
+        await getTasks(session?.user.id);
+        console.log("hola");
       } catch (error) {
         console.error(error);
       }
@@ -57,6 +58,10 @@ export default function HomePage() {
     fetchChecked();
   }, [setChecked]);
 
+  const handleShowFavorites = () => {
+    setShowFavorites(!showFavorites);
+  };
+
   const orderByDate = useMemo(() => {
     return sort
       ? [...tasks].sort((a, b) => a.createdAt.localeCompare(b.createdAt))
@@ -69,9 +74,21 @@ export default function HomePage() {
         <div className="flex h-full">
           <div className="w-1/5 bg-slate-500 h-">
             <Filters allTasks={allTasks.current} />
+            <button onClick={handleShowFavorites}>
+              {showFavorites ? "Ocultar Favoritos" : "Mostrar Favoritos"}
+            </button>
           </div>
-          <div className="w-4/5">
-            {tasks.length > 0 ? (
+          {showFavorites && favorites.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 ">
+              {favorites.map((task) => (
+                <article key={task.id}>
+                  <Task task={task} />
+                </article>
+              ))}
+            </div>
+          )}
+          {!showFavorites && tasks?.length > 0 && (
+            <div className="w-4/5">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 ">
                 {orderByDate?.map((task) => (
                   <article key={task.id}>
@@ -79,14 +96,15 @@ export default function HomePage() {
                   </article>
                 ))}
               </div>
-            ) : (
-              <div className="flex items-center justify-center h-full">
-                <h2 className="text-6xl text-white font-bold">
-                  No Tasks Pending
-                </h2>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
+          {!showFavorites && tasks?.length === 0 && (
+            <div className="flex items-center justify-center h-full">
+              <h2 className="text-6xl text-white font-bold">
+                No Tasks Pending
+              </h2>
+            </div>
+          )}
         </div>
       </main>
     </>

@@ -33,8 +33,14 @@ function NavBar() {
 
   const renderAuthenticationButtons = () => {
     if (typeof session === "undefined") {
-      // Espera a que la sesión se cargue
-      return <div className="text-white">Loading session...</div>;
+      return (
+        <div
+          className="text-white
+      "
+        >
+          Loading session...
+        </div>
+      );
     } else if (session) {
       return (
         <div className="flex items-center gap-4">

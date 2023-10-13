@@ -22,17 +22,20 @@ function Task({ task }: Props) {
     addChecked,
     deleteChecked,
   } = useTaskStore();
+
   const router = useRouter();
+
   const formattedDate = task.createdAt.split("T")[0];
+
   const handleDelete = () => {
     deleteTask(task.id);
   };
 
   const handleToggleFavorite = () => {
-    if (favorites.includes(task.id)) {
-      deleteFavorites(task.id);
+    if (favorites.includes(task)) {
+      deleteFavorites(task);
     } else {
-      addFavorite(task.id);
+      addFavorite(task);
     }
   };
   const handleToggleChecked = () => {
@@ -47,17 +50,16 @@ function Task({ task }: Props) {
     router.push(`/tasks/edit/${task.id}`);
   };
 
-  const isFavorite = favorites.includes(task.id);
+  const isPrioritary = favorites.includes(task);
   const isChecked = checked.includes(task.id);
-  const isFavAndChecked =
-    favorites.includes(task.id) && checked.includes(task.id);
+  const isFavAndChecked = favorites.includes(task) && checked.includes(task.id);
 
   return (
     <div
       className={`card relative ${
         isFavAndChecked
           ? "checked-fav "
-          : isFavorite
+          : isPrioritary
           ? "fav"
           : isChecked
           ? "checked "
@@ -67,7 +69,7 @@ function Task({ task }: Props) {
       <ExclamationTriangleIcon
         className={"star"}
         onClick={handleToggleFavorite}
-        fill={isFavorite ? "red" : "none"}
+        fill={isPrioritary ? "red" : "none"}
       />
       <CheckCircleIcon
         className={"check"}
