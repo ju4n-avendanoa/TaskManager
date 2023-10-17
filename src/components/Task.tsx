@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { Tasks } from "@/app/interfaces/taskInterfaces";
+import formatDate from "@/utils/formatDate";
 
 interface Props {
   task: Tasks;
@@ -25,7 +26,7 @@ function Task({ task }: Props) {
 
   const router = useRouter();
 
-  const formattedDate = task.createdAt.split("T")[0];
+  const formatedDate = formatDate(task.createdAt);
 
   const handleDelete = () => {
     deleteTask(task.id);
@@ -39,10 +40,10 @@ function Task({ task }: Props) {
     }
   };
   const handleToggleChecked = () => {
-    if (checked.includes(task.id)) {
-      deleteChecked(task.id);
+    if (checked.includes(task)) {
+      deleteChecked(task);
     } else {
-      addChecked(task.id);
+      addChecked(task);
     }
   };
 
@@ -51,8 +52,8 @@ function Task({ task }: Props) {
   };
 
   const isPrioritary = favorites.includes(task);
-  const isChecked = checked.includes(task.id);
-  const isFavAndChecked = favorites.includes(task) && checked.includes(task.id);
+  const isChecked = checked.includes(task);
+  const isFavAndChecked = favorites.includes(task) && checked.includes(task);
 
   return (
     <div
@@ -83,7 +84,7 @@ function Task({ task }: Props) {
         <h3 className="mb-3 text-xl text-blue-300">{task.title}</h3>
         <p className="text-md">{task.description}</p>
         <br />
-        <p className="text-md">{formattedDate}</p>
+        <p className="text-md">{formatedDate}</p>
       </div>
     </div>
   );

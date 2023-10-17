@@ -148,7 +148,7 @@ export const useTaskStore = create<TaskState>()((set) => {
             (favoriteTask) => favoriteTask.id !== taskId
           );
           const updatedChecked = state.checked.filter(
-            (checkedId) => checkedId !== taskId
+            (checkedTask) => checkedTask.id !== taskId
           );
           localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
           localStorage.setItem("checked", JSON.stringify(updatedChecked));

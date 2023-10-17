@@ -10,20 +10,20 @@ export interface Tasks {
 export interface TaskState {
   tasks: Tasks[];
   favorites: Tasks[];
-  checked: string[];
+  checked: Tasks[];
   description: string;
   title: string;
   sort: boolean;
   setSort: () => void;
   setTasks: (tasks: Tasks[] | undefined) => void;
   setFavorites: (favorites: Tasks[] | undefined) => void;
-  setChecked: (checked: string[] | undefined) => void;
+  setChecked: (checked: Tasks[] | undefined) => void;
   setDescription: (description: string) => void;
   setTitle: (title: string) => void;
   getTasks: (userId: string | undefined) => Promise<Tasks[]>;
   addFavorite: (task: Tasks) => Promise<void>;
   deleteFavorites: (task: Tasks) => Promise<void>;
-  addChecked: (id: string) => Promise<void>;
-  deleteChecked: (id: string) => Promise<void>;
+  addChecked: (task: Tasks) => Promise<void>;
+  deleteChecked: (task: Tasks) => Promise<void>;
   deleteTask: (id: string) => Promise<void>;
 }

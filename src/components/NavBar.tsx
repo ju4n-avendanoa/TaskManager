@@ -1,10 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import React from "react";
+import { CalendarDaysIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 
 function NavBar() {
   const router = useRouter();
@@ -81,12 +80,7 @@ function NavBar() {
     <nav className="flex items-center justify-between">
       <div className="flex items-center gap-2">
         <Link href={"/"}>
-          <Image
-            src="https://res.cloudinary.com/dhjqarghy/image/upload/v1695326224/6804639_bcqc0u.webp"
-            alt="logo"
-            width={60}
-            height={60}
-          />
+          <CalendarDaysIcon width={40} height={40} color="white" />
         </Link>
         <h1 className="text-white text-xl font-bold">
           <Link href={"/"}>My Task Manager</Link>

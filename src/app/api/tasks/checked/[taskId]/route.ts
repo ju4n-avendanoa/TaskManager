@@ -16,5 +16,5 @@ export async function POST(
       done,
     },
   });
-  return NextResponse.json(task.id);
+  return NextResponse.json(task);
 }

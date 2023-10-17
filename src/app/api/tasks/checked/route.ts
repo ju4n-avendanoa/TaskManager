@@ -14,11 +14,11 @@ export async function GET(request: Request) {
     },
   });
 
-  let favorites = [];
+  let checked = [];
   if (tasks.length > 0) {
     for (let i = 0; i < tasks.length; i++) {
-      favorites.push(tasks[i]?.id);
+      checked.push(tasks[i]);
     }
   }
-  return NextResponse.json(favorites);
+  return NextResponse.json(checked);
 }
