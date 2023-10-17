@@ -22,18 +22,6 @@ export default function HomePage() {
   const { data: session } = useSession();
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        await getTasks(session?.user.id);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchTasks();
-  }, [getTasks, session?.user.id]);
-
-  useEffect(() => {
     const fetchFavorites = async () => {
       try {
         const response = await fetch(
@@ -65,6 +53,19 @@ export default function HomePage() {
     fetchChecked();
   }, [setChecked]);
 
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        await getTasks(session?.user.id);
+        console.log("holita");
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTasks();
+  }, [getTasks, session?.user.id]);
+
   const handleShowFavorites = () => {
     if (showChecked) {
       setShowChecked((prev) => !prev);
@@ -72,6 +73,7 @@ export default function HomePage() {
     if (showPending) {
       setShowPending((prev) => !prev);
     }
+    getTasks(session?.user.id);
     setShowFavorites(!showFavorites);
   };
   const handleShowChecked = () => {
@@ -81,6 +83,7 @@ export default function HomePage() {
     if (showPending) {
       setShowPending((prev) => !prev);
     }
+    getTasks(session?.user.id);
     setShowChecked(!showChecked);
   };
   const handleShowPending = () => {
@@ -90,6 +93,7 @@ export default function HomePage() {
     if (showChecked) {
       setShowChecked((prev) => !prev);
     }
+    getTasks(session?.user.id);
     setShowPending(!showPending);
   };
 
@@ -179,11 +183,16 @@ export default function HomePage() {
             )}
             {showPending && tasks.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 w-full">
-                {tasks.map((task) => (
-                  <article key={task.id}>
-                    <Task task={task} />
-                  </article>
-                ))}
+                {tasks.map((task) => {
+                  if (!task.done) {
+                    return (
+                      <article key={task.id}>
+                        <Task task={task} />
+                      </article>
+                    );
+                  }
+                  return;
+                })}
               </div>
             )}
             {!showFavorites &&

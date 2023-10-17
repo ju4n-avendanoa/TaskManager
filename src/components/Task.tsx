@@ -39,6 +39,7 @@ function Task({ task }: Props) {
       addFavorite(task);
     }
   };
+
   const handleToggleChecked = () => {
     if (checked.includes(task)) {
       deleteChecked(task);
@@ -51,19 +52,19 @@ function Task({ task }: Props) {
     router.push(`/tasks/edit/${task.id}`);
   };
 
-  const isPrioritary = favorites.includes(task);
-  const isChecked = checked.includes(task);
-  const isFavAndChecked = favorites.includes(task) && checked.includes(task);
+  const isPrioritary = favorites.some((item) => item.id === task.id);
+  const isChecked = checked.some((item) => item.id === task.id);
+  const isPrioAndChecked = (isPrioritary && isChecked) === true;
 
   return (
     <div
       className={`card relative ${
-        isFavAndChecked
-          ? "checked-fav "
+        isPrioAndChecked
+          ? "checked-fav"
           : isPrioritary
           ? "fav"
           : isChecked
-          ? "checked "
+          ? "checked"
           : ""
       }`}
     >

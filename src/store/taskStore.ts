@@ -10,11 +10,23 @@ export const useTaskStore = create<TaskState>()((set) => {
     title: "",
     sort: false,
     setSort: () => set((state) => ({ sort: !state.sort })),
-    setTasks: (tasks) => set({ tasks }),
+    setTasks: (tasks) =>
+      set((state) => ({
+        ...state,
+        tasks,
+      })),
     setDescription: (description) => set({ description }),
     setTitle: (title) => set({ title }),
-    setFavorites: (favorites) => set({ favorites }),
-    setChecked: (checked) => set({ checked }),
+    setFavorites: (favorites) =>
+      set((state) => ({
+        ...state,
+        favorites,
+      })),
+    setChecked: (checked) =>
+      set((state) => ({
+        ...state,
+        checked,
+      })),
     getTasks: async (userId) => {
       try {
         if (userId) {
@@ -122,7 +134,7 @@ export const useTaskStore = create<TaskState>()((set) => {
 
         set((state) => {
           const updatedChecked = state.checked.filter(
-            (checkedId) => checkedId !== task
+            (checkedTask) => checkedTask !== task
           );
           localStorage.setItem("checked", JSON.stringify(updatedChecked));
           return {
