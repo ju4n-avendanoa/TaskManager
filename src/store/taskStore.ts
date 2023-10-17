@@ -87,9 +87,9 @@ export const useTaskStore = create<TaskState>()((set) => {
         console.log(error);
       }
     },
-    addChecked: async (taskId) => {
+    addChecked: async (task) => {
       try {
-        await fetch(`http://localhost:3000/api/tasks/checked/${taskId}`, {
+        await fetch(`http://localhost:3000/api/tasks/checked/${task.id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -98,7 +98,7 @@ export const useTaskStore = create<TaskState>()((set) => {
         });
 
         set((state) => {
-          const updatedchecked = [...state.checked, taskId];
+          const updatedchecked = [...state.checked, task];
           localStorage.setItem("checked", JSON.stringify(updatedchecked));
           return {
             ...state,
@@ -110,9 +110,9 @@ export const useTaskStore = create<TaskState>()((set) => {
       }
     },
 
-    deleteChecked: async (taskId) => {
+    deleteChecked: async (task) => {
       try {
-        await fetch(`http://localhost:3000/api/tasks/checked/${taskId}`, {
+        await fetch(`http://localhost:3000/api/tasks/checked/${task.id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -122,7 +122,7 @@ export const useTaskStore = create<TaskState>()((set) => {
 
         set((state) => {
           const updatedChecked = state.checked.filter(
-            (checkedId) => checkedId !== taskId
+            (checkedId) => checkedId !== task
           );
           localStorage.setItem("checked", JSON.stringify(updatedChecked));
           return {
