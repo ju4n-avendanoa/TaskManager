@@ -2,7 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
-import { CalendarDaysIcon } from "@heroicons/react/24/solid";
+import {
+  CalendarDaysIcon,
+  Bars3BottomRightIcon,
+} from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 function NavBar() {
@@ -42,7 +45,7 @@ function NavBar() {
       );
     } else if (session) {
       return (
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col md:flex-row items-center gap-4">
           <span className="text-white">{session.user.email}</span>
           <button
             className="border border-blue-300 text-blue-300 py-2 px-4 hover:bg-blue-800 hover:text-white"
@@ -77,17 +80,22 @@ function NavBar() {
   };
 
   return (
-    <nav className="flex items-center justify-between">
-      <div className="flex items-center gap-2">
+    <nav className="flex items-center px-4 justify-between gap-6">
+      <section className="flex items-center gap-2">
         <Link href={"/"}>
-          <CalendarDaysIcon width={40} height={40} color="white" />
+          <CalendarDaysIcon className="w-6 lg:w-10 h-auto" color="white" />
         </Link>
-        <h1 className="text-white text-xl font-bold">
+        <h1 className="text-white text-base lg:text-xl font-bold">
           <Link href={"/"}>My Task Manager</Link>
         </h1>
-      </div>
-      {session ? renderAuthenticatedLinks() : null}
-      <div>{renderAuthenticationButtons()}</div>
+      </section>
+      <Bars3BottomRightIcon color="white" className="w-6 h-auto lg:hidden" />
+      <section className="hidden lg:block">
+        {session ? renderAuthenticatedLinks() : null}
+      </section>
+      <section className="hidden lg:block">
+        {renderAuthenticationButtons()}
+      </section>
     </nav>
   );
 }

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTaskStore } from "@/store/taskStore";
 import { useSession } from "next-auth/react";
+import { Bars3Icon } from "@heroicons/react/24/solid";
 import Task from "@/components/Task";
 
 export default function HomePage() {
@@ -30,6 +31,7 @@ export default function HomePage() {
         const data = await response.json();
         localStorage.setItem("favorites", JSON.stringify(data));
         setFavorites(data);
+        console.log("favorite");
       } catch (error) {
         console.error(error);
       }
@@ -45,6 +47,7 @@ export default function HomePage() {
         const data = await response.json();
         localStorage.setItem("checked", JSON.stringify(data));
         setChecked(data);
+        console.log("checked");
       } catch (error) {
         console.error(error);
       }
@@ -57,7 +60,6 @@ export default function HomePage() {
     const fetchTasks = async () => {
       try {
         await getTasks(session?.user.id);
-        console.log("holita");
       } catch (error) {
         console.error(error);
       }
@@ -67,34 +69,24 @@ export default function HomePage() {
   }, [getTasks, session?.user.id]);
 
   const handleShowFavorites = () => {
-    if (showChecked) {
-      setShowChecked((prev) => !prev);
-    }
-    if (showPending) {
-      setShowPending((prev) => !prev);
-    }
-    getTasks(session?.user.id);
+    setShowChecked(false);
+    setShowPending(false);
     setShowFavorites(!showFavorites);
+    getTasks(session?.user.id);
   };
+
   const handleShowChecked = () => {
-    if (showFavorites) {
-      setShowFavorites((prev) => !prev);
-    }
-    if (showPending) {
-      setShowPending((prev) => !prev);
-    }
-    getTasks(session?.user.id);
+    setShowFavorites(false);
+    setShowPending(false);
     setShowChecked(!showChecked);
-  };
-  const handleShowPending = () => {
-    if (showFavorites) {
-      setShowFavorites((prev) => !prev);
-    }
-    if (showChecked) {
-      setShowChecked((prev) => !prev);
-    }
     getTasks(session?.user.id);
+  };
+
+  const handleShowPending = () => {
+    setShowFavorites(false);
+    setShowChecked(false);
     setShowPending(!showPending);
+    getTasks(session?.user.id);
   };
 
   const orderByDate = useMemo(() => {
@@ -110,44 +102,41 @@ export default function HomePage() {
   return (
     <>
       <main className="h-full">
-        <section className="flex h-full">
-          <div className=" flex flex-col items-center justify-start p-6 w-1/5 bg-slate-500 h-full">
-            <div className="flex flex-col gap-6 w-max">
+        <section className="flex flex-col max-sm:items-center md:flex-row h-full">
+          <div className="flex justify-center items-center bg-slate-500 p-2 gap-4 w-full md:hidden">
+            <h2 className="text-white">Tasks Menu</h2>
+            <Bars3Icon className="w-6 h-auto" color="white" />
+          </div>
+          <div className="flex flex-col items-start justify-start p-6 w-1/6 bg-slate-500 h-full max-sm:hidden">
+            <div className="flex flex-col gap-6 text-xs">
               <button
-                className={`border w-auto p-2 bg-blue-300 rounded-md border-slate-900 btn ${
+                className={`border p-2 lg:w-max bg-blue-300 rounded-md border-slate-900 btn ${
                   showFavorites ? "bg-blue-600" : ""
-                }
-                `}
+                }`}
                 onClick={handleShowFavorites}
               >
-                {showFavorites
-                  ? "Mostrar todas las tareas"
-                  : "Mostrar Tareas Prioritarias"}
+                {showFavorites ? "Show All Tasks" : "Show Priority Tasks"}
               </button>
               <button
-                className={`border w-auto p-2 bg-blue-300 rounded-md border-slate-900 btn ${
+                className={`border p-2 lg:w-max bg-blue-300 rounded-md border-slate-900 btn ${
                   showChecked ? "bg-blue-600" : ""
                 }`}
                 onClick={handleShowChecked}
               >
-                {showChecked
-                  ? "Mostrar todas las tareas"
-                  : "Mostrar tareas hechas"}
+                {showChecked ? "Show All Tasks" : "Show Tasks Done"}
               </button>
               <button
-                className={`border w-auto p-2 bg-blue-300 rounded-md border-slate-900 btn ${
+                className={`border p-2 lg:w-max bg-blue-300 rounded-md border-slate-900 btn ${
                   showPending ? "bg-blue-600" : ""
                 }`}
                 onClick={handleShowPending}
               >
-                {showPending
-                  ? "Mostrar todas las tareas"
-                  : "Mostrar tareas pendientes"}
+                {showPending ? "Show All Tasks" : "Show Pending Tasks"}
               </button>
               <div className="flex gap-4 items-center">
                 <button
                   onClick={toggleOrder}
-                  className="border w-auto p-2 bg-blue-300 rounded-md border-slate-900 btn"
+                  className="border p-2 lg:w-max bg-blue-300 rounded-md border-slate-900 btn"
                 >
                   sort by date
                 </button>
@@ -156,61 +145,101 @@ export default function HomePage() {
                   name="check"
                   id="check"
                   checked={sort}
-                  onChange={setSort}
+                  onChange={toggleOrder}
                   className="w-6 h-6"
                 />
               </div>
             </div>
           </div>
-          <section className="w-4/5">
+          <section className="w-5/6">
             {showFavorites && favorites.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 w-full">
-                {favorites.map((task) => (
-                  <article key={task.id}>
-                    <Task task={task} />
-                  </article>
-                ))}
+              <div>
+                <h2 className="text-white text-2xl lg:text-4xl font-bold text-center pt-4">
+                  Priority Tasks
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 w-full">
+                  {orderByDate.map((task) => {
+                    if (task.favorite) {
+                      return (
+                        <article key={task.id}>
+                          <Task task={task} />
+                        </article>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
               </div>
+            )}
+            {showFavorites && favorites.length === 0 && (
+              <h2 className="text-white text-2xl lg:text-4xl font-bold text-center pt-4">
+                No Tasks Marked as Priorities
+              </h2>
             )}
             {showChecked && checked.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 w-full">
-                {checked.map((task) => (
-                  <article key={task.id}>
-                    <Task task={task} />
-                  </article>
-                ))}
+              <div>
+                <h2 className="text-white text-2xl lg:text-4xl font-bold text-center pt-4">
+                  Tasks Done
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 w-full">
+                  {orderByDate.map((task) => {
+                    if (task.done) {
+                      return (
+                        <article key={task.id}>
+                          <Task task={task} />
+                        </article>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
               </div>
             )}
-            {showPending && tasks.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 w-full">
-                {tasks.map((task) => {
-                  if (!task.done) {
-                    return (
-                      <article key={task.id}>
-                        <Task task={task} />
-                      </article>
-                    );
-                  }
-                  return;
-                })}
+            {showChecked && checked.length === 0 && (
+              <h2 className="text-white text-2xl lg:text-4xl font-bold text-center pt-4">
+                No Tasks Marked as Done
+              </h2>
+            )}
+            {showPending && orderByDate.length > 0 && (
+              <div>
+                <h2 className="text-white text-2xl lg:text-4xl font-bold text-center pt-4">
+                  Pending Tasks
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 w-full">
+                  {orderByDate.map((task) => {
+                    if (!task.done) {
+                      return (
+                        <article key={task.id}>
+                          <Task task={task} />
+                        </article>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
               </div>
             )}
             {!showFavorites &&
               !showChecked &&
               !showPending &&
-              tasks?.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5">
-                  {orderByDate?.map((task) => (
-                    <article key={task.id}>
-                      <Task task={task} />
-                    </article>
-                  ))}
+              orderByDate?.length > 0 && (
+                <div>
+                  <h2 className="text-white text-2xl lg:text-4xl font-bold text-center pt-4">
+                    All Tasks
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5">
+                    {orderByDate?.map((task) => (
+                      <article key={task.id}>
+                        <Task task={task} />
+                      </article>
+                    ))}
+                  </div>
                 </div>
               )}
             {!showFavorites &&
               !showChecked &&
               !showPending &&
-              tasks?.length === 0 && (
+              orderByDate?.length === 0 && (
                 <div className="flex items-center justify-center h-full">
                   <h2 className="text-6xl text-white font-bold">
                     No Tasks Pending

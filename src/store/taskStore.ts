@@ -50,6 +50,14 @@ export const useTaskStore = create<TaskState>()((set) => {
     },
     addFavorite: async (task) => {
       try {
+        set((state) => {
+          const updatedFavorites = [...state.favorites, task];
+          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+          return {
+            ...state,
+            favorites: updatedFavorites,
+          };
+        });
         await fetch(`http://localhost:3000/api/tasks/favorite/${task.id}`, {
           method: "POST",
           headers: {
@@ -59,15 +67,6 @@ export const useTaskStore = create<TaskState>()((set) => {
             favorite: true,
           }),
         });
-
-        set((state) => {
-          const updatedFavorites = [...state.favorites, task];
-          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-          return {
-            ...state,
-            favorites: updatedFavorites,
-          };
-        });
       } catch (error) {
         console.log(error);
       }
@@ -75,16 +74,6 @@ export const useTaskStore = create<TaskState>()((set) => {
 
     deleteFavorites: async (task) => {
       try {
-        await fetch(`http://localhost:3000/api/tasks/favorite/${task.id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            favorite: false,
-          }),
-        });
-
         set((state) => {
           const updatedFavorites = state.favorites.filter(
             (favoriteTask) => favoriteTask.id !== task.id
@@ -95,20 +84,21 @@ export const useTaskStore = create<TaskState>()((set) => {
             favorites: updatedFavorites,
           };
         });
+        await fetch(`http://localhost:3000/api/tasks/favorite/${task.id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            favorite: false,
+          }),
+        });
       } catch (error) {
         console.log(error);
       }
     },
     addChecked: async (task) => {
       try {
-        await fetch(`http://localhost:3000/api/tasks/checked/${task.id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ done: true }),
-        });
-
         set((state) => {
           const updatedchecked = [...state.checked, task];
           localStorage.setItem("checked", JSON.stringify(updatedchecked));
@@ -117,6 +107,13 @@ export const useTaskStore = create<TaskState>()((set) => {
             checked: updatedchecked,
           };
         });
+        await fetch(`http://localhost:3000/api/tasks/checked/${task.id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ done: true }),
+        });
       } catch (error) {
         console.log(error);
       }
@@ -124,6 +121,16 @@ export const useTaskStore = create<TaskState>()((set) => {
 
     deleteChecked: async (task) => {
       try {
+        set((state) => {
+          const updatedchecked = state.checked.filter(
+            (checkedTask) => checkedTask.id !== task.id
+          );
+          localStorage.setItem("checked", JSON.stringify(updatedchecked));
+          return {
+            ...state,
+            checked: updatedchecked,
+          };
+        });
         await fetch(`http://localhost:3000/api/tasks/checked/${task.id}`, {
           method: "POST",
           headers: {
@@ -131,29 +138,12 @@ export const useTaskStore = create<TaskState>()((set) => {
           },
           body: JSON.stringify({ done: false }),
         });
-
-        set((state) => {
-          const updatedChecked = state.checked.filter(
-            (checkedTask) => checkedTask !== task
-          );
-          localStorage.setItem("checked", JSON.stringify(updatedChecked));
-          return {
-            ...state,
-            checked: updatedChecked,
-          };
-        });
       } catch (error) {
         console.log(error);
       }
     },
     deleteTask: async (taskId) => {
       try {
-        await fetch(`http://localhost:3000/api/tasks/${taskId}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
         set((state) => {
           const updatedTasks = state.tasks.filter((task) => task.id !== taskId);
           const updatedFavorites = state.favorites.filter(
@@ -171,6 +161,12 @@ export const useTaskStore = create<TaskState>()((set) => {
             favorites: updatedFavorites,
             checked: updatedChecked,
           };
+        });
+        await fetch(`http://localhost:3000/api/tasks/${taskId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
       } catch (error) {
         console.log(error);

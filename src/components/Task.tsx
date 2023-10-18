@@ -4,8 +4,8 @@ import {
   TrashIcon,
   PencilSquareIcon,
   ExclamationTriangleIcon,
+  CheckCircleIcon,
 } from "@heroicons/react/24/outline";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { Tasks } from "@/app/interfaces/taskInterfaces";
 import formatDate from "@/utils/formatDate";
 
@@ -33,7 +33,7 @@ function Task({ task }: Props) {
   };
 
   const handleToggleFavorite = () => {
-    if (favorites.includes(task)) {
+    if (favorites.some((item) => item.id === task.id)) {
       deleteFavorites(task);
     } else {
       addFavorite(task);
@@ -41,7 +41,7 @@ function Task({ task }: Props) {
   };
 
   const handleToggleChecked = () => {
-    if (checked.includes(task)) {
+    if (checked.some((item) => item.id === task.id)) {
       deleteChecked(task);
     } else {
       addChecked(task);
@@ -72,20 +72,41 @@ function Task({ task }: Props) {
         className={"star"}
         onClick={handleToggleFavorite}
         fill={isPrioritary ? "red" : "none"}
+        title={
+          isPrioritary
+            ? "Click to remove from priority tasks!"
+            : "Click to add as a priority task!"
+        }
       />
       <CheckCircleIcon
         className={"check"}
         onClick={handleToggleChecked}
-        color={isChecked ? "blue" : "none"}
+        color={isChecked ? "white" : "none"}
+        fill={isChecked ? "blue" : "none"}
+        title={
+          isChecked
+            ? "Click to remove from done tasks!"
+            : "Click to add as a done task!"
+        }
       />
 
-      <TrashIcon className="trash" onClick={handleDelete} />
-      <PencilSquareIcon className="edit" onClick={handleEdit} />
-      <div className="p-6">
-        <h3 className="mb-3 text-xl text-blue-300">{task.title}</h3>
-        <p className="text-md">{task.description}</p>
+      <TrashIcon
+        className="trash"
+        onClick={handleDelete}
+        title="Click to delete this task!"
+      />
+      <PencilSquareIcon
+        className="edit"
+        onClick={handleEdit}
+        title="Click to edit this task!"
+      />
+      <div className="p-4 lg:p-6">
+        <h3 className="mb-3 text-sm lg:text-lg text-blue-300 font-bold">
+          {task.title}
+        </h3>
+        <p className="lg:text-sm text-xs">{task.description}</p>
         <br />
-        <p className="text-md">{formatedDate}</p>
+        <p className="lg:text-sm text-xs">{formatedDate}</p>
       </div>
     </div>
   );
