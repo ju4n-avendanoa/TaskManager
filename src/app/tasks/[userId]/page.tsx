@@ -107,10 +107,10 @@ export default function HomePage() {
             <h2 className="text-white">Tasks Menu</h2>
             <Bars3Icon className="w-6 h-auto" color="white" />
           </div>
-          <div className="flex flex-col items-start justify-start p-6 w-1/6 bg-slate-500 h-full max-sm:hidden">
-            <div className="flex flex-col gap-6 text-xs">
+          <div className="flex flex-col items-start justify-start md:p-2 lg:p-6 w-1/6 bg-slate-500 h-full max-sm:hidden">
+            <div className="flex flex-col gap-6 text-xs pt-4">
               <button
-                className={`border p-2 lg:w-max bg-blue-300 rounded-md border-slate-900 btn ${
+                className={`border md:p-0.5 lg:p-2 lg:w-max bg-blue-300 rounded-md border-slate-900 btn ${
                   showFavorites ? "bg-blue-600" : ""
                 }`}
                 onClick={handleShowFavorites}
@@ -118,7 +118,7 @@ export default function HomePage() {
                 {showFavorites ? "Show All Tasks" : "Show Priority Tasks"}
               </button>
               <button
-                className={`border p-2 lg:w-max bg-blue-300 rounded-md border-slate-900 btn ${
+                className={`border md:p-0.5 lg:p-2 lg:w-max bg-blue-300 rounded-md border-slate-900 btn ${
                   showChecked ? "bg-blue-600" : ""
                 }`}
                 onClick={handleShowChecked}
@@ -126,7 +126,7 @@ export default function HomePage() {
                 {showChecked ? "Show All Tasks" : "Show Tasks Done"}
               </button>
               <button
-                className={`border p-2 lg:w-max bg-blue-300 rounded-md border-slate-900 btn ${
+                className={`border md:p-0.5 lg:p-2 lg:w-max bg-blue-300 rounded-md border-slate-900 btn ${
                   showPending ? "bg-blue-600" : ""
                 }`}
                 onClick={handleShowPending}
@@ -136,7 +136,7 @@ export default function HomePage() {
               <div className="flex gap-4 items-center">
                 <button
                   onClick={toggleOrder}
-                  className="border p-2 lg:w-max bg-blue-300 rounded-md border-slate-900 btn"
+                  className="border md:p-0.5 lg:p-2 lg:w-max bg-blue-300 rounded-md border-slate-900 btn"
                 >
                   sort by date
                 </button>
