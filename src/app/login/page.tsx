@@ -4,12 +4,14 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTaskStore } from "@/store/taskStore";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const router = useRouter();
+  const { setFavorites, setChecked } = useTaskStore();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -36,6 +38,18 @@ function Login() {
       } else {
         setError(false);
         router.push("/");
+        const favoriteResponse = await fetch(
+          "http://localhost:3000/api/tasks/favorite"
+        );
+        const checkedResponse = await fetch(
+          "http://localhost:3000/api/tasks/checked"
+        );
+        const favoriteData = await favoriteResponse.json();
+        const checkedData = await checkedResponse.json();
+        setFavorites(favoriteData);
+        setChecked(checkedData);
+        localStorage.setItem("favorites", JSON.stringify(favoriteData));
+        localStorage.setItem("checked", JSON.stringify(checkedData));
       }
 
       setEmail("");

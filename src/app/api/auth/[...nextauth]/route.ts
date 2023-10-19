@@ -38,6 +38,7 @@ export const authOptions: AuthOptions = {
           user.password
         );
         if (!passOk) return null;
+
         return user;
       },
     }),
