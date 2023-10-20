@@ -39,10 +39,10 @@ function Login() {
         setError(false);
         router.push("/");
         const favoriteResponse = await fetch(
-          "http://localhost:3000/api/tasks/favorite"
+          "https://my-task-organizer.vercel.app/api/tasks/favorite"
         );
         const checkedResponse = await fetch(
-          "http://localhost:3000/api/tasks/checked"
+          "https://my-task-organizer.vercel.app/api/tasks/checked"
         );
         const favoriteData = await favoriteResponse.json();
         const checkedData = await checkedResponse.json();

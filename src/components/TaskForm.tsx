@@ -31,8 +31,8 @@ function TaskForm({ title, description, taskId, userId }: Props) {
 
     try {
       const apiUrl = taskId
-        ? `http://localhost:3000/api/tasks/${taskId}`
-        : `http://localhost:3000/api/user-tasks/${userId}`;
+        ? `https://my-task-organizer.vercel.app/api/tasks/${taskId}`
+        : `https://my-task-organizer.vercel.app/api/user-tasks/${userId}`;
 
       await fetch(apiUrl, {
         method: taskId ? "PATCH" : "POST",

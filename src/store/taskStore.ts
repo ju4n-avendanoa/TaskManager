@@ -31,7 +31,7 @@ export const useTaskStore = create<TaskState>()((set) => {
       try {
         if (userId) {
           const res = await fetch(
-            `http://localhost:3000/api/user-tasks/${userId}`
+            `https://my-task-organizer.vercel.app/api/user-tasks/${userId}`
           );
           if (!res.ok) {
             throw new Error("Error en la solicitud al servidor");
@@ -58,15 +58,18 @@ export const useTaskStore = create<TaskState>()((set) => {
             favorites: updatedFavorites,
           };
         });
-        await fetch(`http://localhost:3000/api/tasks/favorite/${task.id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            favorite: true,
-          }),
-        });
+        await fetch(
+          `https://my-task-organizer.vercel.app/api/tasks/favorite/${task.id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              favorite: true,
+            }),
+          }
+        );
       } catch (error) {
         console.log(error);
       }
@@ -84,15 +87,18 @@ export const useTaskStore = create<TaskState>()((set) => {
             favorites: updatedFavorites,
           };
         });
-        await fetch(`http://localhost:3000/api/tasks/favorite/${task.id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            favorite: false,
-          }),
-        });
+        await fetch(
+          `https://my-task-organizer.vercel.app/api/tasks/favorite/${task.id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              favorite: false,
+            }),
+          }
+        );
       } catch (error) {
         console.log(error);
       }
@@ -107,13 +113,16 @@ export const useTaskStore = create<TaskState>()((set) => {
             checked: updatedchecked,
           };
         });
-        await fetch(`http://localhost:3000/api/tasks/checked/${task.id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ done: true }),
-        });
+        await fetch(
+          `https://my-task-organizer.vercel.app/api/tasks/checked/${task.id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ done: true }),
+          }
+        );
       } catch (error) {
         console.log(error);
       }
@@ -131,13 +140,16 @@ export const useTaskStore = create<TaskState>()((set) => {
             checked: updatedchecked,
           };
         });
-        await fetch(`http://localhost:3000/api/tasks/checked/${task.id}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ done: false }),
-        });
+        await fetch(
+          `https://my-task-organizer.vercel.app/api/tasks/checked/${task.id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ done: false }),
+          }
+        );
       } catch (error) {
         console.log(error);
       }
@@ -162,12 +174,15 @@ export const useTaskStore = create<TaskState>()((set) => {
             checked: updatedChecked,
           };
         });
-        await fetch(`http://localhost:3000/api/tasks/${taskId}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        await fetch(
+          `https://my-task-organizer.vercel.app/api/tasks/${taskId}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
       } catch (error) {
         console.log(error);
       }
