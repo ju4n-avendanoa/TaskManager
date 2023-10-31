@@ -24,7 +24,10 @@ function Register() {
     e.preventDefault();
 
     const res = await fetch(
-      "https://my-task-organizer.vercel.app/api/users/register",
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/api/users/register"
+        : "https://my-task-organizer.vercel.app/api/users/register",
+
       {
         method: "POST",
         headers: {
@@ -55,7 +58,7 @@ function Register() {
     <div className="flex grow flex-col gap-6 items-center justify-center">
       <h2 className="text-white font-bold text-4xl">Sign Up</h2>
       <form
-        className="flex flex-col rounded-2xl gap-2 p-6 bg-slate-900 w-1/3"
+        className="flex flex-col rounded-2xl gap-2 p-6 bg-slate-900 w-2/3 lg:w-1/3"
         onSubmit={handleSubmit}
       >
         <label htmlFor="name" className="text-white">

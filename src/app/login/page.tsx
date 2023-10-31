@@ -39,10 +39,14 @@ function Login() {
         setError(false);
         router.push("/");
         const favoriteResponse = await fetch(
-          "https://my-task-organizer.vercel.app/api/tasks/favorite"
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000/api/tasks/favorite"
+            : "https://my-task-organizer.vercel.app/api/tasks/favorite"
         );
         const checkedResponse = await fetch(
-          "https://my-task-organizer.vercel.app/api/tasks/checked"
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000/api/tasks/favorite"
+            : "https://my-task-organizer.vercel.app/api/tasks/checked"
         );
         const favoriteData = await favoriteResponse.json();
         const checkedData = await checkedResponse.json();
@@ -63,7 +67,7 @@ function Login() {
     <div className="flex grow flex-col gap-6 items-center justify-center">
       <h2 className="text-white font-bold text-4xl">Log In</h2>
       <form
-        className="flex flex-col rounded-2xl gap-2 p-6 bg-slate-900 w-1/3"
+        className="flex flex-col rounded-2xl gap-2 p-6 bg-slate-900 w-2/3 lg:w-1/3"
         onSubmit={handleSubmit}
       >
         <label htmlFor="email" className="text-white">

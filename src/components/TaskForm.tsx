@@ -31,7 +31,11 @@ function TaskForm({ title, description, taskId, userId }: Props) {
 
     try {
       const apiUrl = taskId
-        ? `https://my-task-organizer.vercel.app/api/tasks/${taskId}`
+        ? process.env.NODE_ENV === "development"
+          ? `http://localhost:3000/api/tasks/${taskId}`
+          : `https://my-task-organizer.vercel.app/api/tasks/${taskId}`
+        : process.env.NODE_ENV === "development"
+        ? `http://localhost:3000/api/user-tasks/${userId}`
         : `https://my-task-organizer.vercel.app/api/user-tasks/${userId}`;
 
       await fetch(apiUrl, {

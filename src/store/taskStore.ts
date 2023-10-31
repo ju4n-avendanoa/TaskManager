@@ -31,7 +31,9 @@ export const useTaskStore = create<TaskState>()((set) => {
       try {
         if (userId) {
           const res = await fetch(
-            `https://my-task-organizer.vercel.app/api/user-tasks/${userId}`
+            process.env.NODE_ENV === "development"
+              ? `http://localhost:3000/api/user-tasks/${userId}`
+              : `https://my-task-organizer.vercel.app/api/user-tasks/${userId}`
           );
           if (!res.ok) {
             throw new Error("Error en la solicitud al servidor");
@@ -59,7 +61,10 @@ export const useTaskStore = create<TaskState>()((set) => {
           };
         });
         await fetch(
-          `https://my-task-organizer.vercel.app/api/tasks/favorite/${task.id}`,
+          process.env.NODE_ENV === "development"
+            ? `http://localhost:3000/api/tasks/favorite/${task.id}`
+            : `https://my-task-organizer.vercel.app/api/tasks/favorite/${task.id}`,
+
           {
             method: "POST",
             headers: {
@@ -88,7 +93,9 @@ export const useTaskStore = create<TaskState>()((set) => {
           };
         });
         await fetch(
-          `https://my-task-organizer.vercel.app/api/tasks/favorite/${task.id}`,
+          process.env.NODE_ENV === "development"
+            ? `http://localhost:3000/api/tasks/favorite/${task.id}`
+            : `https://my-task-organizer.vercel.app/api/tasks/favorite/${task.id}`,
           {
             method: "POST",
             headers: {
@@ -114,7 +121,9 @@ export const useTaskStore = create<TaskState>()((set) => {
           };
         });
         await fetch(
-          `https://my-task-organizer.vercel.app/api/tasks/checked/${task.id}`,
+          process.env.NODE_ENV === "development"
+            ? `http://localhost:3000/api/tasks/checked/${task.id}`
+            : `https://my-task-organizer.vercel.app/api/tasks/checked/${task.id}`,
           {
             method: "POST",
             headers: {
@@ -141,7 +150,10 @@ export const useTaskStore = create<TaskState>()((set) => {
           };
         });
         await fetch(
-          `https://my-task-organizer.vercel.app/api/tasks/checked/${task.id}`,
+          process.env.NODE_ENV === "development"
+            ? `http://localhost:3000/api/tasks/checked/${task.id}`
+            : `https://my-task-organizer.vercel.app/api/tasks/checked/${task.id}`,
+
           {
             method: "POST",
             headers: {
@@ -175,7 +187,10 @@ export const useTaskStore = create<TaskState>()((set) => {
           };
         });
         await fetch(
-          `https://my-task-organizer.vercel.app/api/tasks/${taskId}`,
+          process.env.NODE_ENV === "development"
+            ? `http://localhost:3000/api/tasks/${taskId}`
+            : `https://my-task-organizer.vercel.app/api/tasks/${taskId}`,
+
           {
             method: "DELETE",
             headers: {

@@ -19,7 +19,9 @@ const CreateTask: React.FC<CreateTaskProps> = ({ params }) => {
     if (!params.taskId) return;
     const fetchTask = async () => {
       const response = await fetch(
-        `https://my-task-organizer.vercel.app/api/tasks/${params.taskId}`
+        process.env.NODE_ENV === "development"
+          ? `http://localhost:3000/api/tasks/${params.taskId}`
+          : `https://my-task-organizer.vercel.app/api/tasks/${params.taskId}`
       );
       const data = await response.json();
       setDescription(data.description);
