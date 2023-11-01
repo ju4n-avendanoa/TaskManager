@@ -27,21 +27,22 @@ To get a local copy of the project up and running, follow these steps:
 
 3. Create a .env file in the root directory of the project and configure the following environment variables:
 
+   ```
    NEXTAUTH_SECRET=your_secret_here
    DATABASE_URL=your_database_url_here
    SALT=your_salt_value_here
 
-4. Install dependencies:
+3. Install dependencies:
 
    ```bash
    npm install
 
-5. Run the development server:
+4. Run the development server:
 
    ```bash
    npm run dev
 
-6. Open your web browser and navigate to http://localhost:3000 to use the application.
+5. Open your web browser and navigate to http://localhost:3000 to use the application.
 
 ## Deployed Version
 
