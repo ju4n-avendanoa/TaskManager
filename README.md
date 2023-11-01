@@ -25,29 +25,35 @@ To get a local copy of the project up and running, follow these steps:
    cd ToDoList---NextJS
    ```
 
-3. Install dependencies:
+3. Create a .env file in the root directory of the project and configure the following environment variables:
+
+   NEXTAUTH_SECRET=your_secret_here
+   DATABASE_URL=your_database_url_here
+   SALT=your_salt_value_here
+
+4. Install dependencies:
 
    ```bash
    npm install
 
-4. Run the development server:
+5. Run the development server:
 
    ```bash
    npm run dev
 
-5. Open your web browser and navigate to http://localhost:3000 to use the application.
+6. Open your web browser and navigate to http://localhost:3000 to use the application.
 
-##Deployed Version
+## Deployed Version
 
 The project is deployed on Vercel. You can access the live version of the application here.
 
-##Technologies Used
+## Technologies Used
 
 Next.js
 React
 Tailwind CSS
 
-##Contributing
+## Contributing
 
 Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
 
@@ -57,7 +63,7 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 4. Push to the branch: git push origin my-feature
 5. Create a pull request.
 
-##Contact
+## Contact
 
 If you have any questions or need further assistance, feel free to contact the project author.
 
