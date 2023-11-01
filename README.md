@@ -12,10 +12,6 @@ This is a simple ToDo List application built using Next.js. You can use it to ke
 
 ## Getting Started
 
-```html
-<span style="color: red;">Este texto es rojo.</span>
-```
-
 To get a local copy of the project up and running, follow these steps:
 
 1. Clone the repository:
