@@ -28,10 +28,9 @@ To get a local copy of the project up and running, follow these steps:
 3. Create a .env file in the root directory of the project and configure the following environment variables:
 
    ```
-   NEXTAUTH_SECRET=your_secret_here
-   DATABASE_URL=your_database_url_here
-   SALT=your_salt_value_here
-
+   NEXTAUTH_SECRET = your_secret_here
+   DATABASE_URL = your_database_url_here
+   SALT = your_salt_value_here
 3. Install dependencies:
 
    ```bash
