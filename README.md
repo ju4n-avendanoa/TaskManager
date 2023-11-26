@@ -45,13 +45,15 @@ To get a local copy of the project up and running, follow these steps:
 
 ## Deployed Version
 
-The project is deployed on Vercel. You can access the live version of the application here.
+The project is deployed on Vercel. You can access the live version of the application [here](https://my-task-organizer.vercel.app).
 
 ## Technologies Used
 
-Next.js
-React
-Tailwind CSS
+- **React:** The user interface is built with React, providing a fast and responsive user experience.
+
+- **NextJS:** This project uses NextJS.
+
+- **Styled with TailwindCSS:** The application styles are written in CSS for easy customization.
 
 ## Contributing
 
