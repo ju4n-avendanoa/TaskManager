@@ -93,7 +93,7 @@ function NavBar() {
   };
 
   return (
-    <nav className="flex items-center px-4 justify-between gap-6">
+    <nav className="flex justify-between lg:grid lg:grid-cols-3 place-items-center">
       <section className="flex items-center gap-2">
         <Link href={"/"} onClick={() => setIsSessionMenuOpen(false)}>
           <CalendarDaysIcon className="w-6 lg:w-10 h-auto" color="white" />
@@ -104,7 +104,7 @@ function NavBar() {
           </Link>
         </h1>
       </section>
-      <div className="relative">
+      <div className="relative lg:hidden">
         <Bars3BottomRightIcon
           color="white"
           className="w-6 h-auto lg:hidden"

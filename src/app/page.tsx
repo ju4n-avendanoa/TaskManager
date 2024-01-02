@@ -4,10 +4,10 @@ export const revalidate = 0;
 
 export default function HomePage() {
   return (
-    <div className="h-full flex items-center justify-center">
-      <div className="text-white text-center select-none">
-        <h1 className="text-7xl font-bold mb-4">Task Manager</h1>
-        <p className="text-2lg mb-8">Organize your tasks efficiently.</p>
+    <div className="flex items-center justify-center h-full">
+      <div className="text-center text-white select-none">
+        <h1 className="mb-4 font-bold text-7xl">Task Manager</h1>
+        <p className="mb-8 text-2lg">Organize your tasks efficiently.</p>
       </div>
     </div>
   );

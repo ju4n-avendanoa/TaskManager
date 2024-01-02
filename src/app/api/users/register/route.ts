@@ -1,13 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
-
-import { UserState } from "@/app/interfaces/userInterfaces";
 import hashPassword from "@/utils/passwordHash";
 
 const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
-  const data: UserState = await request.json();
+  const data = await request.json();
   try {
     const emailExists = await prisma.users.findFirst({
       where: {
@@ -29,7 +27,7 @@ export async function POST(request: Request) {
         password: passHashed,
       },
     });
-    return NextResponse.json("");
+    return NextResponse.json("user created successfully");
   } catch (error: any) {
     return NextResponse.json(error);
   }

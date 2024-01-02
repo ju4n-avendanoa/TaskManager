@@ -31,7 +31,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({ params }) => {
   }, [setDescription, setTitle, params.taskId]);
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen">
       <TaskForm
         description={description}
         title={title}

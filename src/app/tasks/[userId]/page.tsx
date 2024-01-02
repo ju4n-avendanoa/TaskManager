@@ -32,7 +32,7 @@ export default function HomePage() {
   return (
     <>
       <main className="h-full">
-        <section className="flex flex-col max-sm:items-center md:flex-row h-full">
+        <section className="flex flex-col h-full max-sm:items-center md:flex-row">
           <FullTaskComponent />
         </section>
       </main>
