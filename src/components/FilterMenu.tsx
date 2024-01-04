@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 import { Bars3Icon } from "@heroicons/react/24/solid";
+import { useFiltersStore } from "@/store/filtersStore";
 
 interface FilterButtonProps {
   showFilter: boolean;
@@ -31,9 +32,8 @@ type Props = {
 
 function FilterMenu({ className }: Props) {
   const { sort, setSort } = useTaskStore();
-  const [showFavorites, setShowFavorites] = useState(false);
-  const [showChecked, setShowChecked] = useState(false);
-  const [showPending, setShowPending] = useState(false);
+  const { setDone, setFavorite, setPending, favorite, pending, done } =
+    useFiltersStore();
   const [isTaskMenuOpen, setIsTaskMenuOpen] = useState(false);
 
   const { data: session } = useSession();
@@ -42,25 +42,23 @@ function FilterMenu({ className }: Props) {
   };
 
   const handleShowFavorites = () => {
-    setShowChecked(false);
-    setShowPending(false);
-    setShowFavorites(!showFavorites);
-    // getTasks(session?.user.id);
+    setDone(false);
+    setPending(false);
+    setFavorite(!favorite);
   };
 
   const handleShowChecked = () => {
-    setShowFavorites(false);
-    setShowPending(false);
-    setShowChecked(!showChecked);
-    // getTasks(session?.user.id);
+    setFavorite(false);
+    setPending(false);
+    setDone(!done);
   };
 
-  const handleShowPending = () => {
-    setShowFavorites(false);
-    setShowChecked(false);
-    setShowPending(!showPending);
-    // getTasks(session?.user.id);
+  const handleShowPending: () => void = () => {
+    setFavorite(false);
+    setDone(false);
+    setPending(!pending);
   };
+
   const toggleOrder = () => {
     setSort();
   };
@@ -69,17 +67,17 @@ function FilterMenu({ className }: Props) {
     <section className={className}>
       <div className="flex flex-col gap-6 pt-24 text-xs">
         <FilterButton
-          showFilter={showFavorites}
+          showFilter={favorite}
           handleShowFilter={handleShowFavorites}
           message="Show Priority Tasks"
         />
         <FilterButton
-          showFilter={showChecked}
+          showFilter={done}
           handleShowFilter={handleShowChecked}
           message="Show Tasks Done"
         />
         <FilterButton
-          showFilter={showPending}
+          showFilter={pending}
           handleShowFilter={handleShowPending}
           message="Show Pending Tasks"
         />

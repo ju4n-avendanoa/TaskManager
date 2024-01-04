@@ -17,7 +17,7 @@ type Inputs = {
 function LoginForm() {
   const [error, setError] = useState(false);
   const router = useRouter();
-  const { setFavorites, setChecked, setTasks } = useTaskStore();
+  const { setFavorites, setChecked } = useTaskStore();
 
   const {
     register,

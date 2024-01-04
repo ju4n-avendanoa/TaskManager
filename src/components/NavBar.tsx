@@ -7,8 +7,8 @@ import {
   Bars3BottomRightIcon,
 } from "@heroicons/react/24/solid";
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
 import { useState } from "react";
+import Link from "next/link";
 
 function NavBar() {
   const router = useRouter();
@@ -26,17 +26,17 @@ function NavBar() {
 
   const renderAuthenticatedLinks = () => {
     return (
-      <ul className="flex flex-col lg:flex-row lg:gap-5 text-white gap-6">
+      <ul className="flex flex-col gap-6 text-white lg:flex-row lg:gap-5">
         <Link
           href={`/tasks/${session?.user.id}`}
           onClick={() => setIsSessionMenuOpen(false)}
         >
-          <li className="border text-xs lg:text-base max-lg:bg-slate-900 border-white py-2 px-4 hover:bg-blue-800 text-center btn">
+          <li className="px-4 py-2 text-xs text-center border border-white lg:text-base max-lg:bg-slate-900 hover:bg-blue-800 btn">
             My tasks
           </li>
         </Link>
         <Link href="/newtask" onClick={() => setIsSessionMenuOpen(false)}>
-          <li className="border text-xs lg:text-base max-lg:bg-slate-900 border-white py-2 px-4 hover:bg-blue-800 btn text-center">
+          <li className="px-4 py-2 text-xs text-center border border-white lg:text-base max-lg:bg-slate-900 hover:bg-blue-800 btn">
             Create new task
           </li>
         </Link>
@@ -46,22 +46,15 @@ function NavBar() {
 
   const renderAuthenticationButtons = () => {
     if (typeof session === "undefined") {
-      return (
-        <div
-          className="text-white
-      "
-        >
-          Loading session...
-        </div>
-      );
+      return <div className="text-white ">Loading session...</div>;
     } else if (session) {
       return (
-        <div className="flex flex-col lg:flex-row items-center gap-4">
-          <span className="text-white text-xs lg:text-base">
+        <div className="flex flex-col items-center gap-4 lg:flex-row">
+          <span className="text-xs text-white lg:text-base">
             {session.user.email}
           </span>
           <button
-            className="border max-lg:bg-slate-900 text-xs lg:text-base border-blue-300 text-blue-300 py-2 px-4 hover:bg-blue-800 hover:text-white"
+            className="px-4 py-2 text-xs text-blue-300 border border-blue-300 max-lg:bg-slate-900 lg:text-base hover:bg-blue-800 hover:text-white"
             onClick={handleLogOut}
           >
             Log out
@@ -72,7 +65,7 @@ function NavBar() {
       return (
         <div className="flex gap-5">
           <button
-            className="border border-blue-300 text-blue-300 py-2 px-4 hover:bg-blue-800 hover:text-white"
+            className="px-4 py-2 text-blue-300 border border-blue-300 hover:bg-blue-800 hover:text-white"
             onClick={() => {
               router.push("/register");
             }}
@@ -80,7 +73,7 @@ function NavBar() {
             Sign up
           </button>
           <button
-            className="border border-blue-300 text-blue-300 py-2 px-4 hover:bg-blue-800 hover:text-white"
+            className="px-4 py-2 text-blue-300 border border-blue-300 hover:bg-blue-800 hover:text-white"
             onClick={() => {
               router.push("/login");
             }}
@@ -96,9 +89,9 @@ function NavBar() {
     <nav className="flex justify-between lg:grid lg:grid-cols-3 place-items-center">
       <section className="flex items-center gap-2">
         <Link href={"/"} onClick={() => setIsSessionMenuOpen(false)}>
-          <CalendarDaysIcon className="w-6 lg:w-10 h-auto" color="white" />
+          <CalendarDaysIcon className="w-6 h-auto lg:w-10" color="white" />
         </Link>
-        <h1 className="text-white text-base lg:text-xl font-bold">
+        <h1 className="text-base font-bold text-white lg:text-xl">
           <Link href={"/"} onClick={() => setIsSessionMenuOpen(false)}>
             My Task Manager
           </Link>
@@ -111,7 +104,7 @@ function NavBar() {
           onClick={toggleMenu}
         />
         {isSessionMenuOpen && (
-          <div className="fixed top-0 right-0 bottom-0 sm:w-2/5 bg-opacity-80 md:w-1/5 h-full bg-slate-600 z-10">
+          <div className="fixed top-0 bottom-0 right-0 z-10 h-full sm:w-2/5 bg-opacity-80 md:w-1/5 bg-slate-600">
             <div className="w-full h-full p-4">
               <section className="flex flex-col items-center justify-center gap-6">
                 {session ? renderAuthenticatedLinks() : null}
