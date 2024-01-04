@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { TaskState } from "@/app/interfaces/taskInterfaces";
+import { TaskState, Tasks } from "@/interfaces/taskInterfaces";
 
 export const useTaskStore = create<TaskState>()((set) => {
   return {
@@ -8,7 +8,7 @@ export const useTaskStore = create<TaskState>()((set) => {
     checked: [],
     description: "",
     title: "",
-    sort: false,
+    sort: true,
     setSort: () => set((state) => ({ sort: !state.sort })),
     setTasks: (tasks) =>
       set((state) => ({
@@ -39,6 +39,18 @@ export const useTaskStore = create<TaskState>()((set) => {
             throw new Error("Error en la solicitud al servidor");
           }
           const tasks = await res.json();
+          const favorites = tasks.filter(
+            (task: Tasks) => task.favorite === true
+          );
+          const checked = tasks.filter((task: Tasks) => task.done === true);
+          set((state) => ({
+            ...state,
+            favorites,
+          }));
+          set((state) => ({
+            ...state,
+            checked,
+          }));
           set((state) => ({
             ...state,
             tasks,

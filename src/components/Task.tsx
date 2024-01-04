@@ -6,7 +6,7 @@ import {
   ExclamationTriangleIcon,
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
-import { Tasks } from "@/app/interfaces/taskInterfaces";
+import { Tasks } from "@/interfaces/taskInterfaces";
 import formatDate from "@/utils/formatDate";
 
 interface Props {
@@ -101,12 +101,12 @@ function Task({ task }: Props) {
         title="Click to edit this task!"
       />
       <div className="p-4 lg:p-6">
-        <h3 className="mb-3 text-sm lg:text-lg text-blue-300 font-bold">
+        <h3 className="mb-3 text-sm font-bold text-blue-300 lg:text-lg">
           {task.title}
         </h3>
-        <p className="lg:text-sm text-xs">{task.description}</p>
+        <p className="text-xs lg:text-sm">{task.description}</p>
         <br />
-        <p className="lg:text-sm text-xs">{formatedDate}</p>
+        <p className="text-xs lg:text-sm">{formatedDate}</p>
       </div>
     </div>
   );

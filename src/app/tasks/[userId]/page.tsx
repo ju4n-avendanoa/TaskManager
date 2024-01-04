@@ -1,39 +1,13 @@
-"use client";
+import TaskGrid from "@/components/TaskGrid";
 
-import { useEffect } from "react";
-import { useTaskStore } from "@/store/taskStore";
-import { useSession } from "next-auth/react";
-import FullTaskComponent from "@/components/FullTaskComponent";
+export const revalidate = 0;
 
-export default function HomePage() {
-  const { getTasks, setFavorites, setChecked } = useTaskStore();
-
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        await getTasks(session?.user.id);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchTasks();
-  }, [getTasks, session?.user.id]);
-
-  useEffect(() => {
-    const favoriteItems = localStorage.getItem("favorites");
-    const checkedItems = localStorage.getItem("checked");
-    setFavorites(JSON.parse(favoriteItems as string));
-    setChecked(JSON.parse(checkedItems as string));
-  }, [setFavorites, setChecked]);
-
+export default function HomePage({ params }: { params: { userId: string } }) {
   return (
     <>
-      <main className="h-full">
+      <main>
         <section className="flex flex-col h-full max-sm:items-center md:flex-row">
-          <FullTaskComponent />
+          <TaskGrid userId={params.userId} />
         </section>
       </main>
     </>

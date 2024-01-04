@@ -1,4 +1,4 @@
-import { Error } from "@/app/interfaces/errorInterface";
+import { Error } from "@/interfaces/errorInterface";
 import { create } from "zustand";
 
 export const useErrorStore = create<Error>()((set) => ({

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { UserState } from "../app/interfaces/userInterfaces";
+import { UserState } from "../interfaces/userInterfaces";
 
 export const useUsersStore = create<UserState>()((set) => ({
   name: "",

@@ -7,32 +7,32 @@
 }
 
 .fav {
-  @apply border border-red-400 outline outline-2 outline-red-400 shadow-md shadow-red-400;
+  @apply border border-red-400 shadow-md outline outline-2 outline-red-400 shadow-red-400;
 }
 .checked {
-  @apply border border-blue-400 outline outline-2 outline-blue-400 shadow-md shadow-blue-400;
+  @apply border border-blue-400 shadow-md outline outline-2 outline-blue-400 shadow-blue-400;
 }
 
 .card {
-  @apply bg-slate-900 rounded-lg text-white border w-auto break-keep whitespace-normal;
+  @apply w-auto text-white whitespace-normal border rounded-lg bg-slate-800 break-keep;
 }
 
 .checked-fav {
-  @apply border-blue-400 outline outline-2 outline-blue-400 shadow-md shadow-blue-400;
+  @apply border-blue-400 shadow-md outline outline-2 outline-blue-400 shadow-blue-400;
 }
 
 .star {
-  @apply absolute w-5 top-0 right-1 h-auto rounded-full cursor-pointer;
+  @apply absolute top-0 w-5 h-auto rounded-full cursor-pointer right-1;
 }
 
 .check {
-  @apply absolute w-5 top-0 right-7 h-auto rounded-full cursor-pointer;
+  @apply absolute top-0 w-5 h-auto rounded-full cursor-pointer right-7;
 }
 
 .edit {
-  @apply absolute w-5 bottom-0 right-7 h-auto bg-blue-500 rounded-full cursor-pointer;
+  @apply absolute bottom-0 w-5 h-auto bg-blue-500 rounded-full cursor-pointer right-7;
 }
 
 .trash {
-  @apply absolute w-5 bottom-0 right-1 h-auto bg-red-500 rounded-full cursor-pointer;
+  @apply absolute bottom-0 w-5 h-auto bg-red-500 rounded-full cursor-pointer right-1;
 }

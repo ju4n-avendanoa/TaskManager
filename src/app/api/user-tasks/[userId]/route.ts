@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { Tasks } from "@/app/interfaces/taskInterfaces";
+import { Tasks } from "@/interfaces/taskInterfaces";
 
 const prisma = new PrismaClient();
 
