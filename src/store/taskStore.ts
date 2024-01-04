@@ -1,11 +1,18 @@
-import { create } from "zustand";
 import { TaskState, Tasks } from "@/interfaces/taskInterfaces";
+import { create } from "zustand";
+import getAllTasks from "@/utils/getAllTasks";
+import addFavorite from "@/utils/addFavorite";
+import deleteFavorite from "@/utils/deleteFavorite";
+import addChecked from "@/utils/addChecked";
+import deleteChecked from "@/utils/deleteChecked";
+import deleteTask from "@/utils/deleteTask";
 
 export const useTaskStore = create<TaskState>()((set) => {
   return {
     tasks: [],
     favorites: [],
     checked: [],
+    pendings: [],
     description: "",
     title: "",
     sort: true,
@@ -25,29 +32,18 @@ export const useTaskStore = create<TaskState>()((set) => {
     getTasks: async (userId) => {
       try {
         if (userId) {
-          const res = await fetch(
-            process.env.NODE_ENV === "development"
-              ? `http://localhost:3000/api/user-tasks/${userId}`
-              : `https://my-task-organizer.vercel.app/api/user-tasks/${userId}`
-          );
-          if (!res.ok) {
-            throw new Error("Error en la solicitud al servidor");
-          }
-          const tasks = await res.json();
+          const tasks = await getAllTasks(userId);
           const favorites = tasks.filter(
             (task: Tasks) => task.favorite === true
           );
           const checked = tasks.filter((task: Tasks) => task.done === true);
+          const pendings = tasks.filter((task: Tasks) => task.done === false);
+
           set((state) => ({
             ...state,
             favorites,
-          }));
-          set((state) => ({
-            ...state,
             checked,
-          }));
-          set((state) => ({
-            ...state,
+            pendings,
             tasks,
           }));
           return tasks;
@@ -61,27 +57,12 @@ export const useTaskStore = create<TaskState>()((set) => {
       try {
         set((state) => {
           const updatedFavorites = [...state.favorites, task];
-          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
           return {
             ...state,
             favorites: updatedFavorites,
           };
         });
-        await fetch(
-          process.env.NODE_ENV === "development"
-            ? `http://localhost:3000/api/tasks/favorite/${task.id}`
-            : `https://my-task-organizer.vercel.app/api/tasks/favorite/${task.id}`,
-
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              favorite: true,
-            }),
-          }
-        );
+        await addFavorite(task);
       } catch (error) {
         console.log(error);
       }
@@ -93,26 +74,12 @@ export const useTaskStore = create<TaskState>()((set) => {
           const updatedFavorites = state.favorites.filter(
             (favoriteTask) => favoriteTask.id !== task.id
           );
-          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
           return {
             ...state,
             favorites: updatedFavorites,
           };
         });
-        await fetch(
-          process.env.NODE_ENV === "development"
-            ? `http://localhost:3000/api/tasks/favorite/${task.id}`
-            : `https://my-task-organizer.vercel.app/api/tasks/favorite/${task.id}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              favorite: false,
-            }),
-          }
-        );
+        await deleteFavorite(task);
       } catch (error) {
         console.log(error);
       }
@@ -121,24 +88,16 @@ export const useTaskStore = create<TaskState>()((set) => {
       try {
         set((state) => {
           const updatedchecked = [...state.checked, task];
-          localStorage.setItem("checked", JSON.stringify(updatedchecked));
+          const updatedPending = state.pendings.filter(
+            (pendingTask) => task.id !== pendingTask.id
+          );
           return {
             ...state,
             checked: updatedchecked,
+            pendings: updatedPending,
           };
         });
-        await fetch(
-          process.env.NODE_ENV === "development"
-            ? `http://localhost:3000/api/tasks/checked/${task.id}`
-            : `https://my-task-organizer.vercel.app/api/tasks/checked/${task.id}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ done: true }),
-          }
-        );
+        await addChecked(task);
       } catch (error) {
         console.log(error);
       }
@@ -150,25 +109,14 @@ export const useTaskStore = create<TaskState>()((set) => {
           const updatedchecked = state.checked.filter(
             (checkedTask) => checkedTask.id !== task.id
           );
-          localStorage.setItem("checked", JSON.stringify(updatedchecked));
+          const updatedPending = [...state.pendings, task];
           return {
             ...state,
             checked: updatedchecked,
+            pendings: updatedPending,
           };
         });
-        await fetch(
-          process.env.NODE_ENV === "development"
-            ? `http://localhost:3000/api/tasks/checked/${task.id}`
-            : `https://my-task-organizer.vercel.app/api/tasks/checked/${task.id}`,
-
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ done: false }),
-          }
-        );
+        await deleteChecked(task);
       } catch (error) {
         console.log(error);
       }
@@ -183,28 +131,18 @@ export const useTaskStore = create<TaskState>()((set) => {
           const updatedChecked = state.checked.filter(
             (checkedTask) => checkedTask.id !== taskId
           );
-          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-          localStorage.setItem("checked", JSON.stringify(updatedChecked));
-
+          const updatedPending = state.pendings.filter(
+            (pendingTask) => pendingTask.id !== taskId
+          );
           return {
             ...state,
             tasks: updatedTasks,
             favorites: updatedFavorites,
             checked: updatedChecked,
+            pendings: updatedPending,
           };
         });
-        await fetch(
-          process.env.NODE_ENV === "development"
-            ? `http://localhost:3000/api/tasks/${taskId}`
-            : `https://my-task-organizer.vercel.app/api/tasks/${taskId}`,
-
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        await deleteTask(taskId);
       } catch (error) {
         console.log(error);
       }

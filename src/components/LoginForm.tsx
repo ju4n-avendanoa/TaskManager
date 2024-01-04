@@ -1,6 +1,5 @@
 "use client";
 
-import { useTaskStore } from "@/store/taskStore";
 import { LoginSchema } from "@/validations/userSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
@@ -17,7 +16,6 @@ type Inputs = {
 function LoginForm() {
   const [error, setError] = useState(false);
   const router = useRouter();
-  const { setFavorites, setChecked } = useTaskStore();
 
   const {
     register,
@@ -40,22 +38,6 @@ function LoginForm() {
       } else {
         setError(false);
         router.push("/");
-        const favoriteResponse = await fetch(
-          process.env.NODE_ENV === "development"
-            ? "http://localhost:3000/api/tasks/favorite"
-            : "https://my-task-organizer.vercel.app/api/tasks/favorite"
-        );
-        const checkedResponse = await fetch(
-          process.env.NODE_ENV === "development"
-            ? "http://localhost:3000/api/tasks/favorite"
-            : "https://my-task-organizer.vercel.app/api/tasks/checked"
-        );
-        const favoriteData = await favoriteResponse.json();
-        const checkedData = await checkedResponse.json();
-        setFavorites(favoriteData);
-        setChecked(checkedData);
-        localStorage.setItem("favorites", JSON.stringify(favoriteData));
-        localStorage.setItem("checked", JSON.stringify(checkedData));
       }
 
       reset();

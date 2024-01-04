@@ -6,8 +6,12 @@ import { useEffect, useMemo } from "react";
 import Task from "./Task";
 
 function TaskGrid({ userId }: { userId: string }) {
-  const { tasks, getTasks, sort, favorites, checked } = useTaskStore();
+  const { tasks, getTasks, sort, favorites, checked, pendings } =
+    useTaskStore();
   const { favorite, done, pending } = useFiltersStore();
+
+  console.log(pendings);
+  console.log(checked);
 
   useEffect(() => {
     getTasks(userId);
@@ -18,7 +22,7 @@ function TaskGrid({ userId }: { userId: string }) {
     : done
     ? checked
     : pending
-    ? tasks.filter((task) => task.done === false)
+    ? pendings
     : tasks;
 
   const tasksOrderedByDate = useMemo(() => {

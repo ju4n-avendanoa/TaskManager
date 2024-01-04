@@ -11,6 +11,7 @@ export interface TaskState {
   tasks: Tasks[];
   favorites: Tasks[];
   checked: Tasks[];
+  pendings: Tasks[];
   description: string;
   title: string;
   sort: boolean;

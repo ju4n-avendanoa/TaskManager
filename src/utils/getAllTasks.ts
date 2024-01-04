@@ -1,4 +1,4 @@
-export default async function getTasks(userId: string) {
+export default async function getAllTasks(userId: string) {
   try {
     if (userId) {
       const res = await fetch(
