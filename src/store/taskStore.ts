@@ -10,11 +10,6 @@ export const useTaskStore = create<TaskState>()((set) => {
     title: "",
     sort: true,
     setSort: () => set((state) => ({ sort: !state.sort })),
-    setTasks: (tasks) =>
-      set((state) => ({
-        ...state,
-        tasks,
-      })),
     setDescription: (description) => set({ description }),
     setTitle: (title) => set({ title }),
     setFavorites: (favorites) =>

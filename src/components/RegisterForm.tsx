@@ -55,10 +55,10 @@ function RegisterForm() {
   };
 
   return (
-    <div className="flex grow flex-col gap-6 items-center justify-center">
-      <h2 className="text-white font-bold text-4xl">Sign Up</h2>
+    <div className="flex flex-col items-center justify-center gap-6 grow">
+      <h2 className="text-4xl font-bold text-white">Sign Up</h2>
       <form
-        className="flex flex-col rounded-2xl gap-2 p-6 bg-slate-900 w-2/3 lg:w-1/3"
+        className="flex flex-col w-2/3 gap-2 p-6 rounded-2xl bg-slate-900 lg:w-1/3"
         onSubmit={handleSubmit(onSubmit)}
       >
         <label htmlFor="name" className="text-white">
@@ -68,7 +68,7 @@ function RegisterForm() {
           type="text"
           id="name"
           placeholder="your name"
-          className="h-10 bg-transparent border border-white text-white"
+          className="h-10 text-white bg-transparent border border-white"
           {...register("name")}
         />
         {errors.name && (
@@ -81,7 +81,7 @@ function RegisterForm() {
           type="email"
           id="email"
           placeholder="your@email.com"
-          className="h-10 bg-transparent border border-white text-white"
+          className="h-10 text-white bg-transparent border border-white"
           {...register("email")}
         />
         {errors.email && (
@@ -94,7 +94,7 @@ function RegisterForm() {
           type="password"
           id="password"
           placeholder="********"
-          className="h-10 bg-transparent border border-white text-white"
+          className="h-10 text-white bg-transparent border border-white"
           {...register("password")}
         />
         {errors.password && (
@@ -107,7 +107,7 @@ function RegisterForm() {
           type="password"
           id="confirmPassword"
           placeholder="********"
-          className="h-10 bg-transparent border border-white text-white"
+          className="h-10 text-white bg-transparent border border-white"
           {...register("confirmPassword")}
         />
         {errors.confirmPassword && (
@@ -119,7 +119,7 @@ function RegisterForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-blue-300 rounded-lg w-full py-2 px-4 my-2"
+            className="w-full px-4 py-2 my-2 bg-blue-300 rounded-lg"
           >
             Sign up
           </button>
@@ -132,7 +132,7 @@ function RegisterForm() {
         </div>
       </form>
       {error && (
-        <div className="bg-red-500 rounded-lg p-4">
+        <div className="p-4 bg-red-500 rounded-lg">
           <p className="text-white">{errorMessage}</p>
         </div>
       )}
