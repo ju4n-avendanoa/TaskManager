@@ -104,7 +104,7 @@ function NavBar() {
           onClick={toggleMenu}
         />
         {isSessionMenuOpen && (
-          <div className="fixed top-0 bottom-0 right-0 z-10 h-full sm:w-2/5 bg-opacity-80 md:w-1/5 bg-slate-600">
+          <div className="fixed top-0 bottom-0 right-0 h-full sm:w-2/5 bg-opacity-80 md:w-1/5 bg-slate-600">
             <div className="w-full h-full p-4">
               <section className="flex flex-col items-center justify-center gap-6">
                 {session ? renderAuthenticatedLinks() : null}

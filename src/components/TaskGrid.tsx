@@ -10,9 +10,6 @@ function TaskGrid({ userId }: { userId: string }) {
     useTaskStore();
   const { favorite, done, pending } = useFiltersStore();
 
-  console.log(pendings);
-  console.log(checked);
-
   useEffect(() => {
     getTasks(userId);
   }, [getTasks, userId]);
@@ -32,7 +29,7 @@ function TaskGrid({ userId }: { userId: string }) {
   }, [sort, taskToShow]);
 
   return (
-    <div className="grid grid-cols-4 gap-8 p-8 pt-24">
+    <div className="grid w-full grid-cols-1 gap-8 p-8 pt-28 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {tasksOrderedByDate.map((task: any) => (
         <div key={task.id}>
           <Task task={task} />

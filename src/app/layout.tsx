@@ -11,18 +11,16 @@ const roboto = Roboto_Mono({
 
 export default function RootLayout({
   children,
-  session,
 }: {
   children: React.ReactNode;
-  session: any;
 }) {
   return (
     <html lang="en">
-      <Provider session={session}>
+      <Provider>
         <body
           className={`${roboto.className} flex flex-col bg-gray-700 min-h-screen w-screen`}
         >
-          <header className="fixed top-0 z-10 w-full p-3 lg:p-5 bg-slate-900">
+          <header className="fixed top-0 z-20 w-full p-3 lg:p-5 bg-slate-900">
             <NavBar />
           </header>
           {children}
