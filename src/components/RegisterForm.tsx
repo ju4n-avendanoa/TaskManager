@@ -40,7 +40,6 @@ function RegisterForm() {
         body: JSON.stringify(data),
       }
     );
-    console.log(res);
     const response = await res.json();
     if (!res.ok) {
       setError(true);
