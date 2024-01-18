@@ -19,6 +19,7 @@
     "bcryptjs": "^2.4.3",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
+    "framer-motion": "^10.18.0",
     "jsonwebtoken": "^9.0.2",
     "next": "^14.0.4",
     "next-auth": "^4.24.5",

@@ -6,6 +6,7 @@ import { SignUpSchema } from "@/validations/userSchema";
 import { useRouter } from "next/navigation";
 import { useErrorStore } from "@/store/errorStore";
 import Link from "next/link";
+import ProviderLogs from "./ProviderLogs";
 
 type Inputs = {
   name: string;
@@ -54,7 +55,7 @@ function RegisterForm() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6 grow">
+    <div className="flex flex-col items-center justify-center gap-6 grow pt-28 pb-12">
       <h2 className="text-4xl font-bold text-white">Sign Up</h2>
       <form
         className="flex flex-col w-2/3 gap-2 p-6 rounded-2xl bg-slate-900 lg:w-1/3"
@@ -130,6 +131,7 @@ function RegisterForm() {
           </p>
         </div>
       </form>
+      <ProviderLogs />
       {error && (
         <div className="p-4 bg-red-500 rounded-lg">
           <p className="text-white">{errorMessage}</p>

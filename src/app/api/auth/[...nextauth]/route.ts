@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth, { AuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
@@ -9,6 +11,14 @@ const prisma = new PrismaClient();
 const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
+    }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -22,7 +32,7 @@ const authOptions: AuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null;
 
-        const user = await prisma.users.findUnique({
+        const user = await prisma.user.findUnique({
           where: {
             email: credentials?.email,
           },
@@ -32,7 +42,7 @@ const authOptions: AuthOptions = {
 
         const passOk = await bcrypt.compare(
           credentials.password,
-          user.password
+          user.password!
         );
         if (!passOk) return null;
 

@@ -36,3 +36,32 @@
 .trash {
   @apply absolute bottom-0 w-5 h-auto bg-red-500 rounded-full cursor-pointer right-1;
 }
+
+.type-title {
+  font-family: monospace;
+  animation: typing 1.5s steps(12), blink 0.5s infinite step-end alternate;
+}
+
+.typewritter {
+  font-family: monospace;
+  visibility: hidden;
+  animation: typing 3s steps(41) forwards,
+    blink 0.5s infinite step-end alternate;
+  animation-delay: 1.5s;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+    visibility: visible;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}

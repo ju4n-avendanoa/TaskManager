@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import ProviderLogs from "./ProviderLogs";
 
 type Inputs = {
   email: string;
@@ -91,6 +92,7 @@ function LoginForm() {
             </Link>
           </p>
         </div>
+        <ProviderLogs />
       </form>
       {error && (
         <div className="p-4 bg-red-500 rounded-2xl">

@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export async function POST(request: Request) {
   const data = await request.json();
   try {
-    const emailExists = await prisma.users.findFirst({
+    const emailExists = await prisma.user.findFirst({
       where: {
         email: data.email,
       },
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
       );
 
     const passHashed = await hashPassword(data.password);
-    await prisma.users.create({
+    await prisma.user.create({
       data: {
         name: data.name,
         email: data.email,
