@@ -3,6 +3,7 @@
 import { useTaskStore } from "@/store/taskStore";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { baseUrl } from "@/utils/baseUrl";
 
 interface Props {
   title: string;
@@ -31,12 +32,8 @@ function TaskForm({ title, description, taskId, userId }: Props) {
 
     try {
       const apiUrl = taskId
-        ? process.env.NODE_ENV === "development"
-          ? `http://localhost:3000/api/tasks/${taskId}`
-          : `https://my-task-organizer.vercel.app/api/tasks/${taskId}`
-        : process.env.NODE_ENV === "development"
-        ? `http://localhost:3000/api/user-tasks/${userId}`
-        : `https://my-task-organizer.vercel.app/api/user-tasks/${userId}`;
+        ? `${baseUrl}/api/tasks/${taskId}`
+        : `${baseUrl}/api/user-tasks/${userId}`;
 
       await fetch(apiUrl, {
         method: taskId ? "PATCH" : "POST",

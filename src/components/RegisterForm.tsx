@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useErrorStore } from "@/store/errorStore";
 import Link from "next/link";
 import ProviderLogs from "./ProviderLogs";
+import { baseUrl } from "@/utils/baseUrl";
 
 type Inputs = {
   name: string;
@@ -28,19 +29,13 @@ function RegisterForm() {
   const router = useRouter();
 
   const onSubmit = async (data: Inputs) => {
-    const res = await fetch(
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000/api/users/register"
-        : "https://my-task-organizer.vercel.app/api/users/register",
-
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    const res = await fetch(`${baseUrl}/api/users/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     const response = await res.json();
     if (!res.ok) {
       setError(true);

@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useTaskStore } from "@/store/taskStore";
+import { baseUrl } from "@/utils/baseUrl";
 import TaskForm from "@/components/TaskForm";
 
 interface CreateTaskProps {
@@ -18,11 +19,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({ params }) => {
   useEffect(() => {
     if (!params.taskId) return;
     const fetchTask = async () => {
-      const response = await fetch(
-        process.env.NODE_ENV === "development"
-          ? `http://localhost:3000/api/tasks/${params.taskId}`
-          : `https://my-task-organizer.vercel.app/api/tasks/${params.taskId}`
-      );
+      const response = await fetch(`${baseUrl}/api/tasks/${params.taskId}`);
       const data = await response.json();
       setDescription(data.description);
       setTitle(data.title);
