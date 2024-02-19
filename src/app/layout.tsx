@@ -1,4 +1,4 @@
-import { Roboto_Mono } from "next/font/google";
+import { Roboto_Mono, Mulish } from "next/font/google";
 import "../styles/Global.css";
 import NavBar from "@/components/NavBar";
 import Provider from "@/context/Provider";
@@ -9,6 +9,8 @@ const roboto = Roboto_Mono({
   subsets: ["latin"],
 });
 
+const mulish = Mulish({ subsets: ["latin"], weight: "400" });
+
 export default function RootLayout({
   children,
 }: {
@@ -18,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <Provider>
         <body
-          className={`${roboto.className} flex flex-col bg-gray-700 min-h-screen w-screen`}
+          className={`${mulish.className} flex flex-col bg-gray-700 min-h-screen w-screen`}
         >
           <header className="fixed top-0 z-20 w-full p-3 lg:p-5 bg-slate-900">
             <NavBar />
