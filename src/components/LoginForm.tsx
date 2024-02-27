@@ -48,89 +48,94 @@ function LoginForm() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6 grow">
-      <h2 className="text-4xl font-bold text-white">Log In</h2>
-      <form
-        className="flex flex-col w-2/3 gap-2 p-6 rounded-2xl bg-slate-900 lg:w-1/3"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="relative">
-          <label htmlFor="email" className="text-gray-700">
-            <input
-              type="email"
-              id="email"
-              required
-              className={`${
-                errors.email
-                  ? "border border-red-600 outline-red-600 text-red-600"
-                  : "focus:outline-sky-600"
-              } w-full p-4 border border-gray-300 rounded-md peer`}
-              {...register("email")}
-            />
-            <span
-              className={`${
-                errors.email
-                  ? "peer-focus:text-red-600 text-red-600"
-                  : "peer-focus:text-sky-600"
-              } label-style`}
+    <section className="min-h-screen w-full">
+      <div className="flex flex-col pt-28 items-center justify-center gap-6 h-full">
+        <h2 className="text-4xl font-bold text-white">Log In</h2>
+        <form
+          className="flex flex-col w-5/6 md:w-2/3 gap-6 p-6 rounded-2xl bg-zinc-900 lg:w-1/3"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="relative">
+            <label htmlFor="email" className="text-white">
+              <input
+                type="email"
+                id="email"
+                required
+                className={`${
+                  errors.email
+                    ? "border border-red-600 outline-red-600 text-red-600"
+                    : "focus:outline-zinc-600"
+                } w-full p-4 border border-gray-300 rounded-md peer bg-transparent`}
+                {...register("email")}
+              />
+              <span
+                className={`${
+                  errors.email
+                    ? "peer-focus:text-red-600 text-red-600"
+                    : "peer-focus:text-white"
+                } label-style`}
+              >
+                Email address
+              </span>
+            </label>
+          </div>
+          {errors.email && (
+            <p className="text-xs text-red-500">{errors.email?.message}</p>
+          )}
+          <div className="relative">
+            <label htmlFor="password" className="text-white">
+              <input
+                type="password"
+                id="'password"
+                required
+                className={`${
+                  errors.password
+                    ? "border border-red-600 outline-red-600 text-red-600"
+                    : "focus:outline-zinc-600"
+                } w-full p-4 border border-gray-300 rounded-md peer bg-transparent`}
+                {...register("password")}
+              />
+              <span
+                className={`${
+                  errors.password
+                    ? "peer-focus:text-red-600 text-red-600"
+                    : "peer-focus:text-white"
+                } label-style`}
+              >
+                Password
+              </span>
+            </label>
+          </div>
+          {errors.password && (
+            <p className="text-xs text-red-500">{errors.password?.message}</p>
+          )}
+          <div className="flex flex-col gap-2 items-center justify-center">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full px-4 py-3 my-2 bg-zinc-500 text-white font-semibold rounded-lg hover:bg-zinc-600 transition active:scale-95 duration-150"
             >
-              Email address
-            </span>
-          </label>
-        </div>
-        {errors.email && (
-          <p className="text-xs text-red-500">{errors.email?.message}</p>
+              Log in
+            </button>
+            <p className="text-white">
+              Don&apos;t you have an acocunt yet?{" "}
+              <Link
+                href={"/register"}
+                className="text-sky-300 font-semibold hover:text-sky-500"
+              >
+                sign up here
+              </Link>
+            </p>
+          </div>
+          <ProviderLogs />
+        </form>
+        {error && (
+          <div className="p-4 bg-red-500 rounded-2xl">
+            <p className="text-white">User credentials are invalid</p>
+          </div>
         )}
-        <div className="relative">
-          <label htmlFor="password" className="text-gray-700">
-            <input
-              type="password"
-              id="'password"
-              required
-              className={`${
-                errors.password
-                  ? "border border-red-600 outline-red-600 text-red-600"
-                  : "focus:outline-sky-600"
-              } w-full p-4 border border-gray-300 rounded-md peer`}
-              {...register("password")}
-            />
-            <span
-              className={`${
-                errors.password
-                  ? "peer-focus:text-red-600 text-red-600"
-                  : "peer-focus:text-sky-600"
-              } label-style`}
-            >
-              Password
-            </span>
-          </label>
-        </div>
-        {errors.password && (
-          <p className="text-xs text-red-500">{errors.password?.message}</p>
-        )}
-        <div className="flex flex-col items-center justify-center">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full px-4 py-2 my-2 bg-blue-300 rounded-lg"
-          >
-            Log in
-          </button>
-          <p className="text-white">
-            Don&apos;t you have an acocunt yet?{" "}
-            <Link href={"/register"} className="text-blue-300">
-              sign up here
-            </Link>
-          </p>
-        </div>
-        <ProviderLogs />
-      </form>
-      {error && (
-        <div className="p-4 bg-red-500 rounded-2xl">
-          <p className="text-white">User credentials are invalid</p>
-        </div>
-      )}
-    </div>
+      </div>
+    </section>
   );
 }
 

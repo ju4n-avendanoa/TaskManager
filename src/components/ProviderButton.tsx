@@ -32,10 +32,16 @@ function ProviderButton({
 
   return (
     <button
-      className="flex bg-blue-300 items-center gap-4 px-4 py-4 border rounded-lg hover:bg-gray-200"
+      className="flex bg-zinc-500 text-white font-semibold items-center gap-4 px-4 py-3 rounded-lg hover:bg-zinc-600 transition active:scale-95 duration-150"
       onClick={() => handleLogin()}
     >
-      <Image src={imagesrc} alt="logo" width={20} height={20} />
+      <Image
+        src={imagesrc}
+        alt="logo"
+        width={30}
+        height={30}
+        className="bg-white p-1 rounded-full"
+      />
       <span>Continue with {provider}</span>
     </button>
   );

@@ -25,10 +25,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Provider>
-        <body
-          className={`${mulish.className} flex flex-col bg-gray-700 min-h-screen w-screen`}
-        >
-          <header className="fixed top-0 z-20 w-full p-3 lg:p-5 bg-slate-900">
+        <body className={`${mulish.className} bg-zinc-800 min-h-screen`}>
+          <header className="fixed top-0 z-20 w-full p-3 lg:p-5 bg-zinc-900">
             <NavBar />
           </header>
           {children}

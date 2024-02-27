@@ -3,7 +3,7 @@ import ProviderButton from "./ProviderButton";
 
 function ProviderLogs() {
   return (
-    <section className="flex flex-col gap-2 my-4">
+    <section className="flex flex-col gap-2 my-4 w-full">
       <section className="flex items-center">
         <div className="flex-1 mr-4 border-t border-gray-400"></div>
         <p className="text-xs text-white">OR</p>
