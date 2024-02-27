@@ -6,8 +6,8 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import Link from "next/link";
 import ProviderLogs from "./ProviderLogs";
+import Link from "next/link";
 
 type Inputs = {
   email: string;
@@ -54,29 +54,60 @@ function LoginForm() {
         className="flex flex-col w-2/3 gap-2 p-6 rounded-2xl bg-slate-900 lg:w-1/3"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <label htmlFor="email" className="text-white">
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          placeholder="your@email.com"
-          className="h-10 text-white bg-transparent border border-white"
-          {...register("email")}
-        />
+        <div className="relative">
+          <label htmlFor="email" className="text-gray-700">
+            <input
+              type="email"
+              id="email"
+              required
+              className={`${
+                errors.email
+                  ? "border border-red-600 outline-red-600 text-red-600"
+                  : "focus:outline-sky-600"
+              } w-full p-4 border border-gray-300 rounded-md peer`}
+              {...register("email")}
+            />
+            <span
+              className={`${
+                errors.email
+                  ? "peer-focus:text-red-600 text-red-600"
+                  : "peer-focus:text-sky-600"
+              } label-style`}
+            >
+              Email address
+            </span>
+          </label>
+        </div>
         {errors.email && (
           <p className="text-xs text-red-500">{errors.email?.message}</p>
         )}
-        <label htmlFor="password" className="text-white">
-          Password
-        </label>
-        <input
-          type="password"
-          id="'password"
-          placeholder="********"
-          className="h-10 text-white bg-transparent border border-white"
-          {...register("password")}
-        />
+        <div className="relative">
+          <label htmlFor="password" className="text-gray-700">
+            <input
+              type="password"
+              id="'password"
+              required
+              className={`${
+                errors.password
+                  ? "border border-red-600 outline-red-600 text-red-600"
+                  : "focus:outline-sky-600"
+              } w-full p-4 border border-gray-300 rounded-md peer`}
+              {...register("password")}
+            />
+            <span
+              className={`${
+                errors.password
+                  ? "peer-focus:text-red-600 text-red-600"
+                  : "peer-focus:text-sky-600"
+              } label-style`}
+            >
+              Password
+            </span>
+          </label>
+        </div>
+        {errors.password && (
+          <p className="text-xs text-red-500">{errors.password?.message}</p>
+        )}
         <div className="flex flex-col items-center justify-center">
           <button
             type="submit"

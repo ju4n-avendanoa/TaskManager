@@ -45,9 +45,7 @@ function NavBar() {
   };
 
   const renderAuthenticationButtons = () => {
-    if (typeof session === "undefined") {
-      return <div className="text-white ">Loading session...</div>;
-    } else if (session) {
+    if (session) {
       return (
         <div className="flex flex-col items-center gap-4 lg:flex-row">
           <span className="text-xs text-white lg:text-base">

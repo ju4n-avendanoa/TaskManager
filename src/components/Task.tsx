@@ -104,7 +104,9 @@ function Task({ task }: Props) {
         <h3 className="mb-3 text-sm font-bold text-blue-300 lg:text-lg">
           {task.title}
         </h3>
-        <p className="text-xs lg:text-sm">{task.description}</p>
+        <p className="text-xs lg:text-sm whitespace-pre-line">
+          {task.description}
+        </p>
         <br />
         <p className="text-xs lg:text-sm">{formatedDate}</p>
       </div>
