@@ -5,6 +5,7 @@ export interface Tasks {
   createdAt: string;
   favorite: boolean;
   done: boolean;
+  columnId: string;
 }
 
 export interface TaskState {

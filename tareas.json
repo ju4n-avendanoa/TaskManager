@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "title": "Hacer Compras",
+    "description": "Ir al supermercado y comprar los productos necesarios.",
+    "columnId": "232344"
+  },
+  {
+    "id": "2",
+    "title": "Estudiar React",
+    "description": "Dedicar al menos una hora al estudio de React y realizar ejercicios prácticos.",
+    "columnId": "232344"
+  },
+  {
+    "id": "3",
+    "title": "Hacer Ejercicio",
+    "description": "Realizar una sesión de ejercicio cardiovascular en el gimnasio.",
+    "columnId": "548768"
+  }
+]

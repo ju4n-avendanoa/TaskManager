@@ -17,11 +17,20 @@ model Task {
   id          String   @id @default(uuid())
   title       String
   description String
-  favorite    Boolean @default(false)
-  done        Boolean @default(false)
   createdAt   DateTime @default(now())
   userId      String
+  columnId    String
   user        User    @relation(fields: [userId], references: [id])
+  Column      Columns @relation(fields: [columnId], references: [id])
+}
+
+model Columns {
+  id          String @id @default(uuid())
+  title       String  @default("New Column")
+  userId      String
+  user        User @relation(fields: [userId], references: [id])
+  task        Task[]
+  index       Int
 }
 
 model Account {
@@ -61,6 +70,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   task          Task[]
+  columns       Columns[]
 }
 
 model VerificationToken {

@@ -1,14 +1,10 @@
-import { Roboto_Mono, Mulish } from "next/font/google";
-import "../styles/Global.css";
-import NavBar from "@/components/NavBar";
-import Provider from "@/context/Provider";
 import { Metadata } from "next";
-
-const roboto = Roboto_Mono({
-  weight: ["300", "500"],
-  style: ["italic", "normal"],
-  subsets: ["latin"],
-});
+import { Toaster } from "sonner";
+import { Mulish } from "next/font/google";
+import LoadProvider from "@/context/LoadProvider";
+import Provider from "@/context/Provider";
+import NavBar from "@/components/NavBar";
+import "../styles/Global.css";
 
 const mulish = Mulish({ subsets: ["latin"], weight: "400" });
 
@@ -26,10 +22,13 @@ export default function RootLayout({
     <html lang="en">
       <Provider>
         <body className={`${mulish.className} bg-zinc-800 min-h-screen`}>
-          <header className="fixed top-0 z-20 w-full p-3 lg:p-5 bg-zinc-900">
-            <NavBar />
-          </header>
-          {children}
+          <LoadProvider>
+            <header className="fixed z-20 w-full bg-zinc-900">
+              <NavBar />
+            </header>
+            {children}
+            <Toaster />
+          </LoadProvider>
         </body>
       </Provider>
     </html>

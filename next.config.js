@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 
+const { hostname } = require("os");
+
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -7,6 +9,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "res.cloudinary.com",
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+      { protocol: "https", hostname: "avatars.githubusercontent.com" },
     ],
   },
   async headers() {

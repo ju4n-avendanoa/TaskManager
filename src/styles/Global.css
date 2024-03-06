@@ -69,3 +69,13 @@
 .label-style {
   @apply absolute transition duration-200 top-4 left-4 peer-valid:transition peer-focus:-translate-y-7 peer-focus:bg-zinc-900 peer-focus:text-sm peer-focus:px-1.5 peer-valid:-translate-y-7 peer-valid:-translate-x-2 peer-focus:-translate-x-2 peer-valid:bg-zinc-900 peer-valid:px-1.5 peer-valid:text-sm;
 }
+
+::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(6, 131, 177);
+  border-radius: 5px;
+}

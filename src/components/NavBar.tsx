@@ -1,129 +1,58 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
 import {
   CalendarDaysIcon,
-  Bars3BottomRightIcon,
+  Bars3Icon,
+  UserCircleIcon,
 } from "@heroicons/react/24/solid";
-import { XCircleIcon } from "@heroicons/react/24/outline";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
+import ImageWithFallback from "./ImageWithFallback";
+import UserMenu from "./UserMenu";
 import Link from "next/link";
 
 function NavBar() {
-  const router = useRouter();
   const { data: session } = useSession();
-  const [isSessionMenuOpen, setIsSessionMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsSessionMenuOpen(!isSessionMenuOpen);
-  };
-
-  const handleLogOut = async () => {
-    signOut({ callbackUrl: "/" });
-    setIsSessionMenuOpen(false);
-  };
-
-  const renderTasksOptions = () => {
-    return (
-      <ul className="flex flex-col gap-6 text-white lg:flex-row lg:gap-5">
-        <Link
-          href={`/tasks/${session?.user.id}`}
-          onClick={() => setIsSessionMenuOpen(false)}
-        >
-          <li className="px-4 py-2 text-xs text-center border border-white lg:text-base max-lg:bg-slate-900 hover:bg-blue-800 btn">
-            My tasks
-          </li>
-        </Link>
-        <Link href="/newtask" onClick={() => setIsSessionMenuOpen(false)}>
-          <li className="px-4 py-2 text-xs text-center border border-white lg:text-base max-lg:bg-slate-900 hover:bg-blue-800 btn">
-            Create new task
-          </li>
-        </Link>
-      </ul>
-    );
-  };
-
-  const renderAuthenticationButtons = () => {
-    if (session) {
-      return (
-        <div className="flex flex-col items-center gap-4 lg:flex-row">
-          <span className="text-xs text-white lg:text-base">
-            {session.user.email}
-          </span>
-          <button
-            className="px-4 py-2 text-xs text-blue-300 border border-blue-300 max-lg:bg-slate-900 lg:text-base hover:bg-blue-800 hover:text-white"
-            onClick={handleLogOut}
-          >
-            Log out
-          </button>
-        </div>
-      );
-    } else {
-      return (
-        <div className="flex gap-5">
-          <button
-            className="px-4 py-2 text-blue-300 border border-blue-300 hover:bg-blue-800 hover:text-white"
-            onClick={() => {
-              router.push("/register");
-            }}
-          >
-            Sign up
-          </button>
-          <button
-            className="px-4 py-2 text-blue-300 border border-blue-300 hover:bg-blue-800 hover:text-white"
-            onClick={() => {
-              router.push("/login");
-            }}
-          >
-            Log in
-          </button>
-        </div>
-      );
-    }
-  };
+  const [details, setDetails] = useState(false);
 
   return (
-    <nav className="flex justify-between lg:grid lg:grid-cols-3 place-items-center">
-      <section className="flex items-center gap-2">
-        <Link href={"/"} onClick={() => setIsSessionMenuOpen(false)}>
-          <CalendarDaysIcon className="w-6 h-auto lg:w-10" color="white" />
+    <nav className="flex justify-between items-center py-3 lg:py-4 px-10 lg:px-20 select-none h-min">
+      <section className="flex items-center gap-6">
+        <Link href={"/"}>
+          <ImageWithFallback
+            src="https://res.cloudinary.com/dhjqarghy/image/upload/v1709070909/TaskManager/tasks-svgrepo-com_skdvqr.svg"
+            alt="logo"
+            width={50}
+            height={50}
+            fallbackSrc=""
+            className="bg-sky-500 rounded-xl p-1 w-10 h-10"
+          />
         </Link>
         <h1 className="text-base font-bold text-white lg:text-xl">
-          <Link href={"/"} onClick={() => setIsSessionMenuOpen(false)}>
-            My Task Manager
-          </Link>
+          <Link href={"/"}>My Task Manager</Link>
         </h1>
       </section>
-      <div className="relative lg:hidden">
-        <Bars3BottomRightIcon
-          color="white"
-          className="w-6 h-auto lg:hidden"
-          onClick={toggleMenu}
-        />
-        {isSessionMenuOpen && (
-          <div className="fixed top-0 bottom-0 right-0 h-full sm:w-2/5 bg-opacity-80 md:w-1/5 bg-slate-600">
-            <div className="w-full h-full p-4">
-              <section className="flex flex-col items-center justify-center gap-6">
-                {session ? renderTasksOptions() : null}
-                {renderAuthenticationButtons()}
-                <XCircleIcon
-                  className="w-8 h-auto"
-                  onClick={toggleMenu}
-                  fill="slate"
-                  color="white"
-                />
-              </section>
-            </div>
-          </div>
-        )}
+      <div
+        className="relative px-6 h-10 items-center flex border bg-zinc-200 rounded-full"
+        onClick={() => setDetails(!details)}
+      >
+        <div className="flex gap-3 h-full items-center cursor-pointer">
+          <Bars3Icon className="w-6 h-6" />
+          {session?.user.image ? (
+            <ImageWithFallback
+              src={session.user.image}
+              alt="profile-photo"
+              width={300}
+              height={300}
+              className="w-6 h-auto rounded-full"
+              fallbackSrc="https://res.cloudinary.com/dhjqarghy/image/upload/v1708459216/Airbnb/user-circle-svgrepo-com_o8x5oh.svg"
+            />
+          ) : (
+            <UserCircleIcon className="w-6 h-6 text-zinc-700" />
+          )}
+        </div>
+        {details ? <UserMenu /> : null}
       </div>
-      <section className="hidden lg:block">
-        {session ? renderTasksOptions() : null}
-      </section>
-      <section className="hidden lg:block">
-        {renderAuthenticationButtons()}
-      </section>
     </nav>
   );
 }

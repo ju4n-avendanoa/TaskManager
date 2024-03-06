@@ -26,6 +26,7 @@ export async function POST(
       userId: params.userId,
       title: data.title,
       description: data.description,
+      columnId: "asds",
     },
   });
   return NextResponse.json(newTask);
