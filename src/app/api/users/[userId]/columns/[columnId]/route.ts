@@ -10,8 +10,6 @@ export async function PATCH(
   try {
     const title = await request.json();
 
-    console.log(title);
-
     const na = await prisma.columns.update({
       where: {
         id: params.columnId,
@@ -21,7 +19,6 @@ export async function PATCH(
       },
     });
 
-    console.log(na);
     return NextResponse.json("Column updated successfully");
   } catch (error: any) {
     console.log(error);
@@ -37,6 +34,12 @@ export async function DELETE(
   { params }: { params: { columnId: string } }
 ) {
   try {
+    await prisma.task.deleteMany({
+      where: {
+        columnId: params.columnId,
+      },
+    });
+
     const columnDeleted = await prisma.columns.delete({
       where: {
         id: params.columnId,

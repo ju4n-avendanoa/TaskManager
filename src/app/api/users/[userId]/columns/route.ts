@@ -17,7 +17,7 @@ export async function GET(
 
     const sortedColumns = user?.columns?.sort((a, b) => a.index - b.index);
 
-    return NextResponse.json(sortedColumns);
+    return NextResponse.json(sortedColumns || []);
   } catch (error: any) {
     console.log(error);
     return NextResponse.json(error);

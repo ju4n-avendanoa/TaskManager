@@ -3,8 +3,6 @@ export interface Tasks {
   title: string;
   description: string;
   createdAt: string;
-  favorite: boolean;
-  done: boolean;
   columnId: string;
 }
 

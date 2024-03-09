@@ -1,6 +1,6 @@
-import { getColumns } from "@/actions/getColumns";
-import getAllTasks from "@/utils/getAllTasks";
-import Board from "@/components/Board";
+import { Suspense } from "react";
+import Workspace from "./Workspace";
+import Loading from "@/app/loading";
 
 export const revalidate = 0;
 
@@ -9,16 +9,9 @@ export default async function HomePage({
 }: {
   params: { userId: string };
 }) {
-  const tasks = await getAllTasks(params.userId);
-  const columns = await getColumns(params.userId);
-
-  console.log("render");
-
   return (
-    <Board
-      fetchedColumns={columns!}
-      userId={params.userId}
-      fetchedTasks={tasks}
-    />
+    <Suspense fallback={<Loading />}>
+      <Workspace userId={params.userId} />
+    </Suspense>
   );
 }

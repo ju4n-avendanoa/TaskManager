@@ -3,23 +3,32 @@
 import {
   DndContext,
   DragEndEvent,
+  DragOverEvent,
   DragOverlay,
   DragStartEvent,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { useMemo, useState } from "react";
 import { updateColumnIndex } from "@/actions/updateColumnIndex";
+import { editColumnTitle } from "@/actions/editColumnTitle";
+import { createNewTask } from "@/actions/createNewTask";
 import { deleteColumn } from "@/actions/deleteColumn";
 import { createPortal } from "react-dom";
 import { createColumn } from "@/actions/createColumn";
+import { editTask } from "@/actions/editTask";
 import { Column } from "@/interfaces/column";
 import { Tasks } from "@/interfaces/taskInterfaces";
+import ColumnContainer, { NewTaskType } from "./ColumnContainer";
 import CreateColumnButton from "./CreateColumnButton";
-import ColumnContainer from "./ColumnContainer";
-import { editColumnTitle } from "@/actions/editColumnTitle";
+import deleteTask from "@/utils/deleteTask";
+import TaskItem from "./TaskItem";
+import TaskOverlay from "./TaskOverlay";
+import { changeColumnId } from "@/actions/changeColumnId";
+import { toast } from "sonner";
 
 type Props = {
   fetchedColumns: Column[];
@@ -29,12 +38,38 @@ type Props = {
 
 function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
   const [activeColumn, setActiveColumn] = useState<Column | null>();
+  const [activeTask, setActiveTask] = useState<Tasks | null>();
   const [columns, setColumns] = useState(fetchedColumns);
   const [tasks, setTasks] = useState(fetchedTasks);
 
+  const columnsId = useMemo(
+    () => columns?.map((column) => column.id),
+    [columns]
+  );
+
+  const onCreateNewTask = async (newTask: NewTaskType) => {
+    const task = await createNewTask(newTask, userId);
+    setTasks((prev) => [...prev, task]);
+  };
+
+  const onDeleteTask = async (taskId: string) => {
+    toast.promise(
+      async () => {
+        setTasks((prev) => prev.filter((task) => task.id !== taskId));
+        await deleteTask(taskId);
+      },
+      {
+        loading: "Loading...",
+        success: "Task deleted successfully!",
+        error: "Failed to delete task",
+      }
+    );
+  };
+
   const onDeleteColumn = async (id: string) => {
-    await deleteColumn(id, userId);
     setColumns((prev) => prev.filter((column) => column.id !== id));
+    await deleteColumn(id, userId);
+    setTasks((prev) => prev.filter((task) => task.columnId !== id));
   };
 
   const onCreateNewColumn = async (userId: string, index: number) => {
@@ -42,56 +77,126 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
     setColumns((prev) => [...prev, newColumn]);
   };
 
-  const onEditColumnTitle = (id: string, columnTitle: string) => {
+  const onEditColumnTitle = async (id: string, columnTitle: string) => {
     const newColumns = columns.map((column) => {
       if (column.id !== id) return column;
       return { ...column, title: columnTitle };
     });
     setColumns(newColumns);
 
-    editColumnTitle(id, columnTitle, userId);
+    await editColumnTitle(id, columnTitle, userId);
+  };
+
+  const onEditTask = async (editedTask: Tasks) => {
+    const newTasks = tasks.map((task) => {
+      if (task.id !== editedTask.id) return task;
+      return {
+        ...task,
+        title: editedTask.title,
+        description: editedTask.description,
+      };
+    });
+    setTasks(newTasks);
+    await editTask(editedTask, userId);
   };
 
   const handleDragStart = (e: DragStartEvent) => {
-    if (e.active.data.current?.type === "Column")
+    if (e.active.data.current?.type === "Column") {
       setActiveColumn(e.active.data.current.column);
-    return;
+      return;
+    }
+    if (e.active.data.current?.type === "Tasks") {
+      setActiveTask(e.active.data.current.task);
+      return;
+    }
   };
 
-  const handleDragEnd = (e: DragEndEvent) => {
+  const handleDragEnd = async (e: DragEndEvent) => {
     const { over, active } = e;
 
     if (!over) return;
 
-    const activeColumnId = active.id;
-    const overColumnId = over.id;
+    setActiveColumn(null);
+    setActiveTask(null);
 
-    if (activeColumnId === overColumnId) return;
+    const activeId = active.id;
+    const overId = over.id;
 
-    updateColumnIndex(activeColumnId, overColumnId, userId);
+    if (activeId === overId) return;
 
     setColumns((columns) => {
-      const activeColumnIndex = columns.findIndex(
-        (col) => col.id === activeColumnId
-      );
-      const overColumnIndex = columns.findIndex(
-        (col) => col.id === overColumnId
-      );
+      const activeColumnIndex = columns.findIndex((col) => col.id === activeId);
+      const overColumnIndex = columns.findIndex((col) => col.id === overId);
       return arrayMove(columns, activeColumnIndex, overColumnIndex);
     });
+    await updateColumnIndex(activeId, overId, userId);
+  };
+
+  const onDragOver = async (e: DragOverEvent) => {
+    const { over, active } = e;
+
+    if (!over) return;
+    const activeId = active.id;
+    const overId = over.id;
+
+    if (activeId === overId) return;
+
+    const isActiveATask = active.data.current?.type === "Tasks";
+    const isOverATask = over.data.current?.type === "Tasks";
+
+    if (!isActiveATask) return;
+
+    //Drop over a task
+
+    const activeIndex = tasks.findIndex((task) => task.id === activeId);
+
+    if (isActiveATask && isOverATask) {
+      const overIndex = tasks.findIndex((task) => task.id === overId);
+
+      if (tasks[activeIndex].columnId !== tasks[overIndex].columnId) {
+        await changeColumnId(
+          tasks[activeIndex].id,
+          tasks[overIndex].columnId,
+          userId
+        );
+      }
+      setTasks((tasks) => {
+        tasks[activeIndex].columnId = tasks[overIndex].columnId;
+
+        return arrayMove(tasks, activeIndex, overIndex);
+      });
+    }
+
+    const isOverAColumn = over.data.current?.type === "Column";
+
+    //Drop over a column
+
+    if (isActiveATask && isOverAColumn) {
+      if (tasks[activeIndex].columnId !== overId) {
+        console.log(tasks[activeIndex].columnId);
+        console.log(overId);
+        await changeColumnId(tasks[activeIndex].id, overId as string, userId);
+      }
+
+      setTasks((tasks) => {
+        tasks[activeIndex].columnId = overId as string;
+
+        return arrayMove(tasks, activeIndex, activeIndex);
+      });
+    }
   };
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 50,
+        distance: 30,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        distance: 30,
       },
     })
-  );
-
-  const columnsId = useMemo(
-    () => columns?.map((column) => column.id),
-    [columns]
   );
 
   if (columns?.length === 0) {
@@ -114,6 +219,7 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
       sensors={sensors}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
+      onDragOver={onDragOver}
     >
       <section className="flex gap-6 pt-24 px-10 pb-5 h-screen overflow-auto">
         <SortableContext items={columnsId}>
@@ -125,6 +231,9 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
                 onEditColumnTitle={onEditColumnTitle}
                 tasks={tasks.filter((task) => task.columnId === column.id)}
                 userId={userId}
+                onDeleteTask={onDeleteTask}
+                onCreateNewTask={onCreateNewTask}
+                onEditTask={onEditTask}
               />
             </article>
           ))}
@@ -148,8 +257,13 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
                     (task) => task.columnId === activeColumn.id
                   )}
                   userId={userId}
+                  onDeleteTask={onDeleteTask}
+                  onCreateNewTask={onCreateNewTask}
+                  onEditTask={onEditTask}
                 />
               )}
+
+              {activeTask && <TaskOverlay task={activeTask} />}
             </DragOverlay>,
             document.body
           )}

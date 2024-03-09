@@ -15,7 +15,7 @@ function NewTask({ newTask, onCancel, onSave }: Props) {
   const [description, setDescription] = useState("");
 
   return (
-    <div className="bg-zinc-700 py-4 px-2 mx-2 my-1 flex flex-col gap-4 rounded-md shadow-md shadow-black">
+    <div className="bg-zinc-800 py-2 px-4 flex flex-col gap-4 rounded-md shadow-md shadow-black">
       <input
         type="text"
         value={title}

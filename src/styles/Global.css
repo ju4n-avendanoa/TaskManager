@@ -73,9 +73,10 @@
 ::-webkit-scrollbar {
   height: 5px;
   width: 5px;
+  @apply bg-zinc-700;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(6, 131, 177);
+  @apply bg-sky-200;
   border-radius: 5px;
 }

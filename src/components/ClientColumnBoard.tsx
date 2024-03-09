@@ -78,8 +78,6 @@ function ColumnContainer({
     );
   }
 
-  console.log(newTask);
-
   return (
     <section
       ref={setNodeRef}
@@ -112,7 +110,6 @@ function ColumnContainer({
         <TrashIcon
           className="z-100 w-8 h-8 text-white border border-white rounded-full p-1"
           onClick={() => {
-            console.log("id in container", column.id);
             onDeleteColumn(column.id);
           }}
         />

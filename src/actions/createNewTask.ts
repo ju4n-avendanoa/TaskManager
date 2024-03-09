@@ -13,6 +13,9 @@ export async function createNewTask(newTask: NewTaskType, userId: string) {
       const errorResponse = await response.json();
       throw new Error(errorResponse);
     }
+
+    const task = await response.json();
+    return task;
   } catch (error: any) {
     console.log(error);
   }
