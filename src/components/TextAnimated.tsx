@@ -9,7 +9,7 @@ function TextAnimated() {
         "A powerful tool designed to streamline and optimize your task management process efficiently.",
       ]}
       speed={50}
-      className="text-xl inline-block"
+      className="text-lg md:text-xl inline-block"
     />
   );
 }

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import NextAuth, { AuthOptions } from "next-auth";
+import NextAuth, { AuthOptions, NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -8,7 +8,7 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-const authOptions: AuthOptions = {
+export const config = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -64,7 +64,7 @@ const authOptions: AuthOptions = {
     strategy: "jwt",
   },
   debug: process.env.NODE_ENV === "development",
-};
+} satisfies NextAuthOptions;
 
-const handler = NextAuth(authOptions);
+const handler = NextAuth(config);
 export { handler as GET, handler as POST };

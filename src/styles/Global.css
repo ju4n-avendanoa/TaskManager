@@ -2,44 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.btn {
-  @apply active:bg-blue-600;
-}
-
-.fav {
-  @apply border border-red-400 shadow-md outline outline-2 outline-red-400 shadow-red-400;
-}
-.checked {
-  @apply border border-blue-400 shadow-md outline outline-2 outline-blue-400 shadow-blue-400;
-}
-
-.card {
-  @apply w-auto text-white whitespace-normal border rounded-lg bg-slate-800 break-keep;
-}
-
-.checked-fav {
-  @apply border-blue-400 shadow-md outline outline-2 outline-blue-400 shadow-blue-400;
-}
-
-.star {
-  @apply absolute top-0 w-5 h-auto rounded-full cursor-pointer right-1;
-}
-
-.check {
-  @apply absolute top-0 w-5 h-auto rounded-full cursor-pointer right-7;
-}
-
-.edit {
-  @apply absolute bottom-0 w-5 h-auto bg-blue-500 rounded-full cursor-pointer right-7;
-}
-
-.trash {
-  @apply absolute bottom-0 w-5 h-auto bg-red-500 rounded-full cursor-pointer right-1;
-}
-
-.type-title {
-  font-family: monospace;
-  animation: typing 1.5s steps(12), blink 0.5s infinite step-end alternate;
+* {
+  box-sizing: border-box;
 }
 
 .typewritter {
@@ -79,4 +43,54 @@
 ::-webkit-scrollbar-thumb {
   @apply bg-sky-200;
   border-radius: 5px;
+}
+
+.box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+  width: 350px;
+  overflow: hidden;
+}
+
+.box::before {
+  content: "";
+  position: absolute;
+  height: 500px;
+  width: 500px;
+  background-image: conic-gradient(transparent, transparent, #60a5fa);
+  animation: animate 4s linear infinite;
+}
+.box::after {
+  content: "";
+  position: absolute;
+  height: 500px;
+  width: 500px;
+  background-image: conic-gradient(transparent, transparent, #60a5fa);
+  animation: animate 4s linear infinite;
+  animation-delay: -2s;
+}
+
+.box:hover::before {
+  background-image: conic-gradient(transparent, transparent, rgb(161 161 170));
+}
+
+.box:hover::after {
+  background-image: conic-gradient(transparent, transparent, rgb(161 161 170));
+}
+
+.box:hover h3 {
+  color: rgb(161 161 170);
+}
+
+@keyframes animate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
