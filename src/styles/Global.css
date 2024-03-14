@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  box-sizing: border-box;
-}
-
 .typewritter {
   font-family: monospace;
   visibility: hidden;
@@ -51,8 +47,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 250px;
-  width: 350px;
   overflow: hidden;
 }
 

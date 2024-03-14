@@ -48,11 +48,13 @@ function LoginForm() {
   };
 
   return (
-    <section className="min-h-screen w-full">
-      <div className="flex flex-col pt-28 items-center justify-center gap-6 h-full">
-        <h2 className="text-4xl font-bold text-white">Log In</h2>
+    <section className="flex items-center justify-center w-full h-screen">
+      <div className="flex flex-col items-center justify-center w-5/6 gap-6 p-8 mx-auto mt-20 md:w-2/3 lg:w-1/3 rounded-2xl bg-zinc-900">
+        <h2 className="text-2xl font-bold text-center text-white lg:text-4xl">
+          Welcome back
+        </h2>
         <form
-          className="flex flex-col w-5/6 md:w-2/3 gap-6 p-6 rounded-2xl bg-zinc-900 lg:w-1/3"
+          className="flex flex-col w-full gap-6"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="relative">
@@ -109,11 +111,11 @@ function LoginForm() {
           {errors.password && (
             <p className="text-xs text-red-500">{errors.password?.message}</p>
           )}
-          <div className="flex flex-col gap-2 items-center justify-center">
+          <div className="flex flex-col items-center justify-center gap-2">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full px-4 py-3 my-2 bg-zinc-500 text-white font-semibold rounded-lg hover:bg-zinc-600 transition active:scale-95 duration-150"
+              className="w-full px-4 py-3 my-2 font-semibold text-white transition duration-150 rounded-lg bg-zinc-500 hover:bg-zinc-600 active:scale-95"
             >
               Log in
             </button>
@@ -121,14 +123,14 @@ function LoginForm() {
               Don&apos;t you have an acocunt yet?{" "}
               <Link
                 href={"/register"}
-                className="text-sky-300 font-semibold hover:text-sky-500"
+                className="font-semibold text-sky-300 hover:text-sky-500"
               >
                 sign up here
               </Link>
             </p>
           </div>
-          <ProviderLogs />
         </form>
+        <ProviderLogs />
         {error && (
           <div className="p-4 bg-red-500 rounded-2xl">
             <p className="text-white">User credentials are invalid</p>

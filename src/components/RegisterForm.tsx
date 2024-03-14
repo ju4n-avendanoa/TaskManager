@@ -1,6 +1,5 @@
 "use client";
 
-import { useErrorStore } from "@/store/errorStore";
 import { SignUpSchema } from "@/validations/userSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -17,7 +16,6 @@ type Inputs = {
 };
 
 function RegisterForm() {
-  const { error, errorMessage, setError, setErrorMessage } = useErrorStore();
   const {
     register,
     handleSubmit,
@@ -37,26 +35,21 @@ function RegisterForm() {
       body: JSON.stringify(data),
     });
     const response = await res.json();
-    if (!res.ok) {
-      setError(true);
-      if (res.status === 409) {
-        setErrorMessage(response.error);
-      } else {
-        setErrorMessage("There was an error, please try again later");
-      }
+    if (!response.ok) {
     }
+
     router.push("/login");
     reset();
   };
 
   return (
-    <section className="min-h-screen w-full">
-      <div className="flex flex-col p-8 w-5/6 md:w-2/3 lg:w-1/3 mx-auto mt-28 mb-10 items-center rounded-2xl bg-zinc-900 justify-center gap-6 h-full">
-        <h2 className="lg:text-4xl text-2xl font-bold text-white text-center">
+    <section className="flex items-center justify-center w-full min-h-screen">
+      <div className="flex flex-col p-8 w-5/6 md:w-2/3 xl:w-1/3 mx-auto mt-[100px] mb-10 items-center rounded-2xl bg-zinc-900 justify-center gap-6">
+        <h2 className="text-2xl font-bold text-center text-white lg:text-4xl">
           Create your account
         </h2>
         <form
-          className="flex flex-col gap-6 w-full"
+          className="flex flex-col w-full gap-6"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="relative">
@@ -83,7 +76,6 @@ function RegisterForm() {
               </span>
             </label>
           </div>
-
           {errors.name && (
             <p className="text-xs text-red-500">{errors.name?.message}</p>
           )}
@@ -174,7 +166,7 @@ function RegisterForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full hover:bg-zinc-600 px-4 py-3 my-2 text-white font-semibold bg-zinc-500 rounded-lg"
+              className="w-full px-4 py-3 my-2 font-semibold text-white rounded-lg hover:bg-zinc-600 bg-zinc-500"
             >
               Sign up
             </button>
@@ -184,7 +176,7 @@ function RegisterForm() {
           Already have an account?{" "}
           <Link
             href={"/login"}
-            className="text-blue-300 font-semibold hover:text-sky-500"
+            className="font-semibold text-blue-300 hover:text-sky-500"
           >
             log in here
           </Link>

@@ -1,20 +1,14 @@
-import { Tasks } from "@/interfaces/taskInterfaces";
 import { ArrowUpCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
-
-type NewTaskType = {
-  title: string;
-  description: string;
-  columnId: string;
-};
+import { useState } from "react";
+import { Tasks } from "@/interfaces/taskInterfaces";
 
 type Props = {
-  newTask: NewTaskType;
+  newTask: Tasks;
   onCancel: () => void;
-  onSave: (newTask: NewTaskType) => void;
+  onSave: (newTask: Tasks) => void;
 };
 
-function NewTask({ newTask, onCancel, onSave }: Props) {
+function ClientNewTask({ newTask, onCancel, onSave }: Props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -56,4 +50,4 @@ function NewTask({ newTask, onCancel, onSave }: Props) {
   );
 }
 
-export default NewTask;
+export default ClientNewTask;

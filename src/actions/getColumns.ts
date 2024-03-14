@@ -1,9 +1,17 @@
-import { Column } from "@/interfaces/column";
-import { baseUrl } from "@/utils/baseUrl";
+"use server";
 
-export async function getColumns(userId: string) {
+import { getServerSession } from "next-auth";
+import { baseUrl } from "@/utils/baseUrl";
+import { config } from "@/app/api/auth/[...nextauth]/route";
+import { Column } from "@/interfaces/column";
+
+export async function getColumns() {
   try {
-    const response = await fetch(`${baseUrl}/api/users/${userId}/columns`);
+    const session = await getServerSession(config);
+
+    const response = await fetch(
+      `${baseUrl}/api/users/${session?.user.id}/columns`
+    );
     if (!response.ok) {
       const errorResponse = await response.json();
       throw new Error(errorResponse);

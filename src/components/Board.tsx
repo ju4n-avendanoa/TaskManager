@@ -15,6 +15,7 @@ import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { useMemo, useState } from "react";
 import { updateColumnIndex } from "@/actions/updateColumnIndex";
 import { editColumnTitle } from "@/actions/editColumnTitle";
+import { changeColumnId } from "@/actions/changeColumnId";
 import { createNewTask } from "@/actions/createNewTask";
 import { deleteColumn } from "@/actions/deleteColumn";
 import { createPortal } from "react-dom";
@@ -22,13 +23,11 @@ import { createColumn } from "@/actions/createColumn";
 import { editTask } from "@/actions/editTask";
 import { Column } from "@/interfaces/column";
 import { Tasks } from "@/interfaces/taskInterfaces";
+import { toast } from "sonner";
 import ColumnContainer, { NewTaskType } from "./ColumnContainer";
 import CreateColumnButton from "./CreateColumnButton";
-import deleteTask from "@/utils/deleteTask";
-import TaskItem from "./TaskItem";
+import deleteTask from "@/actions/deleteTask";
 import TaskOverlay from "./TaskOverlay";
-import { changeColumnId } from "@/actions/changeColumnId";
-import { toast } from "sonner";
 
 type Props = {
   fetchedColumns: Column[];
@@ -48,8 +47,9 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
   );
 
   const onCreateNewTask = async (newTask: NewTaskType) => {
-    const task = await createNewTask(newTask, userId);
+    const task = await createNewTask(newTask);
     setTasks((prev) => [...prev, task]);
+    0;
   };
 
   const onDeleteTask = async (taskId: string) => {
@@ -68,12 +68,14 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
 
   const onDeleteColumn = async (id: string) => {
     setColumns((prev) => prev.filter((column) => column.id !== id));
-    await deleteColumn(id, userId);
+    await deleteColumn(id);
     setTasks((prev) => prev.filter((task) => task.columnId !== id));
   };
 
-  const onCreateNewColumn = async (userId: string, index: number) => {
-    const newColumn = await createColumn(userId, index);
+  const onCreateNewColumn = async (index: number) => {
+    console.log("asasf");
+    const newColumn = await createColumn(index);
+    console.log(newColumn);
     setColumns((prev) => [...prev, newColumn]);
   };
 
@@ -84,7 +86,7 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
     });
     setColumns(newColumns);
 
-    await editColumnTitle(id, columnTitle, userId);
+    await editColumnTitle(id, columnTitle);
   };
 
   const onEditTask = async (editedTask: Tasks) => {
@@ -97,7 +99,7 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
       };
     });
     setTasks(newTasks);
-    await editTask(editedTask, userId);
+    await editTask(editedTask);
   };
 
   const handleDragStart = (e: DragStartEvent) => {
@@ -129,7 +131,7 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
       const overColumnIndex = columns.findIndex((col) => col.id === overId);
       return arrayMove(columns, activeColumnIndex, overColumnIndex);
     });
-    await updateColumnIndex(activeId, overId, userId);
+    await updateColumnIndex(activeId, overId);
   };
 
   const onDragOver = async (e: DragOverEvent) => {
@@ -154,11 +156,7 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
       const overIndex = tasks.findIndex((task) => task.id === overId);
 
       if (tasks[activeIndex].columnId !== tasks[overIndex].columnId) {
-        await changeColumnId(
-          tasks[activeIndex].id,
-          tasks[overIndex].columnId,
-          userId
-        );
+        await changeColumnId(tasks[activeIndex].id, tasks[overIndex].columnId);
       }
       setTasks((tasks) => {
         tasks[activeIndex].columnId = tasks[overIndex].columnId;
@@ -175,7 +173,7 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
       if (tasks[activeIndex].columnId !== overId) {
         console.log(tasks[activeIndex].columnId);
         console.log(overId);
-        await changeColumnId(tasks[activeIndex].id, overId as string, userId);
+        await changeColumnId(tasks[activeIndex].id, overId as string);
       }
 
       setTasks((tasks) => {
@@ -206,7 +204,6 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
           Star organizing your tasks
         </h2>
         <CreateColumnButton
-          userId={userId}
           index={columns?.length + 1}
           onCreateNewColumn={onCreateNewColumn}
         />
@@ -230,7 +227,6 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
                 onDeleteColumn={onDeleteColumn}
                 onEditColumnTitle={onEditColumnTitle}
                 tasks={tasks.filter((task) => task.columnId === column.id)}
-                userId={userId}
                 onDeleteTask={onDeleteTask}
                 onCreateNewTask={onCreateNewTask}
                 onEditTask={onEditTask}
@@ -240,7 +236,6 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
         </SortableContext>
         <div>
           <CreateColumnButton
-            userId={userId}
             index={columns?.length + 1}
             onCreateNewColumn={onCreateNewColumn}
           />
@@ -256,7 +251,6 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
                   tasks={tasks.filter(
                     (task) => task.columnId === activeColumn.id
                   )}
-                  userId={userId}
                   onDeleteTask={onDeleteTask}
                   onCreateNewTask={onCreateNewTask}
                   onEditTask={onEditTask}

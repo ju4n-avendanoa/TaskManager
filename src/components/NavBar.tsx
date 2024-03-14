@@ -33,7 +33,7 @@ function NavBar() {
         </h1>
       </section>
       <div
-        className="relative px-6 h-10 items-center flex border bg-zinc-200 rounded-full"
+        className="relative px-6 h-10 items-center flex bg-zinc-400 rounded-full"
         onClick={() => setDetails(!details)}
       >
         <div className="flex gap-3 h-full items-center cursor-pointer">
@@ -48,7 +48,7 @@ function NavBar() {
               fallbackSrc="https://res.cloudinary.com/dhjqarghy/image/upload/v1708459216/Airbnb/user-circle-svgrepo-com_o8x5oh.svg"
             />
           ) : (
-            <UserCircleIcon className="w-6 h-6 text-zinc-700" />
+            <UserCircleIcon className="w-6 h-6 text-sky-700" />
           )}
         </div>
         {details ? <UserMenu /> : null}

@@ -1,51 +1,45 @@
-import { Column } from "@/interfaces/column";
-import { useSortable } from "@dnd-kit/sortable";
-import React, { useState } from "react";
-import { CSS } from "@dnd-kit/utilities";
 import { PlusCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { SortableContext, useSortable } from "@dnd-kit/sortable";
+import { useMemo, useState } from "react";
+import { Column } from "@/interfaces/column";
 import { Tasks } from "@/interfaces/taskInterfaces";
-import TaskItem from "./TaskItem";
-import NewTask from "./NewTask";
+import { CSS } from "@dnd-kit/utilities";
+import ClientTaskItem from "./ClientTaskItem";
+import ClientNewTask from "./ClientNewTask";
 
 type Props = {
   column: Column;
-  onDeleteColumn: (columnId: string) => void;
   onEditTitle: (columnId: string, value: string) => void;
-  tasks: Omit<Tasks, "createdAt" | "id" | "favorite" | "done">[];
-  onAddNewTask: (
-    newTask: Omit<Tasks, "createdAt" | "id" | "favorite" | "done">
-  ) => void;
-  onEditTask: (
-    task: Omit<Tasks, "createdAt" | "id" | "favorite" | "done">
-  ) => void;
+  onDeleteColumn: (columnId: string) => void;
+  onAddNewTask: (newTask: Tasks) => void;
+  onEditTask: (task: Tasks) => void;
+  onDeleteTask: (id: string) => void;
+  tasks: Tasks[];
 };
 
-function ColumnContainer({
+function ClientColumnContainer({
   column,
   onDeleteColumn,
   onEditTitle,
   tasks,
   onAddNewTask,
   onEditTask,
+  onDeleteTask,
 }: Props) {
+  const [newTask, setNewTask] = useState<Tasks | null>(null);
   const [editMode, setEditMode] = useState(false);
-  const [newTask, setNewTask] = useState<Omit<
-    Tasks,
-    "createdAt" | "id" | "favorite" | "done"
-  > | null>(null);
+  const [columnTitle, setColumnTitle] = useState(column.title);
 
   const createTask = (columnId: string) => {
-    const newTask: Omit<Tasks, "createdAt" | "id" | "favorite" | "done"> = {
+    const newTask: Tasks = {
       title: "",
       columnId: columnId,
       description: "",
+      id: Math.floor(Math.random() * 123456).toString(),
+      createdAt: Date.now().toString(),
     };
 
     setNewTask(newTask);
-  };
-
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    return onEditTitle(column.id, e.target.value);
   };
 
   const {
@@ -66,6 +60,10 @@ function ColumnContainer({
 
   const style = { transition, transform: CSS.Transform.toString(transform) };
 
+  const tasksId = useMemo(() => {
+    return tasks.map((task) => task.id);
+  }, [tasks]);
+
   if (isDragging) {
     return (
       <section
@@ -82,48 +80,61 @@ function ColumnContainer({
     <section
       ref={setNodeRef}
       style={style}
-      className="bg-zinc-400 h-full w-[350px] flex flex-col"
+      className="bg-zinc-500 h-full w-[350px] flex flex-col overflow-hidden touch-none"
     >
       <div
         {...attributes}
         {...listeners}
         className="flex gap-2 p-4 bg-zinc-900 justify-between items-center h-[50px]"
-        onClick={() => setEditMode(true)}
       >
         {!editMode ? (
-          <span className="text-white select-none">{column.title}</span>
+          <span
+            className="text-white select-none line-clamp-1 w-3/4"
+            onClick={() => setEditMode(true)}
+          >
+            {column.title}
+          </span>
         ) : null}
         {editMode ? (
           <input
             type="text"
-            value={column.title}
-            onChange={handleTitleChange}
+            value={columnTitle}
+            onChange={(e) => setColumnTitle(e.target.value)}
             autoFocus
-            onBlur={() => setEditMode(false)}
+            onBlur={() => {
+              if (column.title === columnTitle) return setEditMode(false);
+              onEditTitle(column.id, columnTitle);
+              setEditMode(false);
+            }}
             onKeyDown={(e) => {
               if (e.key !== "Enter") return;
+              if (column.title === columnTitle) return setEditMode(false);
+              onEditTitle(column.id, columnTitle);
               setEditMode(false);
             }}
             className="bg-transparent outline-sky-700 outline-none text-white"
           />
         ) : null}
         <TrashIcon
-          className="z-100 w-8 h-8 text-white border border-white rounded-full p-1"
+          className="z-10 w-8 h-8 text-white border border-white rounded-full p-1"
           onClick={() => {
             onDeleteColumn(column.id);
           }}
         />
       </div>
-      {/* <div className="grow flex flex-col gap-1 overflow-auto">
-        {tasks.map((task, index) => (
-          <TaskItem
-            task={task}
-            key={index}
-            onSave={(editedTask) => onEditTask(editedTask)}
-          />
-        ))}
+      <div className="grow flex flex-col gap-3 p-2 w-full overflow-y-auto">
+        <SortableContext items={tasksId}>
+          {tasks.map((task, index) => (
+            <ClientTaskItem
+              task={task}
+              key={index}
+              onSave={(editedTask) => onEditTask(editedTask)}
+              onDeleteTask={onDeleteTask}
+            />
+          ))}
+        </SortableContext>
         {newTask ? (
-          <NewTask
+          <ClientNewTask
             newTask={newTask}
             onCancel={() => setNewTask(null)}
             onSave={(newTask) => {
@@ -132,9 +143,9 @@ function ColumnContainer({
             }}
           />
         ) : null}
-      </div> */}
+      </div>
       <button
-        className="flex gap-2 items-center bg-zinc-900 text-white active:text-sky-600 hover:bg-zinc-700 py-3 px-2 text-sm"
+        className="flex select-none gap-2 items-center bg-zinc-900 text-white active:text-sky-600 hover:bg-zinc-700 py-3 px-2 text-sm"
         onClick={() => {
           createTask(column.id);
         }}
@@ -146,4 +157,4 @@ function ColumnContainer({
   );
 }
 
-export default ColumnContainer;
+export default ClientColumnContainer;

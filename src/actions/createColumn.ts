@@ -1,12 +1,22 @@
-import { baseUrl } from "@/utils/baseUrl";
+"use server";
 
-export async function createColumn(userId: string, columnsLength: number) {
+import { config } from "@/app/api/auth/[...nextauth]/route";
+import { baseUrl } from "@/utils/baseUrl";
+import { getServerSession } from "next-auth";
+
+export async function createColumn(columnsLength: number) {
   try {
-    const response = await fetch(`${baseUrl}/api/users/${userId}/columns`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(columnsLength),
-    });
+    const session = await getServerSession(config);
+    console.log(session);
+
+    const response = await fetch(
+      `${baseUrl}/api/users/${session?.user.id}/columns`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(columnsLength),
+      }
+    );
 
     if (!response.ok) {
       const errorResponse = await response.json();

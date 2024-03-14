@@ -1,5 +1,5 @@
 import { getColumns } from "@/actions/getColumns";
-import getAllTasks from "@/utils/getAllTasks";
+import getAllTasks from "@/actions/getAllTasks";
 import Board from "@/components/Board";
 
 type Props = {
@@ -7,8 +7,8 @@ type Props = {
 };
 
 async function Workspace({ userId }: Props) {
-  const tasks = await getAllTasks(userId);
-  const columns = await getColumns(userId);
+  const tasks = await getAllTasks();
+  const columns = await getColumns();
 
   return (
     <Board fetchedColumns={columns!} userId={userId} fetchedTasks={tasks} />

@@ -1,13 +1,15 @@
-import { baseUrl } from "@/utils/baseUrl";
+"use server";
 
-export async function editColumnTitle(
-  columnId: string,
-  title: string,
-  userId: string
-) {
+import { config } from "@/app/api/auth/[...nextauth]/route";
+import { baseUrl } from "@/utils/baseUrl";
+import { getServerSession } from "next-auth";
+
+export async function editColumnTitle(columnId: string, title: string) {
   try {
+    const session = await getServerSession(config);
+
     const response = await fetch(
-      `${baseUrl}/api/users/${userId}/columns/${columnId}`,
+      `${baseUrl}/api/users/${session?.user.id}/columns/${columnId}`,
       {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },

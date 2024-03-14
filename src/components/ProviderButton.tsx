@@ -1,6 +1,6 @@
-import { useErrorStore } from "@/store/errorStore";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
+import { toast } from "sonner";
 
 function ProviderButton({
   provider,
@@ -11,18 +11,14 @@ function ProviderButton({
 }) {
   const formatedProvider = provider.toLowerCase();
 
-  const { setError, setErrorMessage } = useErrorStore();
-
   const handleLogin = async () => {
     try {
-      setError(false);
       const res = await signIn(formatedProvider, {
         callbackUrl: "/",
       });
 
       if (res?.ok) {
-        setError(true);
-        setErrorMessage(res.error!);
+        toast.error("An error ocurred");
         return;
       }
     } catch (error: any) {

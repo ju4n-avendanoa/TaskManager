@@ -7,7 +7,6 @@ type Props = {
   newTask: NewTaskType;
   onCancel: () => void;
   onSave: (newTask: NewTaskType) => void;
-  userId: string;
 };
 
 function NewTask({ newTask, onCancel, onSave }: Props) {

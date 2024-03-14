@@ -12,7 +12,6 @@ type Props = {
   onEditColumnTitle: (id: string, columnTitle: string) => void;
   onDeleteColumn: (columnId: string) => void;
   column: Column;
-  userId: string;
   tasks: Tasks[];
   onDeleteTask: (id: string) => void;
   onCreateNewTask: (newTask: NewTaskType) => void;
@@ -29,7 +28,6 @@ function ColumnContainer({
   onEditColumnTitle,
   onDeleteColumn,
   column,
-  userId,
   tasks,
   onDeleteTask,
   onCreateNewTask,
@@ -97,7 +95,7 @@ function ColumnContainer({
       >
         {!editMode ? (
           <span
-            className="text-white select-none line-clamp-1 w-3/4"
+            className="w-3/4 text-white select-none line-clamp-1"
             onClick={() => setEditMode(true)}
           >
             {column.title}
@@ -117,19 +115,18 @@ function ColumnContainer({
             onKeyDown={(e) => {
               if (e.key !== "Enter") return;
               if (column.title === columnTitle) return setEditMode(false);
-
               onEditColumnTitle(column.id, columnTitle);
               setEditMode(false);
             }}
-            className="bg-transparent outline-sky-700 outline-none text-white"
+            className="text-white bg-transparent outline-none outline-sky-700"
           />
         ) : null}
         <TrashIcon
-          className="z-100 w-8 h-8 text-white border border-white rounded-full p-1"
+          className="z-10 w-8 h-8 p-1 text-white border border-white rounded-full"
           onClick={() => onDeleteColumn(column.id)}
         />
       </div>
-      <div className="grow flex flex-col gap-3 p-2 w-full overflow-y-auto">
+      <div className="flex flex-col w-full gap-3 p-2 overflow-y-auto grow">
         <SortableContext items={tasksId}>
           {tasks.map((task) => (
             <TaskItem
@@ -156,13 +153,12 @@ function ColumnContainer({
               await onCreateNewTask(newTask);
               setLoading(false);
             }}
-            userId={userId}
           />
         ) : null}
         {loading && <LoadingTask />}
       </div>
       <button
-        className="flex select-none gap-2 items-center bg-zinc-900 text-white active:text-sky-600 hover:bg-zinc-700 py-3 px-2 text-sm"
+        className="flex items-center gap-2 px-2 py-3 text-sm text-white select-none bg-zinc-900 active:text-sky-600 hover:bg-zinc-700"
         onClick={() => {
           createTask(column.id);
         }}
