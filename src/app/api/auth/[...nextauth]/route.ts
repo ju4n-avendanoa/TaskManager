@@ -29,23 +29,30 @@ export const config = {
         },
       },
       async authorize(credentials) {
-        if (!credentials) return null;
+        try {
+          if (!credentials) return null;
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials?.email,
-          },
-        });
+          const user = await prisma.user.findUnique({
+            where: {
+              email: credentials?.email,
+            },
+          });
 
-        if (!user) return null;
+          if (!user) throw new Error("User credentials are invalid");
 
-        const passOk = await bcrypt.compare(
-          credentials.password,
-          user.password!
-        );
-        if (!passOk) return null;
+          const passOk = await bcrypt.compare(
+            credentials.password,
+            user.password!
+          );
+          if (!passOk) {
+            throw new Error("User credentials are invalid");
+          }
 
-        return user;
+          return user;
+        } catch (error: any) {
+          console.log(error);
+          throw new Error(error.message);
+        }
       },
     }),
   ],

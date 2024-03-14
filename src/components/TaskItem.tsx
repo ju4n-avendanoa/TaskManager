@@ -124,7 +124,7 @@ function TaskItem({ task, onSave, onDeleteTask }: Props) {
           />
           {mouseOver && (
             <TrashIcon
-              className="min-w-max h-6 text-white border rounded-full p-0.5 cursor-pointer active:text-sky-300 active:border-sky-300"
+              className="min-w-max h-6 text-white border hidden lg:block rounded-full p-0.5 cursor-pointer active:text-sky-300 active:border-sky-300"
               onClick={() => onDeleteTask(task.id)}
             />
           )}

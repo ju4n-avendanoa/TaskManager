@@ -6,37 +6,36 @@ import { Tasks } from "@/interfaces/taskInterfaces";
 import { CSS } from "@dnd-kit/utilities";
 import ClientTaskItem from "./ClientTaskItem";
 import ClientNewTask from "./ClientNewTask";
+import { NewTaskType } from "./ColumnContainer";
 
 type Props = {
-  column: Column;
-  onEditTitle: (columnId: string, value: string) => void;
+  onEditColumnTitle: (id: string, columnTitle: string) => void;
   onDeleteColumn: (columnId: string) => void;
-  onAddNewTask: (newTask: Tasks) => void;
-  onEditTask: (task: Tasks) => void;
-  onDeleteTask: (id: string) => void;
+  column: Column;
   tasks: Tasks[];
+  onDeleteTask: (id: string) => void;
+  onCreateNewTask: (newTask: NewTaskType) => void;
+  onEditTask: (task: Tasks) => void;
 };
 
 function ClientColumnContainer({
-  column,
+  onEditColumnTitle,
   onDeleteColumn,
-  onEditTitle,
+  column,
   tasks,
-  onAddNewTask,
-  onEditTask,
   onDeleteTask,
+  onCreateNewTask,
+  onEditTask,
 }: Props) {
-  const [newTask, setNewTask] = useState<Tasks | null>(null);
-  const [editMode, setEditMode] = useState(false);
+  const [newTask, setNewTask] = useState<NewTaskType | null>(null);
   const [columnTitle, setColumnTitle] = useState(column.title);
+  const [editMode, setEditMode] = useState(false);
 
   const createTask = (columnId: string) => {
-    const newTask: Tasks = {
+    const newTask = {
       title: "",
       columnId: columnId,
       description: "",
-      id: Math.floor(Math.random() * 123456).toString(),
-      createdAt: Date.now().toString(),
     };
 
     setNewTask(newTask);
@@ -72,7 +71,7 @@ function ClientColumnContainer({
         style={style}
         {...attributes}
         {...listeners}
-      ></section>
+      />
     );
   }
 
@@ -85,11 +84,11 @@ function ClientColumnContainer({
       <div
         {...attributes}
         {...listeners}
-        className="flex gap-2 p-4 bg-zinc-900 justify-between items-center h-[50px]"
+        className="flex gap-2 p-4 bg-zinc-900 justify-between items-center h-[50px] touch-none"
       >
         {!editMode ? (
           <span
-            className="text-white select-none line-clamp-1 w-3/4"
+            className="w-3/4 text-white select-none line-clamp-1"
             onClick={() => setEditMode(true)}
           >
             {column.title}
@@ -103,31 +102,29 @@ function ClientColumnContainer({
             autoFocus
             onBlur={() => {
               if (column.title === columnTitle) return setEditMode(false);
-              onEditTitle(column.id, columnTitle);
+              onEditColumnTitle(column.id, columnTitle);
               setEditMode(false);
             }}
             onKeyDown={(e) => {
               if (e.key !== "Enter") return;
               if (column.title === columnTitle) return setEditMode(false);
-              onEditTitle(column.id, columnTitle);
+              onEditColumnTitle(column.id, columnTitle);
               setEditMode(false);
             }}
-            className="bg-transparent outline-sky-700 outline-none text-white"
+            className="text-white bg-transparent outline-none outline-sky-700"
           />
         ) : null}
         <TrashIcon
-          className="z-10 w-8 h-8 text-white border border-white rounded-full p-1"
-          onClick={() => {
-            onDeleteColumn(column.id);
-          }}
+          className="z-10 w-8 h-8 p-1 text-white border border-white rounded-full"
+          onClick={() => onDeleteColumn(column.id)}
         />
       </div>
-      <div className="grow flex flex-col gap-3 p-2 w-full overflow-y-auto">
+      <div className="flex flex-col w-full gap-3 p-2 overflow-y-auto grow">
         <SortableContext items={tasksId}>
-          {tasks.map((task, index) => (
+          {tasks.map((task) => (
             <ClientTaskItem
               task={task}
-              key={index}
+              key={task.id}
               onSave={(editedTask) => onEditTask(editedTask)}
               onDeleteTask={onDeleteTask}
             />
@@ -138,14 +135,20 @@ function ClientColumnContainer({
             newTask={newTask}
             onCancel={() => setNewTask(null)}
             onSave={(newTask) => {
-              onAddNewTask(newTask);
               setNewTask(null);
+              if (newTask.description === "") {
+                newTask.description = "Description";
+              }
+              if (newTask.title === "") {
+                newTask.title = "Title";
+              }
+              onCreateNewTask(newTask);
             }}
           />
         ) : null}
       </div>
       <button
-        className="flex select-none gap-2 items-center bg-zinc-900 text-white active:text-sky-600 hover:bg-zinc-700 py-3 px-2 text-sm"
+        className="flex items-center gap-2 px-2 py-3 text-sm text-white select-none bg-zinc-900 active:text-sky-600 hover:bg-zinc-700"
         onClick={() => {
           createTask(column.id);
         }}

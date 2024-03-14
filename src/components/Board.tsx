@@ -73,15 +73,16 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
   };
 
   const onCreateNewColumn = async (index: number) => {
-    console.log("asasf");
     const newColumn = await createColumn(index);
-    console.log(newColumn);
     setColumns((prev) => [...prev, newColumn]);
   };
 
   const onEditColumnTitle = async (id: string, columnTitle: string) => {
     const newColumns = columns.map((column) => {
       if (column.id !== id) return column;
+      if (columnTitle === "") {
+        return { ...column, title: "Column Title" };
+      }
       return { ...column, title: columnTitle };
     });
     setColumns(newColumns);
@@ -171,8 +172,6 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
 
     if (isActiveATask && isOverAColumn) {
       if (tasks[activeIndex].columnId !== overId) {
-        console.log(tasks[activeIndex].columnId);
-        console.log(overId);
         await changeColumnId(tasks[activeIndex].id, overId as string);
       }
 
@@ -199,8 +198,8 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
 
   if (columns?.length === 0) {
     return (
-      <section className="flex flex-col pt-40 text-center items-center gap-4">
-        <h2 className="text-white text-2xl lg:text-4xl font-semibold">
+      <section className="flex flex-col items-center gap-4 pt-40 text-center">
+        <h2 className="text-2xl font-semibold text-white lg:text-4xl">
           Star organizing your tasks
         </h2>
         <CreateColumnButton
@@ -218,7 +217,7 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
       onDragEnd={handleDragEnd}
       onDragOver={onDragOver}
     >
-      <section className="flex gap-6 pt-24 px-10 pb-5 h-screen overflow-auto">
+      <section className="flex h-screen gap-6 px-10 pt-24 pb-5 overflow-auto">
         <SortableContext items={columnsId}>
           {columns?.map((column) => (
             <article key={column.id} className="h-full">

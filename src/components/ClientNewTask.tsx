@@ -1,11 +1,12 @@
 import { ArrowUpCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { Tasks } from "@/interfaces/taskInterfaces";
+import { NewTaskType } from "./ColumnContainer";
 
 type Props = {
-  newTask: Tasks;
+  newTask: NewTaskType;
   onCancel: () => void;
-  onSave: (newTask: Tasks) => void;
+  onSave: (newTask: NewTaskType) => void;
 };
 
 function ClientNewTask({ newTask, onCancel, onSave }: Props) {
@@ -13,26 +14,30 @@ function ClientNewTask({ newTask, onCancel, onSave }: Props) {
   const [description, setDescription] = useState("");
 
   return (
-    <div className="bg-zinc-700 py-4 px-2 mx-2 my-1 flex flex-col gap-4 rounded-md shadow-md shadow-black">
+    <div className="flex flex-col gap-4 px-4 py-2 rounded-md shadow-md bg-zinc-800 shadow-black">
       <input
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         autoFocus
         placeholder="Title"
-        className="bg-transparent outline-sky-700 outline-none text-white text-sm"
+        className="text-sm text-white bg-transparent outline-none outline-sky-700"
       />
       <textarea
         value={description}
         placeholder="Description..."
         onChange={(e) => setDescription(e.target.value)}
-        className="bg-transparent outline-sky-700 outline-none text-white text-sm"
+        className="text-sm text-white bg-transparent outline-none outline-sky-700"
       />
       <div className="flex justify-end gap-2">
         <button
           className="bg-sky-700 text-white rounded-lg px-2 text-xs py-1 flex gap-1 items-center active:scale-95 transition duration-150 w-[70px] justify-center"
           onClick={() => {
-            onSave({ ...newTask, title: title, description: description });
+            onSave({
+              ...newTask,
+              title: title,
+              description: description,
+            });
           }}
         >
           <span>save</span>

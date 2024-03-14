@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { baseUrl } from "@/utils/baseUrl";
 import ProviderLogs from "./ProviderLogs";
 import Link from "next/link";
+import { toast } from "sonner";
 
 type Inputs = {
   name: string;
@@ -27,19 +28,26 @@ function RegisterForm() {
   const router = useRouter();
 
   const onSubmit = async (data: Inputs) => {
-    const res = await fetch(`${baseUrl}/api/users/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const response = await res.json();
-    if (!response.ok) {
+    try {
+      const response = await fetch(`${baseUrl}/api/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        return toast.error(errorResponse);
+      }
+      toast.success("Sign up successfull");
+      router.push("/login");
+    } catch (error: any) {
+      console.log(error);
+      toast.error("There was a problem, please try again later");
+    } finally {
+      reset();
     }
-
-    router.push("/login");
-    reset();
   };
 
   return (

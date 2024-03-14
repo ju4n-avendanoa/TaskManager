@@ -2,10 +2,10 @@
 
 import { LoginSchema } from "@/validations/userSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { signIn } from "next-auth/react";
+import { toast } from "sonner";
 import ProviderLogs from "./ProviderLogs";
 import Link from "next/link";
 
@@ -15,7 +15,6 @@ type Inputs = {
 };
 
 function LoginForm() {
-  const [error, setError] = useState(false);
   const router = useRouter();
 
   const {
@@ -35,9 +34,9 @@ function LoginForm() {
       });
 
       if (res?.error) {
-        setError(true);
+        toast.error(res.error);
       } else {
-        setError(false);
+        toast.success("Login successfull");
         router.push("/");
       }
 
@@ -131,11 +130,6 @@ function LoginForm() {
           </div>
         </form>
         <ProviderLogs />
-        {error && (
-          <div className="p-4 bg-red-500 rounded-2xl">
-            <p className="text-white">User credentials are invalid</p>
-          </div>
-        )}
       </div>
     </section>
   );

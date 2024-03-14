@@ -14,6 +14,7 @@ import {
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import { NewTaskType } from "./ColumnContainer";
 import { Column } from "@/interfaces/column";
 import { Tasks } from "@/interfaces/taskInterfaces";
 import ClientColumnContainer from "./ClientColumnBoard";
@@ -53,6 +54,15 @@ function ClientBoard() {
     [columns]
   );
 
+  const onCreateNewTask = (newTask: NewTaskType) => {
+    const taskToAdd: Tasks = {
+      ...newTask,
+      createdAt: Date.now().toString(),
+      id: Math.floor(Math.random() * 123456).toString(),
+    };
+    setTasks((prev) => [...prev, taskToAdd]);
+  };
+
   const onDeleteTask = (taskId: string) => {
     setTasks((prev) => prev.filter((task) => task.id !== taskId));
   };
@@ -63,17 +73,21 @@ function ClientBoard() {
   };
 
   const onCreateNewColumn = (index: number) => {
-    const newColumn = {
+    const newColumn: Column = {
       id: Math.floor(Math.random() * 123456).toString(),
       title: "New Column",
       index: index,
     };
+    console.log(newColumn);
     setColumns((prev) => [...prev, newColumn]);
   };
 
   const onEditColumnTitle = (id: string, columnTitle: string) => {
     const newColumns = columns.map((column) => {
       if (column.id !== id) return column;
+      if (columnTitle === "") {
+        return { ...column, title: "Column Title" };
+      }
       return { ...column, title: columnTitle };
     });
     setColumns(newColumns);
@@ -142,6 +156,7 @@ function ClientBoard() {
 
     if (isActiveATask && isOverATask) {
       const overIndex = tasks.findIndex((task) => task.id === overId);
+
       setTasks((tasks) => {
         tasks[activeIndex].columnId = tasks[overIndex].columnId;
 
@@ -177,13 +192,13 @@ function ClientBoard() {
 
   if (columns?.length === 0) {
     return (
-      <section className="flex flex-col lg:pt-24 items-center gap-4">
-        <h2 className="text-white text-4xl font-semibold">
+      <section className="flex flex-col items-center gap-4 pt-40 text-center">
+        <h2 className="text-2xl font-semibold text-white lg:text-4xl">
           Star organizing your tasks
         </h2>
         <CreateColumnButton
+          index={columns?.length + 1}
           onCreateNewColumn={onCreateNewColumn}
-          index={columns[columns.length - 1].index + 1}
         />
       </section>
     );
@@ -196,28 +211,26 @@ function ClientBoard() {
       onDragEnd={handleDragEnd}
       onDragOver={onDragOver}
     >
-      <section className="flex gap-6 px-12 py-8 lg:pb-6 lg:pt-16 h-full overflow-auto">
+      <section className="flex h-screen gap-6 px-10 pt-24 pb-5 overflow-auto">
         <SortableContext items={columnsId}>
-          {columns.map((column) => (
+          {columns?.map((column) => (
             <article key={column.id} className="h-full">
               <ClientColumnContainer
                 column={column}
                 onDeleteColumn={onDeleteColumn}
-                onEditTitle={onEditColumnTitle}
+                onEditColumnTitle={onEditColumnTitle}
                 tasks={tasks.filter((task) => task.columnId === column.id)}
-                onAddNewTask={(newTask) =>
-                  setTasks((prev) => [...prev, newTask])
-                }
-                onEditTask={onEditTask}
                 onDeleteTask={onDeleteTask}
+                onCreateNewTask={onCreateNewTask}
+                onEditTask={onEditTask}
               />
             </article>
           ))}
         </SortableContext>
         <div>
           <CreateColumnButton
+            index={columns?.length + 1}
             onCreateNewColumn={onCreateNewColumn}
-            index={columns[columns.length - 1].index + 1}
           />
         </div>
         {typeof window !== "undefined" &&
@@ -227,17 +240,16 @@ function ClientBoard() {
                 <ClientColumnContainer
                   column={activeColumn}
                   onDeleteColumn={onDeleteColumn}
-                  onEditTitle={onEditColumnTitle}
+                  onEditColumnTitle={onEditColumnTitle}
                   tasks={tasks.filter(
                     (task) => task.columnId === activeColumn.id
                   )}
-                  onAddNewTask={(newTask) =>
-                    setTasks((prev) => [...prev, newTask])
-                  }
-                  onEditTask={onEditTask}
                   onDeleteTask={onDeleteTask}
+                  onCreateNewTask={onCreateNewTask}
+                  onEditTask={onEditTask}
                 />
               )}
+
               {activeTask && <TaskOverlay task={activeTask} />}
             </DragOverlay>,
             document.body

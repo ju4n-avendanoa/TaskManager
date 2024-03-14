@@ -15,10 +15,10 @@ type Props = {
 };
 
 function ClientTaskItem({ task, onSave, onDeleteTask }: Props) {
-  const [editMode, setEditMode] = useState(false);
-  const [mouseOver, setMouseOver] = useState(false);
-  const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
+  const [mouseOver, setMouseOver] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [title, setTitle] = useState(task.title);
 
   const {
     attributes,
@@ -63,17 +63,23 @@ function ClientTaskItem({ task, onSave, onDeleteTask }: Props) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             autoFocus
-            className="bg-transparent outline-sky-700 outline-none text-white lg:text-base text-sm"
+            className="text-sm text-white bg-transparent outline-none outline-sky-700 lg:text-base"
           />
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="bg-transparent outline-sky-700 outline-none text-white lg:text-sm text-xs overflow-auto"
+            className="overflow-auto text-xs text-white bg-transparent outline-none outline-sky-700 lg:text-sm"
           />
           <div className="flex justify-end gap-2">
             <button
               className="bg-sky-700 text-white rounded-lg px-2 text-xs py-1 flex gap-1 items-center active:scale-95 transition duration-150 w-[70px] justify-center"
               onClick={() => {
+                if (description === "") {
+                  setDescription("Description");
+                }
+                if (title === "") {
+                  setTitle("Title");
+                }
                 onSave({ ...task, title: title, description: description });
                 setEditMode(false);
               }}
@@ -92,7 +98,7 @@ function ClientTaskItem({ task, onSave, onDeleteTask }: Props) {
         </>
       ) : (
         <div
-          className="flex items-center justify-between gap-2 w-full h-full touch-none"
+          className="flex items-center justify-between w-full h-full gap-2 touch-none"
           onMouseEnter={() => setMouseOver(true)}
           onMouseLeave={() => setMouseOver(false)}
           {...attributes}
@@ -106,7 +112,7 @@ function ClientTaskItem({ task, onSave, onDeleteTask }: Props) {
               {title}
             </h3>
             <p
-              className="text-xs lg:text-sm whitespace-pre-line text-white overflow-y-auto hyphens-auto"
+              className="overflow-y-auto text-xs text-white whitespace-pre-line lg:text-sm hyphens-auto"
               onClick={() => setEditMode(true)}
             >
               {description}
@@ -118,7 +124,7 @@ function ClientTaskItem({ task, onSave, onDeleteTask }: Props) {
           />
           {mouseOver && (
             <TrashIcon
-              className="min-w-max h-6 text-white border rounded-full p-0.5 cursor-pointer active:text-sky-300 active:border-sky-300"
+              className="min-w-max h-6 text-white border hidden lg:block rounded-full p-0.5 cursor-pointer active:text-sky-300 active:border-sky-300"
               onClick={() => onDeleteTask(task.id)}
             />
           )}

@@ -21,13 +21,10 @@ export default function HomePage() {
   }, [isInView]);
 
   return (
-    <main
-      className="flex flex-col items-center justify-center min-h-screen"
-      ref={ref}
-    >
+    <main className="flex flex-col items-center justify-center min-h-screen">
       <section className="flex items-center flex-col lg:flex-row justify-center lg:h-[720px] w-full">
         <section className="flex text-white select-none justify-center w-full h-[500px] lg:h-full lg:w-2/5 bg-zinc-700">
-          <div className="flex gap-12 flex-col items-center lg:items-start px-14 my-auto lg:h-3/5 w-full relative">
+          <div className="flex gap-12 flex-col items-center lg:items-start px-14 my-auto h-3/5 lg:h-3/5 w-full relative">
             <h1 className="text-4xl md:text-5xl text-center lg:text-left font-bold lg:text-6xl text-sky-500">
               Task <br />
               Manager
@@ -47,20 +44,20 @@ export default function HomePage() {
         </section>
       </section>
 
-      <motion.div
-        variants={{
-          hidden: { opacity: 0, y: 0.75 },
-          visible: { opacity: 1, y: 0 },
-        }}
-        initial="hidden"
-        whileInView="visible"
-        transition={{ duration: 0.5, delay: 0.25 }}
-        viewport={{ once: true }}
-        className="h-[1000px] lg:h-[600px] w-full"
-      >
-        <section className="flex flex-col gap-14 bg-zinc-900 w-full h-full p-6 md:px-10 py-16 items-center">
-          <div className="flex flex-col gap-6 items-center text-center max-lg:h-1/5">
-            <h2 className="text-xl lg:text-3xl xl:text-4xl text-white font-bold">
+      <section className="bg-zinc-900 w-full h-[1200px] md:h-[1100px] lg:h-[600px] p-6 md:px-10 py-20">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 0.75 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.5, delay: 0.25 }}
+          viewport={{ once: true }}
+          className="h-full w-full flex flex-col gap-10 justify-around items-center"
+        >
+          <div className="flex flex-col gap-6 items-center justify-around max-lg:h-1/5">
+            <h2 className="text-2xl lg:text-3xl xl:text-4xl text-white font-bold">
               Streamlined Task Management
             </h2>
             <p className="text-white text-base lg:text-lg xl:text-xl text-center w-full lg:w-1/2">
@@ -83,26 +80,27 @@ export default function HomePage() {
               description="Access your tasks and columns seamlessly across multiple devices, ensuring you have the flexibility to manage your work from anywhere, whether it's on your computer, tablet, or smartphone."
             />
           </div>
-        </section>
-      </motion.div>
-      <motion.div
-        variants={{
-          hidden: { opacity: 0, y: 0.75 },
-          visible: { opacity: 1, y: 0 },
-        }}
-        initial="hidden"
-        whileInView="visible"
-        transition={{ duration: 0.5, delay: 0.25 }}
-        viewport={{ once: true }}
-        className="w-full lg:h-[650px] h-[1000px]"
-      >
-        <section className="flex items-center flex-col lg:flex-row justify-center h-full w-full">
-          <section className="flex flex-col gap-14 text-white select-none justify-center items-center lg:items-start w-full max-lg:h-2/5 lg:h-full lg:w-2/5 bg-zinc-700 relative pb-10 px-10 text-center lg:text-left">
+        </motion.div>
+      </section>
+      <section className="lg:h-[650px] h-[1000px] w-full">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, y: 0.75 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          initial="hidden"
+          whileInView="visible"
+          transition={{ duration: 0.5, delay: 0.25 }}
+          viewport={{ once: true }}
+          className="h-full w-full flex flex-col lg:flex-row justify-around items-center"
+        >
+          <section className="flex flex-col gap-14 text-white select-none justify-center items-center lg:items-start w-full max-lg:h-2/5 lg:h-full lg:w-2/5 bg-zinc-700 relative py-10 lg:pb-10 px-10 text-center lg:text-left">
             <h2 className="text-3xl xl:text-5xl text-sky-400 font-bold w-full lg:w-3/5">
               Explore the efficiency of our task management app
             </h2>
             <p className="lg:text-xl xl:text-2xl text-lg">
-              Test the interface and sign up to unlock all features
+              Test the interface <span className="lg:hidden">below</span> and
+              sign up to unlock all features
             </p>
             <p className="lg:text-xl xl:text-2xl animate-bounce text-lg">
               Make every day more productive with us!
@@ -111,8 +109,8 @@ export default function HomePage() {
           <section className="w-full max-lg:h-3/5 lg:w-3/5 lg:h-full">
             <ClientBoard />
           </section>
-        </section>
-      </motion.div>
+        </motion.div>
+      </section>
     </main>
   );
 }
