@@ -1,7 +1,6 @@
 import { ArrowUpCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import { NewTaskType } from "../Board/ColumnContainer";
 import { useState } from "react";
-import { Tasks } from "@/interfaces/taskInterfaces";
-import { NewTaskType } from "./ColumnContainer";
 
 type Props = {
   newTask: NewTaskType;

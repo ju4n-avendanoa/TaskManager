@@ -1,12 +1,12 @@
 import { PlusCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { NewTaskType } from "../Board/ColumnContainer";
 import { Column } from "@/interfaces/column";
 import { Tasks } from "@/interfaces/taskInterfaces";
 import { CSS } from "@dnd-kit/utilities";
-import TaskItem from "./TaskItem";
-import NewTask from "./NewTask";
-import LoadingTask from "./LoadingTask";
+import ClientTaskItem from "./ClientTaskItem";
+import ClientNewTask from "./ClientNewTask";
 
 type Props = {
   onEditColumnTitle: (id: string, columnTitle: string) => void;
@@ -18,13 +18,7 @@ type Props = {
   onEditTask: (task: Tasks) => void;
 };
 
-export type NewTaskType = {
-  title: string;
-  description: string;
-  columnId: string;
-};
-
-function ColumnContainer({
+function ClientColumnContainer({
   onEditColumnTitle,
   onDeleteColumn,
   column,
@@ -36,7 +30,6 @@ function ColumnContainer({
   const [newTask, setNewTask] = useState<NewTaskType | null>(null);
   const [columnTitle, setColumnTitle] = useState(column.title);
   const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const createTask = (columnId: string) => {
     const newTask = {
@@ -129,7 +122,7 @@ function ColumnContainer({
       <div className="flex flex-col w-full gap-3 p-2 overflow-y-auto grow">
         <SortableContext items={tasksId}>
           {tasks.map((task) => (
-            <TaskItem
+            <ClientTaskItem
               task={task}
               key={task.id}
               onSave={(editedTask) => onEditTask(editedTask)}
@@ -138,24 +131,21 @@ function ColumnContainer({
           ))}
         </SortableContext>
         {newTask ? (
-          <NewTask
+          <ClientNewTask
             newTask={newTask}
             onCancel={() => setNewTask(null)}
-            onSave={async (newTask) => {
+            onSave={(newTask: NewTaskType) => {
               setNewTask(null);
-              setLoading(true);
               if (newTask.description === "") {
                 newTask.description = "Description";
               }
               if (newTask.title === "") {
                 newTask.title = "Title";
               }
-              await onCreateNewTask(newTask);
-              setLoading(false);
+              onCreateNewTask(newTask);
             }}
           />
         ) : null}
-        {loading && <LoadingTask />}
       </div>
       <button
         className="flex items-center gap-2 px-2 py-3 text-sm text-white select-none bg-zinc-900 active:text-sky-600 hover:bg-zinc-700"
@@ -170,4 +160,4 @@ function ColumnContainer({
   );
 }
 
-export default ColumnContainer;
+export default ClientColumnContainer;

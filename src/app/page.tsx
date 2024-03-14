@@ -2,11 +2,11 @@
 
 import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
-import ImageMainPage from "@/components/ImageMainPage";
-import TextAnimated from "@/components/TextAnimated";
-import UtilityCard from "@/components/UtilityCard";
-import ClientBoard from "@/components/ClientBoard";
-import Avatar from "@/components/Avatar";
+import ImageMainPage from "@/components/MainPage/ImageMainPage";
+import TextAnimated from "@/components/MainPage/TextAnimated";
+import UtilityCard from "@/components/MainPage/UtilityCard";
+import ClientBoard from "@/components/ClientBoard/ClientBoard";
+import Avatar from "@/components/MainPage/Avatar";
 
 export default function HomePage() {
   const ref = useRef(null);
@@ -24,13 +24,13 @@ export default function HomePage() {
     <main className="flex flex-col items-center justify-center min-h-screen">
       <section className="flex items-center flex-col lg:flex-row justify-center lg:h-[720px] w-full">
         <section className="flex text-white select-none justify-center w-full h-[500px] lg:h-full lg:w-2/5 bg-zinc-700">
-          <div className="flex gap-12 flex-col items-center lg:items-start px-14 my-auto h-3/5 lg:h-3/5 w-full relative">
-            <h1 className="text-4xl md:text-5xl text-center lg:text-left font-bold lg:text-6xl text-sky-500">
+          <div className="relative flex flex-col items-center justify-start w-full gap-16 my-auto lg:items-start px-14 h-3/5 lg:h-3/5">
+            <h1 className="text-5xl font-bold text-center lg:text-left lg:text-6xl text-sky-500">
               Task <br />
               Manager
             </h1>
             <TextAnimated />
-            <div className="flex absolute items-center justify-center lg:justify-start gap-4 px-14 -bottom-20 lg:-bottom-10 w-full left-0">
+            <div className="absolute left-0 flex items-center justify-center w-full gap-4 lg:justify-start px-14 -bottom-10">
               <Avatar src="https://res.cloudinary.com/dhjqarghy/image/upload/v1710220777/TaskManager/avatar-portrait-svgrepo-com_ltmmx3.svg" />
               <Avatar src="https://res.cloudinary.com/dhjqarghy/image/upload/v1710359839/TaskManager/avatar-svgrepo-com_3_uucjmi.svg" />
               <Avatar src="https://res.cloudinary.com/dhjqarghy/image/upload/v1710221454/TaskManager/avatar-svgrepo-com_1_nmkmfj.svg" />
@@ -54,19 +54,19 @@ export default function HomePage() {
           whileInView="visible"
           transition={{ duration: 0.5, delay: 0.25 }}
           viewport={{ once: true }}
-          className="h-full w-full flex flex-col gap-10 justify-around items-center"
+          className="flex flex-col items-center justify-around w-full h-full gap-10"
         >
-          <div className="flex flex-col gap-6 items-center justify-around max-lg:h-1/5">
-            <h2 className="text-2xl lg:text-3xl xl:text-4xl text-white font-bold">
+          <div className="flex flex-col items-center justify-around gap-6 max-lg:h-1/5">
+            <h2 className="text-2xl font-bold text-white lg:text-3xl xl:text-4xl">
               Streamlined Task Management
             </h2>
-            <p className="text-white text-base lg:text-lg xl:text-xl text-center w-full lg:w-1/2">
+            <p className="w-full text-base text-center text-white lg:text-lg xl:text-xl lg:w-1/2">
               ask Master simplifies your workflow. Customize columns,
               drag-and-drop tasks, and collaborate effortlessly. Stay organized
               and boost productivity.
             </p>
           </div>
-          <div className="text-white w-full max-lg:h-4/5 flex items-center lg:flex-row flex-col gap-10 justify-around">
+          <div className="flex flex-col items-center justify-around w-full gap-10 text-white max-lg:h-4/5 lg:flex-row">
             <UtilityCard
               title="Customizable Task Columns"
               description="Tailor your workspace by creating and organizing columns to match your workflow, making it easy to categorize and manage tasks efficiently."
@@ -92,17 +92,17 @@ export default function HomePage() {
           whileInView="visible"
           transition={{ duration: 0.5, delay: 0.25 }}
           viewport={{ once: true }}
-          className="h-full w-full flex flex-col lg:flex-row justify-around items-center"
+          className="flex flex-col items-center justify-around w-full h-full lg:flex-row"
         >
-          <section className="flex flex-col gap-14 text-white select-none justify-center items-center lg:items-start w-full max-lg:h-2/5 lg:h-full lg:w-2/5 bg-zinc-700 relative py-10 lg:pb-10 px-10 text-center lg:text-left">
-            <h2 className="text-3xl xl:text-5xl text-sky-400 font-bold w-full lg:w-3/5">
+          <section className="relative flex flex-col items-center justify-center w-full px-10 py-10 text-center text-white select-none gap-14 lg:items-start max-lg:h-2/5 lg:h-full lg:w-2/5 bg-zinc-700 lg:pb-10 lg:text-left">
+            <h2 className="w-full text-3xl font-bold xl:text-5xl text-sky-400 lg:w-3/5">
               Explore the efficiency of our task management app
             </h2>
-            <p className="lg:text-xl xl:text-2xl text-lg">
+            <p className="text-lg lg:text-xl xl:text-2xl">
               Test the interface <span className="lg:hidden">below</span> and
               sign up to unlock all features
             </p>
-            <p className="lg:text-xl xl:text-2xl animate-bounce text-lg">
+            <p className="text-lg lg:text-xl xl:text-2xl animate-bounce">
               Make every day more productive with us!
             </p>
           </section>

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
-import ProviderLogs from "./ProviderLogs";
+import ProviderLogs from "../../components/ProviderLogs";
 import Link from "next/link";
 
 type Inputs = {

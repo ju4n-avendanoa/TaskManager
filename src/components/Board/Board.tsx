@@ -25,7 +25,7 @@ import { Column } from "@/interfaces/column";
 import { Tasks } from "@/interfaces/taskInterfaces";
 import { toast } from "sonner";
 import ColumnContainer, { NewTaskType } from "./ColumnContainer";
-import CreateColumnButton from "./CreateColumnButton";
+import CreateColumnButton from "../CreateColumnButton";
 import deleteTask from "@/actions/deleteTask";
 import TaskOverlay from "./TaskOverlay";
 

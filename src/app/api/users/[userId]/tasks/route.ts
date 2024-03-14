@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { NewTaskType } from "@/components/ColumnContainer";
+import { NewTaskType } from "@/components/Board/ColumnContainer";
 
 const prisma = new PrismaClient();
 

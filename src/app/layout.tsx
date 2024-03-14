@@ -3,7 +3,7 @@ import { Toaster } from "sonner";
 import { Mulish } from "next/font/google";
 import LoadProvider from "@/context/LoadProvider";
 import Provider from "@/context/Provider";
-import NavBar from "@/components/NavBar";
+import NavBar from "@/components/Navbar/NavBar";
 import "../styles/Global.css";
 
 const mulish = Mulish({ subsets: ["latin"], weight: "400" });

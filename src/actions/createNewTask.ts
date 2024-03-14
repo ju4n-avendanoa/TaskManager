@@ -1,7 +1,7 @@
 "use server";
 
 import { config } from "@/app/api/auth/[...nextauth]/route";
-import { NewTaskType } from "@/components/ColumnContainer";
+import { NewTaskType } from "@/components/Board/ColumnContainer";
 import { baseUrl } from "@/utils/baseUrl";
 import { getServerSession } from "next-auth";
 

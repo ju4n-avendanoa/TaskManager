@@ -1,6 +1,6 @@
 import { getColumns } from "@/actions/getColumns";
 import getAllTasks from "@/actions/getAllTasks";
-import Board from "@/components/Board";
+import Board from "@/components/Board/Board";
 
 type Props = {
   userId: string;

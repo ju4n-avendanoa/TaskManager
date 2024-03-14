@@ -14,12 +14,12 @@ import {
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import { NewTaskType } from "./ColumnContainer";
+import { NewTaskType } from "../Board/ColumnContainer";
 import { Column } from "@/interfaces/column";
 import { Tasks } from "@/interfaces/taskInterfaces";
 import ClientColumnContainer from "./ClientColumnBoard";
-import CreateColumnButton from "./CreateColumnButton";
-import TaskOverlay from "./TaskOverlay";
+import CreateColumnButton from "../CreateColumnButton";
+import TaskOverlay from "../Board/TaskOverlay";
 
 const initialColumns = [
   { id: "232344", title: "Column 1", index: 1 },
@@ -211,7 +211,7 @@ function ClientBoard() {
       onDragEnd={handleDragEnd}
       onDragOver={onDragOver}
     >
-      <section className="flex h-screen gap-6 px-10 pt-24 pb-5 overflow-auto">
+      <section className="flex h-full gap-6 px-10 pt-12 pb-5 overflow-auto">
         <SortableContext items={columnsId}>
           {columns?.map((column) => (
             <article key={column.id} className="h-full">

@@ -4,9 +4,9 @@ import { useMemo, useState } from "react";
 import { Column } from "@/interfaces/column";
 import { Tasks } from "@/interfaces/taskInterfaces";
 import { CSS } from "@dnd-kit/utilities";
-import ClientTaskItem from "./ClientTaskItem";
-import ClientNewTask from "./ClientNewTask";
-import { NewTaskType } from "./ColumnContainer";
+import LoadingTask from "../LoadingTask";
+import TaskItem from "./TaskItem";
+import NewTask from "./NewTask";
 
 type Props = {
   onEditColumnTitle: (id: string, columnTitle: string) => void;
@@ -18,7 +18,13 @@ type Props = {
   onEditTask: (task: Tasks) => void;
 };
 
-function ClientColumnContainer({
+export type NewTaskType = {
+  title: string;
+  description: string;
+  columnId: string;
+};
+
+function ColumnContainer({
   onEditColumnTitle,
   onDeleteColumn,
   column,
@@ -30,6 +36,7 @@ function ClientColumnContainer({
   const [newTask, setNewTask] = useState<NewTaskType | null>(null);
   const [columnTitle, setColumnTitle] = useState(column.title);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const createTask = (columnId: string) => {
     const newTask = {
@@ -122,7 +129,7 @@ function ClientColumnContainer({
       <div className="flex flex-col w-full gap-3 p-2 overflow-y-auto grow">
         <SortableContext items={tasksId}>
           {tasks.map((task) => (
-            <ClientTaskItem
+            <TaskItem
               task={task}
               key={task.id}
               onSave={(editedTask) => onEditTask(editedTask)}
@@ -131,21 +138,24 @@ function ClientColumnContainer({
           ))}
         </SortableContext>
         {newTask ? (
-          <ClientNewTask
+          <NewTask
             newTask={newTask}
             onCancel={() => setNewTask(null)}
-            onSave={(newTask) => {
+            onSave={async (newTask) => {
               setNewTask(null);
+              setLoading(true);
               if (newTask.description === "") {
                 newTask.description = "Description";
               }
               if (newTask.title === "") {
                 newTask.title = "Title";
               }
-              onCreateNewTask(newTask);
+              await onCreateNewTask(newTask);
+              setLoading(false);
             }}
           />
         ) : null}
+        {loading && <LoadingTask />}
       </div>
       <button
         className="flex items-center gap-2 px-2 py-3 text-sm text-white select-none bg-zinc-900 active:text-sky-600 hover:bg-zinc-700"
@@ -160,4 +170,4 @@ function ClientColumnContainer({
   );
 }
 
-export default ClientColumnContainer;
+export default ColumnContainer;

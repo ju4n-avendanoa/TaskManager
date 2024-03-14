@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { baseUrl } from "@/utils/baseUrl";
-import ProviderLogs from "./ProviderLogs";
+import ProviderLogs from "../../components/ProviderLogs";
 import Link from "next/link";
 import { toast } from "sonner";
 

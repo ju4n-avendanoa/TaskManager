@@ -1,13 +1,9 @@
 "use client";
 
-import {
-  CalendarDaysIcon,
-  Bars3Icon,
-  UserCircleIcon,
-} from "@heroicons/react/24/solid";
+import { Bars3Icon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import ImageWithFallback from "./ImageWithFallback";
+import ImageWithFallback from "../ImageWithFallback";
 import UserMenu from "./UserMenu";
 import Link from "next/link";
 
@@ -16,7 +12,7 @@ function NavBar() {
   const [details, setDetails] = useState(false);
 
   return (
-    <nav className="flex justify-between items-center py-3 lg:py-4 px-10 lg:px-20 select-none h-min">
+    <nav className="flex items-center justify-between px-10 py-3 select-none lg:py-4 lg:px-20 h-min">
       <section className="flex items-center gap-6">
         <Link href={"/"}>
           <ImageWithFallback
@@ -25,7 +21,7 @@ function NavBar() {
             width={50}
             height={50}
             fallbackSrc=""
-            className="bg-sky-500 rounded-xl p-1 w-10 h-10"
+            className="w-10 h-10 p-1 bg-sky-500 rounded-xl"
           />
         </Link>
         <h1 className="text-base font-bold text-white lg:text-xl">
@@ -33,10 +29,10 @@ function NavBar() {
         </h1>
       </section>
       <div
-        className="relative px-6 h-10 items-center flex bg-zinc-400 rounded-full"
+        className="relative flex items-center h-10 px-6 rounded-full bg-zinc-400"
         onClick={() => setDetails(!details)}
       >
-        <div className="flex gap-3 h-full items-center cursor-pointer">
+        <div className="flex items-center h-full gap-3 cursor-pointer">
           <Bars3Icon className="w-6 h-6" />
           {session?.user.image ? (
             <ImageWithFallback

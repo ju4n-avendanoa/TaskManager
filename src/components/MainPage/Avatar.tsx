@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import ImageWithFallback from "./ImageWithFallback";
+import ImageWithFallback from "../ImageWithFallback";
 
 type Props = {
   src: string;
