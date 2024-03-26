@@ -211,7 +211,7 @@ function ClientBoard() {
       onDragEnd={handleDragEnd}
       onDragOver={onDragOver}
     >
-      <section className="flex h-full gap-6 px-10 pt-12 pb-5 overflow-auto">
+      <section className="flex h-full gap-6 px-10 pt-16 lg:pt-24 xl:pt-28 pb-5 overflow-auto">
         <SortableContext items={columnsId}>
           {columns?.map((column) => (
             <article key={column.id} className="h-full">

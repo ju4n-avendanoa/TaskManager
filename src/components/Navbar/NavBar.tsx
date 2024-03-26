@@ -12,8 +12,8 @@ function NavBar() {
   const [details, setDetails] = useState(false);
 
   return (
-    <nav className="flex items-center justify-between px-10 py-3 select-none lg:py-4 lg:px-20 h-min">
-      <section className="flex items-center gap-6">
+    <nav className="flex items-center justify-between px-6 py-3 select-none lg:py-4 lg:px-20 h-min">
+      <section className="flex items-center gap-4">
         <Link href={"/"}>
           <ImageWithFallback
             src="https://res.cloudinary.com/dhjqarghy/image/upload/v1709070909/TaskManager/tasks-svgrepo-com_skdvqr.svg"
