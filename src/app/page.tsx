@@ -91,7 +91,7 @@ export default function HomePage() {
               description="Access your tasks and columns seamlessly across multiple devices, ensuring you have the flexibility to manage your work from anywhere, whether it's on your computer, tablet, or smartphone."
             />
           </div>
-          <div className="absolute -bottom-[69px] overflow-hidden left-0 abc w-full z-10">
+          <div className="absolute -bottom-[69px] overflow-hidden left-0 curve-bottom w-full z-10">
             <svg
               data-name="Layer 1"
               xmlns="http://www.w3.org/2000/svg"

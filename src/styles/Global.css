@@ -88,16 +88,8 @@
     transform: rotate(360deg);
   }
 }
-.custom-shape-divider-top-1711475765 {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
-}
 
-.abc svg {
+.curve-bottom svg {
   position: relative;
   display: block;
   width: calc(100% + 1.3px);
