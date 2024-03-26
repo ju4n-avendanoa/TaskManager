@@ -12,13 +12,13 @@ export default function HomePage() {
     <main className="flex flex-col items-center justify-center min-h-screen">
       <section className="flex items-center flex-col lg:flex-row justify-center lg:h-[720px] w-full relative bg-zinc-700">
         <section className="flex text-white select-none justify-center w-full h-[500px] lg:h-full lg:w-2/5">
-          <div className="relative flex flex-col items-center justify-start w-full gap-16 my-auto lg:items-start px-14 h-3/5">
+          <div className="relative flex flex-col items-center justify-start w-full gap-16 my-auto lg:items-start px-10 lg:pl-32 h-3/5">
             <h1 className="text-5xl font-bold text-center lg:text-left lg:text-6xl text-sky-500">
               Task <br />
               Manager
             </h1>
             <TextAnimated />
-            <div className="absolute left-0 flex items-center justify-center w-full gap-4 lg:justify-start px-6 sm:px-14 -bottom-10">
+            <div className="absolute left-0 flex items-center justify-center w-full gap-4 lg:justify-start lg:pl-32 sm:px-10 lg:pr-0 -bottom-10">
               <Avatar src="https://res.cloudinary.com/dhjqarghy/image/upload/v1710220777/TaskManager/avatar-portrait-svgrepo-com_ltmmx3.svg" />
               <Avatar src="https://res.cloudinary.com/dhjqarghy/image/upload/v1710359839/TaskManager/avatar-svgrepo-com_3_uucjmi.svg" />
               <Avatar src="https://res.cloudinary.com/dhjqarghy/image/upload/v1710221454/TaskManager/avatar-svgrepo-com_1_nmkmfj.svg" />
