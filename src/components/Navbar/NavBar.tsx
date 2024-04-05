@@ -29,11 +29,11 @@ function NavBar() {
         </h1>
       </section>
       <div
-        className="relative flex items-center h-10 px-6 rounded-full bg-zinc-400"
+        className="relative flex items-center h-10 px-3 lg:px-6 rounded-full bg-zinc-400"
         onClick={() => setDetails(!details)}
       >
-        <div className="flex items-center h-full gap-3 cursor-pointer">
-          <Bars3Icon className="w-6 h-6" />
+        <div className="flex items-center h-full sm:gap-3 cursor-pointer">
+          <Bars3Icon className="w-6 h-6 hidden sm:block" />
           {session?.user.image ? (
             <ImageWithFallback
               src={session.user.image}
