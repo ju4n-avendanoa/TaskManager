@@ -16,7 +16,7 @@ function NavBar() {
       <section className="flex items-center gap-4">
         <Link href={"/"}>
           <ImageWithFallback
-            src="https://res.cloudinary.com/dhjqarghy/image/upload/v1709070909/TaskManager/tasks-svgrepo-com_skdvqr.svg"
+            src="https://res.cloudinary.com/dhjqarghy/image/upload/v1712290234/TaskManager/1486504829-clipboard-tasks-report-business-checking-verification-list_81387_yrqufu.png"
             alt="logo"
             width={50}
             height={50}

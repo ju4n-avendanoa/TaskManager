@@ -10,11 +10,11 @@ import Avatar from "@/components/MainPage/Avatar";
 export default function HomePage() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">
-      <section className="flex items-center flex-col lg:flex-row justify-center lg:h-[720px] w-full relative bg-zinc-700">
-        <section className="flex text-white select-none justify-center w-full h-[500px] lg:h-full lg:w-2/5">
-          <div className="relative flex flex-col items-center justify-start w-full gap-16 my-auto lg:items-start px-10 lg:pl-32 h-3/5">
-            <h1 className="text-5xl font-bold text-center lg:text-left lg:text-6xl text-sky-500">
-              Task <br />
+      <section className="flex items-center flex-col lg:flex-row justify-center lg:h-[720px] w-full relative bg-zinc-700 p-5">
+        <section className="flex text-white select-none justify-center w-full h-[500px] lg:h-full lg:w-3/5 xl:w-2/5">
+          <div className="relative flex flex-col items-center justify-start w-full gap-16 px-5 my-auto lg:items-start sm:px-10 lg:pr-0 lg:pl-32 h-3/5">
+            <h1 className="w-full text-5xl font-bold text-center lg:text-left lg:text-6xl text-sky-500">
+              Task <br className="md:hidden lg:block" />
               Manager
             </h1>
             <TextAnimated />
@@ -27,7 +27,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-        <section className="w-full lg:h-full h-[600px] md:h-[700px] lg:pt-[72px] max-xl:overflow-x-auto lg:w-3/5">
+        <section className="w-full lg:h-full h-[600px] md:h-[700px] lg:pt-[72px] max-xl:overflow-x-auto lg:w-2/5 xl:w-3/5">
           <ImageMainPage />
         </section>
         <div className="absolute -bottom-[81px] overflow-hidden left-0 curve w-full z-10">
@@ -55,7 +55,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-zinc-900 w-full h-auto p-6 md:px-10 pb-24 pt-32 relative">
+      <section className="relative w-full h-auto p-6 pt-32 pb-24 bg-zinc-900 md:px-10">
         <motion.div
           variants={{
             hidden: { opacity: 0, y: 0.75 },
@@ -68,7 +68,7 @@ export default function HomePage() {
           className="flex flex-col items-center justify-around w-full h-auto gap-10"
         >
           <div className="flex flex-col items-center justify-around gap-6 max-lg:h-1/5">
-            <h2 className="text-2xl font-bold text-white lg:text-3xl xl:text-4xl">
+            <h2 className="text-2xl font-bold text-center text-white lg:text-3xl xl:text-4xl">
               Streamlined Task Management
             </h2>
             <p className="w-full text-base text-center text-white lg:text-lg xl:text-xl lg:w-1/2">
