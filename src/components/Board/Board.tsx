@@ -20,14 +20,15 @@ import { createNewTask } from "@/actions/createNewTask";
 import { deleteColumn } from "@/actions/deleteColumn";
 import { createPortal } from "react-dom";
 import { createColumn } from "@/actions/createColumn";
+import { debounce } from "lodash";
 import { editTask } from "@/actions/editTask";
 import { Column } from "@/interfaces/column";
 import { Tasks } from "@/interfaces/taskInterfaces";
 import { toast } from "sonner";
 import ColumnContainer, { NewTaskType } from "./ColumnContainer";
 import CreateColumnButton from "../CreateColumnButton";
-import deleteTask from "@/actions/deleteTask";
 import TaskOverlay from "./TaskOverlay";
+import deleteTask from "@/actions/deleteTask";
 
 type Props = {
   fetchedColumns: Column[];
@@ -35,7 +36,7 @@ type Props = {
   fetchedTasks: Tasks[];
 };
 
-function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
+function Board({ fetchedColumns, fetchedTasks }: Props) {
   const [activeColumn, setActiveColumn] = useState<Column | null>();
   const [activeTask, setActiveTask] = useState<Tasks | null>();
   const [columns, setColumns] = useState(fetchedColumns);
@@ -44,6 +45,14 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
   const columnsId = useMemo(
     () => columns?.map((column) => column.id),
     [columns]
+  );
+
+  const debouncedChangeColumnId = useMemo(
+    () =>
+      debounce(async (activeId: string, overId: string) => {
+        await changeColumnId(activeId, overId);
+      }, 4000),
+    []
   );
 
   const onCreateNewTask = async (newTask: NewTaskType) => {
@@ -157,7 +166,10 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
       const overIndex = tasks.findIndex((task) => task.id === overId);
 
       if (tasks[activeIndex].columnId !== tasks[overIndex].columnId) {
-        await changeColumnId(tasks[activeIndex].id, tasks[overIndex].columnId);
+        debouncedChangeColumnId(
+          tasks[activeIndex].id,
+          tasks[overIndex].columnId
+        );
       }
       setTasks((tasks) => {
         tasks[activeIndex].columnId = tasks[overIndex].columnId;
@@ -172,7 +184,7 @@ function Board({ fetchedColumns, userId, fetchedTasks }: Props) {
 
     if (isActiveATask && isOverAColumn) {
       if (tasks[activeIndex].columnId !== overId) {
-        await changeColumnId(tasks[activeIndex].id, overId as string);
+        debouncedChangeColumnId(tasks[activeIndex].id, overId as string);
       }
 
       setTasks((tasks) => {
