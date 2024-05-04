@@ -9,7 +9,7 @@ function TextAnimated() {
         "A powerful tool designed to streamline and optimize your task management process efficiently.",
       ]}
       speed={50}
-      className="text-base lg:text-xl xl:text-2xl md:text-xl inline-block w-full text-center lg:text-left lg:w-3/4"
+      className="text-base sm:text-lg lg:text-xl xl:text-2xl md:text-xl inline-block w-full text-center lg:text-left lg:w-3/4"
     />
   );
 }

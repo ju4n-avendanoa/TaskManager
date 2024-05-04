@@ -18,7 +18,7 @@ function ImageMainPage() {
         duration: 0.5,
       }}
       viewport={{ amount: 0 }}
-      className="h-full flex items-center justify-center xl:justify-center w-full md:p-6 p-2"
+      className="h-full flex items-center justify-center xl:justify-center w-full md:p-6 p-2 min-w-[300px]"
     >
       <ImageWithFallback
         src={

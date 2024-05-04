@@ -51,7 +51,7 @@ function Board({ fetchedColumns, fetchedTasks }: Props) {
     () =>
       debounce(async (activeId: string, overId: string) => {
         await changeColumnId(activeId, overId);
-      }, 4000),
+      }, 1000),
     []
   );
 

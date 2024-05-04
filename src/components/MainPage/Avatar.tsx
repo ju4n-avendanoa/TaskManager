@@ -29,7 +29,7 @@ function Avatar({ src }: Props) {
         width={500}
         height={500}
         fallbackSrc=""
-        className="w-12 h-12 xl:w-16 xl:h-16 rounded-full border bg-zinc-400 border-zinc-900 shadow-lg shadow-zinc-900 transition hover:scale-110 duration-150"
+        className="min-w-[5px] min-h-[5px] sm:max-w-[40px] sm:max-h-[40px] md:max-w-[50px] md:max-h-[50px] xl:w-16 xl:h-16 rounded-full border bg-zinc-400 border-zinc-900 shadow-lg shadow-zinc-900 transition hover:scale-110 duration-150"
       />
     </motion.div>
   );
