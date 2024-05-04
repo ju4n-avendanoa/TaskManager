@@ -1,4 +1,4 @@
-# ToDoList - Next.js
+# TaskManager
 
 This is a simple ToDo List application built using Next.js. You can use it to keep track of your tasks and stay organized. The project is live and deployed on Vercel, and you can access it [here](https://my-task-organizer.vercel.app/).
 
@@ -17,12 +17,12 @@ To get a local copy of the project up and running, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/ju4n-avendanoa/ToDoList---NextJS.git
+   git clone https://github.com/ju4n-avendanoa/TaskManager
 
 2. Change your working directory:
   
   ```bash
-   cd ToDoList---NextJS
+   cd TaskManager
    ```
 
 3. Create a .env file in the root directory of the project and configure the following environment variables:
@@ -31,6 +31,7 @@ To get a local copy of the project up and running, follow these steps:
    NEXTAUTH_SECRET = your_secret_here
    DATABASE_URL = your_database_url_here
    SALT = your_salt_value_here
+   
 3. Install dependencies:
 
    ```bash
